@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lexus/app/pages/Gender/gender_page.dart';
-import 'package:lexus/app/pages/Place/place_page.dart';
-import 'package:lexus/app/pages/home/home_module.dart';
+import 'package:lexus/app/pages/ClassActivity/class_module.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_pages.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_page.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Place/place_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-
 import 'class_bloc.dart';
 
 class ClassPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class ClassPage extends StatefulWidget {
 }
 
 class _ClassPageState extends State<ClassPage> {
-  final classActy = HomeModule.to.getBloc<ClassActivityBloc>();
+  final classActy = ClassModule.to.getBloc<ClassActivityBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +42,14 @@ class _ClassPageState extends State<ClassPage> {
         ));
   }
 
-
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/class/gender':
         return CupertinoPageRoute(builder: (_) => GenderPage());
       case '/class/place':
         return CupertinoPageRoute(builder: (_) => PlacePage());
+      case '/class/clothes':
+        return CupertinoPageRoute(builder: (_) => ClothesPage());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
@@ -57,7 +58,6 @@ class _ClassPageState extends State<ClassPage> {
                 ));
     }
   }
-
 
   Widget status(){
     return StreamBuilder<double>(
@@ -76,7 +76,6 @@ class _ClassPageState extends State<ClassPage> {
 
   @override
   void dispose(){
-    this.classActy.dispose();
     super.dispose();
   }
 }

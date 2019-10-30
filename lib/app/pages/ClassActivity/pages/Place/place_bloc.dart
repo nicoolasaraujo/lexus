@@ -13,7 +13,11 @@ class PlaceBloc extends BlocBase {
       Place(0, "Padaria", "assets/img/padaria.jfif"),
       Place(1, "Shopping", "assets/img/shopping.jfif"),
       Place(2, "Feira", "assets/img/feira.jpeg"),
-      Place(3, "Concessionaria", "assets/img/concessionario carros.jfif")
+      Place(3, "Concessionaria", "assets/img/concessionario carros.jfif"),
+      Place(3, "Concessionaria", "assets/img/concessionario carros.jfif"),
+      Place(3, "Concessionaria", "assets/img/concessionario carros.jfif"),
+      Place(3, "Concessionaria", "assets/img/concessionario carros.jfif"),
+      Place(3, "Concessionaria", "assets/img/concessionario carros.jfif"),
     ];
     this.inPlaceList.add(this.PlaceList);
   }

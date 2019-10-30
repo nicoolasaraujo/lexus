@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lexus/app/pages/ClassActivity/class_page.dart';
-import 'package:lexus/app/pages/Gender/gender_page.dart';
+import 'package:lexus/app/pages/ClassActivity/class_module.dart';
 import 'package:lexus/app/pages/home/home_bloc.dart';
 import 'package:lexus/app/pages/home/home_module.dart';
 
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         child: FlatButton(  
           color: Colors.lightGreen,
           child: Text("Iniciar!", style: TextStyle(color: Colors.white),),
-          onPressed: () => Navigator.push(context, CupertinoPageRoute(builder: (context) => ClassPage())
+          onPressed: () => Navigator.push(context, CupertinoPageRoute(builder: (context) => ClassModule())
         ) ,
         ) ,),
 

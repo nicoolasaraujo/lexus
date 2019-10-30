@@ -27,8 +27,6 @@ class GenderBloc extends BlocBase {
   Sink<Gender> get inSelectedGender => this._selectedGender.sink;
 
 
-
-
   //dispose will be called automatically by closing its streams
   @override
   void dispose() {

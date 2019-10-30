@@ -1,0 +1,94 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:lexus/app/components/clasess_container.dart';
+import 'package:lexus/app/components/option_card.dart';
+import 'package:lexus/app/components/successful.dart';
+import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Place/place_bloc.dart';
+
+import '../../class_module.dart';
+
+class PlacePage extends StatefulWidget {
+  const PlacePage({Key key}) : super(key: key);
+
+  @override
+  _PlacePageState createState() => _PlacePageState();
+}
+
+class _PlacePageState extends State<PlacePage> {
+  var placeBloc = ClassModule.to.getBloc<PlaceBloc>();
+  var clasBloc = ClassModule.to.getBloc<ClassActivityBloc>();
+
+  @override
+  void initState() {
+    placeBloc.loadPlace();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ClassesContainer(
+      title: "Selecione um local",
+      confirm: this.navigateNext,
+      child: this._buildCardListOptions(context) ,
+    );
+  }
+
+  Widget _buildCardListOptions(BuildContext context) {
+    return StreamBuilder<List<Place>>(
+      stream: placeBloc.outPlaceList,
+      builder: (context, snapshot) {
+        if (snapshot != null && snapshot.hasData) {
+          var list = snapshot.data;
+          return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2),
+            itemCount: list.length,
+            itemBuilder: (_, index) {
+              var itemGender = list[index];
+              return StreamBuilder<Place>(
+                stream: placeBloc.outSelectedPlace,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Center(
+                        heightFactor: 1,
+                        child: OptionCard(
+                            description: itemGender.description,
+                            selected: itemGender.id == snapshot.data.id,
+                            imagePath: itemGender.imgPath,
+                            index: index,
+                            handleTap: placeBloc.changeSelectedPlace));
+                  } else
+                    return Center(
+                        heightFactor: 1,
+                        child: Container(
+                            margin: EdgeInsets.all(2),
+                            child: OptionCard(
+                                description: itemGender.description,
+                                selected: false,
+                                imagePath: itemGender.imgPath,
+                                index: index,
+                                handleTap: placeBloc.changeSelectedPlace)));
+                },
+              );
+            },
+          );
+        } else {
+          return Center(child: Text("Nenhum registro encontrado!"));
+        }
+      },
+    );
+  }
+
+  void navigateNext() async {
+    await Navigator.push(
+        context, CupertinoPageRoute(builder: (context) => Successful()));
+    Navigator.pushNamed(context, '/class/clothes');
+    Timer(const Duration(milliseconds: 900), () {
+      clasBloc.increaseProgress();
+    });
+  }
+}
