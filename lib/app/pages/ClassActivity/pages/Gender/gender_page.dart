@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
-import 'package:lexus/app/components/successful.dart';
 import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/class_module.dart';
 
@@ -83,8 +82,7 @@ class _GenderPageState extends State<GenderPage> {
   }
 
   void _navigateNext() async{
-      await Navigator.push(context,CupertinoPageRoute(builder: (context) => Successful()));
-      Navigator.pushNamed(context, '/class/place');
+      Navigator.pushReplacementNamed(context, '/class/place');
       classActy.increaseProgress();
   }
 }

@@ -3,10 +3,9 @@ import 'package:rxdart/rxdart.dart';
 
 class PlaceBloc extends BlocBase {
   List<Place> PlaceList = [];
+  Place selectedPlace;
   var _Places = BehaviorSubject<List<Place>>();
   var _selectedPlace = BehaviorSubject<Place>();
-
-  // = [Place(0, "Masculino", "assets/img/man.png"), Place(1, "Feminino", "assets/img/woman.png") ];
 
   void loadPlace() {
     this.PlaceList = [
@@ -23,8 +22,8 @@ class PlaceBloc extends BlocBase {
   }
 
   void changeSelectedPlace(int index) {
-    var x = this.PlaceList[index];
-    this.inSelectedPlace.add(x);
+    this.selectedPlace = this.PlaceList[index];
+    this.inSelectedPlace.add(selectedPlace);
   }
 
   Observable<List<Place>> get outPlaceList => this._Places.stream;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
+import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/class_module.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_bloc.dart';
 
@@ -21,12 +22,12 @@ class _ClothesPageState extends State<ClothesPage> {
   @override
   Widget build(BuildContext context) {
     return ClassesContainer(
-      confirm: () => print("Cliquei em confirmar!"),
+      confirm: this.navigateNext,
       title: "Selecione a roupa mais adequada",
       child: this._buildCardListOptions(context),
       
     );
-  }
+  } 
 
   Widget _buildCardListOptions(BuildContext context) { 
     return StreamBuilder<List<Clothes>>(
@@ -74,5 +75,12 @@ class _ClothesPageState extends State<ClothesPage> {
         }
       },
     );
+  }
+
+  void navigateNext(){
+    var clasBloc = ClassModule.to.getBloc<ClassActivityBloc>();
+    clasBloc.increaseProgress();
+    Navigator.pushReplacementNamed(context, '/class/situation');
+
   }
 }

@@ -41,8 +41,12 @@ class OptionCard extends StatelessWidget {
           Container(
             child: Center(
               widthFactor: 0.4,
-              child: Image.asset(imagePath,
-                  height: 110, width: 200, fit: BoxFit.scaleDown),
+              child: 
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: Image.asset(imagePath,
+                  height: 110, width: 200, fit: BoxFit.scaleDown) ,
+              ),
             ),
             decoration: BoxDecoration(color: Colors.white),
           ),

@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
-import 'package:lexus/app/components/successful.dart';
 import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Place/place_bloc.dart';
-
 import '../../class_module.dart';
 
 class PlacePage extends StatefulWidget {
@@ -19,7 +17,6 @@ class PlacePage extends StatefulWidget {
 
 class _PlacePageState extends State<PlacePage> {
   var placeBloc = ClassModule.to.getBloc<PlaceBloc>();
-  var clasBloc = ClassModule.to.getBloc<ClassActivityBloc>();
 
   @override
   void initState() {
@@ -84,11 +81,11 @@ class _PlacePageState extends State<PlacePage> {
   }
 
   void navigateNext() async {
-    await Navigator.push(
-        context, CupertinoPageRoute(builder: (context) => Successful()));
-    Navigator.pushNamed(context, '/class/clothes');
+    var classBloc = ClassModule.to.getBloc<ClassActivityBloc>();
+    classBloc.userAnswer.selectedPlace = this.placeBloc.selectedPlace;
+    Navigator.pushReplacementNamed(context, '/class/clothes');
     Timer(const Duration(milliseconds: 900), () {
-      clasBloc.increaseProgress();
+      classBloc.increaseProgress();
     });
   }
 }

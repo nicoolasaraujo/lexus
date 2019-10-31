@@ -5,6 +5,7 @@ import 'package:lexus/app/pages/ClassActivity/class_page.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Place/place_bloc.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Situation/situation_bloc.dart';
 
 
 class ClassModule extends ModuleWidget {
@@ -13,6 +14,7 @@ class ClassModule extends ModuleWidget {
         Bloc((i) => GenderBloc()),
         Bloc((i) => PlaceBloc()),
         Bloc((i) => ClothesBloc()),
+        Bloc((i) => SituationBloc()),
         Bloc((i) => ClassActivityBloc())
       ];
 

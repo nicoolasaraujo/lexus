@@ -26,11 +26,14 @@ class ClassesContainer extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Center(
-              child: Text("Selecione um localx",
+              child: Padding(
+                  padding: EdgeInsets.only(left: 4, right: 4),
+                  child: Text(this.title,
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 22,
                       color: Colors.white,
-                      fontWeight: FontWeight.w700)),
+                      fontWeight: FontWeight.w700))
+              ),
             ),
           ),
           Expanded(

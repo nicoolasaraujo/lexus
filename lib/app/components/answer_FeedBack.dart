@@ -4,16 +4,36 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Successful extends StatefulWidget {
+class AnswerFeedBack extends StatefulWidget {
+  final bool positive;
+  AnswerFeedBack({Key key, @required this.positive}) : super(key: key);
+
   @override
-  _SuccessfulState createState() => _SuccessfulState();
+  _AnswerStateFeedBackState createState() => _AnswerStateFeedBackState();
 }
 
-class _SuccessfulState extends State<Successful> {
+class _AnswerStateFeedBackState extends State<AnswerFeedBack> {
   bool _showText = false;
-  
+  Color _themeColor;
+  List<String> _textList = [];
+  String _flareFile = "";
+  String _flareName = "";
+
   @override
   void initState(){
+    if (widget.positive){
+      this._themeColor = Color(0xff00CA71);
+      this._textList = ["Parabéns!", "Você acertou!"];
+      this._flareFile = "assets/flare/SuccessCheck.flr";
+      this._flareName = "Untitled";
+    }
+    else {
+      this._themeColor = Color(0xffD93E47);
+      this._textList = ["Que pena", "Essa não é a resposta"];
+      this._flareFile = "assets/flare/Status_E_S.flr";
+      this._flareName = "Error";
+    }
+
     super.initState();
      if(!this._showText){
        Timer(const Duration(milliseconds: 1500), (){
@@ -35,22 +55,21 @@ class _SuccessfulState extends State<Successful> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text( this._showText ? "Parabéns!" : '', style: TextStyle(fontSize: 35, color: Color(0xff00CA71) ),),
+          Text( this._showText ? this._textList[0] : '', style: TextStyle(fontSize: 35, color: this._themeColor ),),
           Container(
-            // decoration: BoxDecoration(color: Colors.red),
             constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height/2,
                 maxWidth: MediaQuery.of(context).size.width),
             child: Align(
                 alignment: Alignment.center,
                 child: FlareActor(
-                  "assets/flare/SuccessCheck.flr",
+                  this._flareFile,
                   alignment: Alignment.center,
                   fit: BoxFit.scaleDown,
-                  animation: 'Untitled',
+                  animation: this._flareName,
                 )),
           ),
-          Text(this._showText? "Voce Acertou!": '', style: TextStyle(fontSize: 35, color: Color(0xff00CA71) ),),
+          Text(this._showText? this._textList[1]: '', style: TextStyle(fontSize: 35, color: this._themeColor ),),
         ],
       ),
       ) ,

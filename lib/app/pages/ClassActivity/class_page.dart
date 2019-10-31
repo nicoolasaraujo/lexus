@@ -5,6 +5,7 @@ import 'package:lexus/app/pages/ClassActivity/class_module.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_pages.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_page.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Place/place_page.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Situation/situation_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'class_bloc.dart';
 
@@ -36,6 +37,7 @@ class _ClassPageState extends State<ClassPage> {
               child: Navigator(
                 onGenerateRoute: (settings) => generateRoute(settings),
                 initialRoute: '/class/gender',
+                
               ),
             )
           ],
@@ -50,6 +52,8 @@ class _ClassPageState extends State<ClassPage> {
         return CupertinoPageRoute(builder: (_) => PlacePage());
       case '/class/clothes':
         return CupertinoPageRoute(builder: (_) => ClothesPage());
+      case '/class/situation':
+        return CupertinoPageRoute(builder: (_) => SituationPage());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
