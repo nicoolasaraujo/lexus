@@ -27,12 +27,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   flare_flutter:
-  liquid_progress_indicator: '^0.3.2'
+  percent_indicator: '^2.1.1'
+  sqflite:
+  jaguar_orm:
+  jaguar_query_sqflite:
+  
 
 dev_dependencies:
   mockito: ^4.1.1
   flutter_test:
     sdk: flutter
+  build_runner:
+  jaguar_orm_gen:
 
 
 # For information on the generic Dart part of this file, see the

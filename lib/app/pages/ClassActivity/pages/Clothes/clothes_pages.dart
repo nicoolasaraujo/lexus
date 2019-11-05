@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
+import 'package:lexus/app/model/Clothes.dart';
 import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/class_module.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_bloc.dart';

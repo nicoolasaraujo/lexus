@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
+import 'package:lexus/app/model/place.dart';
 import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Place/place_bloc.dart';
 import '../../class_module.dart';
@@ -83,7 +84,7 @@ class _PlacePageState extends State<PlacePage> {
   void navigateNext() async {
     var classBloc = ClassModule.to.getBloc<ClassActivityBloc>();
     classBloc.userAnswer.selectedPlace = this.placeBloc.selectedPlace;
-    Navigator.pushReplacementNamed(context, '/class/clothes');
+    Navigator.pushReplacementNamed(context, '/class/Clothes');
     Timer(const Duration(milliseconds: 900), () {
       classBloc.increaseProgress();
     });

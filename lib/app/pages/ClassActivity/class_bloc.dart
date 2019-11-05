@@ -1,7 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_bloc.dart';
+import 'package:lexus/app/model/Clothes.dart';
+import 'package:lexus/app/model/place.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_bloc.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Place/place_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClassActivityBloc extends BlocBase {
@@ -41,8 +41,4 @@ class Situation{
   String correctWord;
   
   Situation(this.id, this.description, this.randomWords, this.correctWord);
-}
-
-class ClassActivity {
-  ActivityAnswer userAnswer;
 }

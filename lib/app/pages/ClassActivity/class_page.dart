@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lexus/app/pages/ClassActivity/class_module.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_pages.dart';
+import 'package:lexus/app/pages/ClassActivity/pages/Clothes/Clothes_pages.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_page.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Place/place_page.dart';
 import 'package:lexus/app/pages/ClassActivity/pages/Situation/situation_page.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'class_bloc.dart';
 
 class ClassPage extends StatefulWidget {
@@ -30,7 +30,7 @@ class _ClassPageState extends State<ClassPage> {
               Container(
                 margin: EdgeInsets.all(6),
                 height: 25,
-                child: this.status()
+                child: this.status(context)
               ),
             Expanded(
               flex: 1,
@@ -50,7 +50,7 @@ class _ClassPageState extends State<ClassPage> {
         return CupertinoPageRoute(builder: (_) => GenderPage());
       case '/class/place':
         return CupertinoPageRoute(builder: (_) => PlacePage());
-      case '/class/clothes':
+      case '/class/Clothes':
         return CupertinoPageRoute(builder: (_) => ClothesPage());
       case '/class/situation':
         return CupertinoPageRoute(builder: (_) => SituationPage());
@@ -63,17 +63,35 @@ class _ClassPageState extends State<ClassPage> {
     }
   }
 
-  Widget status(){
+  Widget status(BuildContext contextx){
     return StreamBuilder<double>(
       initialData: 0,
       stream: classActy.outProgress,
       builder: (context, snapshot) {
-        return LiquidLinearProgressIndicator(
-          value: snapshot.data,
-          backgroundColor: Colors.white,
-          valueColor: AlwaysStoppedAnimation(Colors.blue),
-          borderRadius: 12.0,
-        );
+        return Container(
+                margin: EdgeInsets.only(right: 6, left: 6),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                child: LinearPercentIndicator(
+                
+                lineHeight: 25.0,
+                percent: snapshot.data,
+                center: Text(
+                  "${(snapshot.data * 100).round()}%",
+                  style: new TextStyle(fontSize: 12.0),
+                ),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                backgroundColor: Colors.white,
+                progressColor: Colors.blue,
+                
+              )
+        )
+;
+        // return LiquidLinearProgressIndicator(
+        //   value: snapshot.data,
+        //   backgroundColor: Colors.white,
+        //   valueColor: AlwaysStoppedAnimation(Colors.blue),
+        //   borderRadius: 12.0,
+        // );
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:lexus/app/model/Clothes.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClothesBloc extends BlocBase {
@@ -29,20 +30,12 @@ class ClothesBloc extends BlocBase {
 
   void loadClothes() {
     this._clothesList = [
-      Clothes(1, "Camisa", "assets/img/cold.png"), 
-      Clothes(2, "Blusa", "assets/img/cold.png"), 
-      Clothes(3, "Jaqueta", "assets/img/cold.png"), 
-      Clothes(4, "Camisa Social", "assets/img/cold.png")
+      Clothes.make("1", "Camisa", "assets/img/cold.png"), 
+      Clothes.make("2", "Blusa", "assets/img/cold.png"), 
+      Clothes.make("3", "Jaqueta", "assets/img/cold.png"), 
+      Clothes.make("4", "Camisa Social", "assets/img/cold.png")
     ];
 
     this.inClothesList.add(this._clothesList);
   }
-}
-
-class Clothes {
-  String description;
-  int id;
-  String imgPath;
-
-  Clothes(this.id, this.description, this.imgPath);
 }
