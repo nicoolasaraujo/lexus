@@ -3,7 +3,7 @@ enum EnumGender{
   FEMALE
 }
 
-enum Status {
+enum EnumStatus {
   TODO, 
   DOING,
   DONE

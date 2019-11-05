@@ -1,5 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:lexus/app/model/Clothes.dart';
+import 'package:lexus/app/model/classActivity.dart';
+import 'package:lexus/app/model/place.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClothesBloc extends BlocBase {

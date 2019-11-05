@@ -20,7 +20,7 @@ class ClassActivityAnswer {
 
   @BelongsTo(PlaceBean)
   String placeId;
-
+  
   @BelongsTo(StudentBean)
   String studentId;
 

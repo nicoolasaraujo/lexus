@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:lexus/app/components/answer_FeedBack.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_word.dart';
-import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
-import 'package:lexus/app/pages/ClassActivity/class_module.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Situation/situation_bloc.dart';
+
+import '../../class_bloc.dart';
+import '../../class_module.dart';
+import 'situation_bloc.dart';
 
 class SituationPage extends StatefulWidget {
   @override
@@ -13,8 +14,8 @@ class SituationPage extends StatefulWidget {
 }
 
 class _SituationPageState extends State<SituationPage> {
-  var classBloc = ClassModule.to.getBloc<ClassActivityBloc>();
-  var situationBloc = ClassModule.to.getBloc<SituationBloc>();
+  var classBloc = ClassAnswerModule.to.getBloc<ClassAnswerBloc>();
+  var situationBloc = ClassAnswerModule.to.getBloc<SituationBloc>();
 
   @override
   void initState() {

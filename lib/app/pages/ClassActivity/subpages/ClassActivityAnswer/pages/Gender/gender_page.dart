@@ -1,42 +1,41 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
-import 'package:lexus/app/model/place.dart';
-import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Place/place_bloc.dart';
+import '../../class_bloc.dart';
 import '../../class_module.dart';
+import 'gender_bloc.dart';
 
-class PlacePage extends StatefulWidget {
-  const PlacePage({Key key}) : super(key: key);
+class GenderPage extends StatefulWidget {
+  const GenderPage({Key key}) : super(key: key);
 
   @override
-  _PlacePageState createState() => _PlacePageState();
+  _GenderPageState createState() => _GenderPageState();
 }
 
-class _PlacePageState extends State<PlacePage> {
-  var placeBloc = ClassModule.to.getBloc<PlaceBloc>();
+class _GenderPageState extends State<GenderPage> {
+  var genderBloc = ClassAnswerModule.to.getBloc<GenderBloc>();
+  final classActy = ClassAnswerModule.to.getBloc<ClassAnswerBloc>();
 
   @override
   void initState() {
-    placeBloc.loadPlace();
+    genderBloc.loadGender();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ClassesContainer(
-      title: "Selecione um local",
-      confirm: this.navigateNext,
-      child: this._buildCardListOptions(context) ,
-    );
+        return ClassesContainer(
+          confirm: this._navigateNext,
+          title: "Selecione o sexo",
+          child: this._buildCardListOptions(context),
+        );
   }
 
   Widget _buildCardListOptions(BuildContext context) {
-    return StreamBuilder<List<Place>>(
-      stream: placeBloc.outPlaceList,
+    return StreamBuilder<List<Gender>>(
+      stream: genderBloc.outGenderList,
       builder: (context, snapshot) {
         if (snapshot != null && snapshot.hasData) {
           var list = snapshot.data;
@@ -47,8 +46,8 @@ class _PlacePageState extends State<PlacePage> {
             itemCount: list.length,
             itemBuilder: (_, index) {
               var itemGender = list[index];
-              return StreamBuilder<Place>(
-                stream: placeBloc.outSelectedPlace,
+              return StreamBuilder<Gender>(
+                stream: genderBloc.outSelectedGender,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Center(
@@ -58,7 +57,7 @@ class _PlacePageState extends State<PlacePage> {
                             selected: itemGender.id == snapshot.data.id,
                             imagePath: itemGender.imgPath,
                             index: index,
-                            handleTap: placeBloc.changeSelectedPlace));
+                            handleTap: genderBloc.changeSelectedGender));
                   } else
                     return Center(
                         heightFactor: 1,
@@ -69,7 +68,7 @@ class _PlacePageState extends State<PlacePage> {
                                 selected: false,
                                 imagePath: itemGender.imgPath,
                                 index: index,
-                                handleTap: placeBloc.changeSelectedPlace)));
+                                handleTap: genderBloc.changeSelectedGender)));
                 },
               );
             },
@@ -81,12 +80,8 @@ class _PlacePageState extends State<PlacePage> {
     );
   }
 
-  void navigateNext() async {
-    var classBloc = ClassModule.to.getBloc<ClassActivityBloc>();
-    classBloc.userAnswer.selectedPlace = this.placeBloc.selectedPlace;
-    Navigator.pushReplacementNamed(context, '/class/Clothes');
-    Timer(const Duration(milliseconds: 900), () {
-      classBloc.increaseProgress();
-    });
+  void _navigateNext() async{
+      Navigator.pushReplacementNamed(context, '/class/place');
+      classActy.increaseProgress();
   }
 }

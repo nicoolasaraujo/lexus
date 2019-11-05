@@ -8,7 +8,7 @@ import 'package:lexus/app/model/classActivity.dart';
 class Classroom {
   Classroom();
 
-  Classroom.make(this.id, this.description);
+  Classroom.make(this.id, this.description, this.teacherId);
 
   @PrimaryKey()
   String id;

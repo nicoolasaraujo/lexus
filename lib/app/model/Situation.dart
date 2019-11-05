@@ -12,6 +12,8 @@ import 'package:lexus/app/model/classActivity.dart';
 class Situation {
   Situation();
   
+  Situation.make(this.id, this.title, this.question, this.placeId);
+
   @PrimaryKey()
   String id;
   String title;

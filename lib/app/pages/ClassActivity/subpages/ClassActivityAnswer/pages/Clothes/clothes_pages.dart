@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
 import 'package:lexus/app/model/Clothes.dart';
-import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
-import 'package:lexus/app/pages/ClassActivity/class_module.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Clothes/clothes_bloc.dart';
+
+import '../../class_bloc.dart';
+import '../../class_module.dart';
+import 'clothes_bloc.dart';
 
 class ClothesPage extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class ClothesPage extends StatefulWidget {
 }
 
 class _ClothesPageState extends State<ClothesPage> {
-  var clothesBloc = ClassModule.to.getBloc<ClothesBloc>();
+  var clothesBloc = ClassAnswerModule.to.getBloc<ClothesBloc>();
 
   @override
   void initState(){
@@ -79,7 +80,7 @@ class _ClothesPageState extends State<ClothesPage> {
   }
 
   void navigateNext(){
-    var clasBloc = ClassModule.to.getBloc<ClassActivityBloc>();
+    var clasBloc = ClassAnswerModule.to.getBloc<ClassAnswerBloc>();
     clasBloc.increaseProgress();
     Navigator.pushReplacementNamed(context, '/class/situation');
 

@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lexus/app/pages/ClassActivity/class_module.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Clothes/Clothes_pages.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_page.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Place/place_page.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Situation/situation_page.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'class_bloc.dart';
+import 'class_module.dart';
+import 'pages/Clothes/Clothes_pages.dart';
+import 'pages/Place/place_page.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'pages/Gender/gender_page.dart';
+import 'pages/Situation/situation_page.dart';
 
-class ClassPage extends StatefulWidget {
+class ClassAnswerPage extends StatefulWidget {
   @override
-  _ClassPageState createState() => _ClassPageState();
+  _ClassAnswerPage createState() => _ClassAnswerPage();
 }
 
-class _ClassPageState extends State<ClassPage> {
-  final classActy = ClassModule.to.getBloc<ClassActivityBloc>();
+class _ClassAnswerPage extends State<ClassAnswerPage> {
+  final classActy = ClassAnswerModule.to.getBloc<ClassAnswerBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +27,15 @@ class _ClassPageState extends State<ClassPage> {
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-              Container(
+            Container(
                 margin: EdgeInsets.all(6),
                 height: 25,
-                child: this.status(context)
-              ),
+                child: this.status(context)),
             Expanded(
               flex: 1,
               child: Navigator(
                 onGenerateRoute: (settings) => generateRoute(settings),
                 initialRoute: '/class/gender',
-                
               ),
             )
           ],
@@ -63,29 +61,26 @@ class _ClassPageState extends State<ClassPage> {
     }
   }
 
-  Widget status(BuildContext contextx){
+  Widget status(BuildContext contextx) {
     return StreamBuilder<double>(
       initialData: 0,
       stream: classActy.outProgress,
       builder: (context, snapshot) {
         return Container(
-                margin: EdgeInsets.only(right: 6, left: 6),
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-                child: LinearPercentIndicator(
-                
-                lineHeight: 25.0,
-                percent: snapshot.data,
-                center: Text(
-                  "${(snapshot.data * 100).round()}%",
-                  style: new TextStyle(fontSize: 12.0),
-                ),
-                linearStrokeCap: LinearStrokeCap.roundAll,
-                backgroundColor: Colors.white,
-                progressColor: Colors.blue,
-                
-              )
-        )
-;
+            margin: EdgeInsets.only(right: 6, left: 6),
+            constraints:
+                BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+            child: LinearPercentIndicator(
+              lineHeight: 25.0,
+              percent: snapshot.data,
+              center: Text(
+                "${(snapshot.data * 100).round()}%",
+                style: new TextStyle(fontSize: 12.0),
+              ),
+              linearStrokeCap: LinearStrokeCap.roundAll,
+              backgroundColor: Colors.white,
+              progressColor: Colors.blue,
+            ));
         // return LiquidLinearProgressIndicator(
         //   value: snapshot.data,
         //   backgroundColor: Colors.white,
@@ -97,7 +92,7 @@ class _ClassPageState extends State<ClassPage> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
   }
 }

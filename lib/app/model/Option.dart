@@ -8,6 +8,8 @@ import 'package:lexus/app/model/SituationAnswers.dart';
 class Option {
   Option();
 
+  Option.make(this.id, this.description);
+
   @PrimaryKey()
   String id;
   String description;

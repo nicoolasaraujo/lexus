@@ -1,10 +1,10 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:lexus/app/model/Clothes.dart';
 import 'package:lexus/app/model/place.dart';
-import 'package:lexus/app/pages/ClassActivity/pages/Gender/gender_bloc.dart';
+import 'pages/Gender/gender_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ClassActivityBloc extends BlocBase {
+class ClassAnswerBloc extends BlocBase {
   ActivityAnswer userAnswer = ActivityAnswer();
   int totalScreens = 5;
   int finished = 0;
@@ -15,7 +15,7 @@ class ClassActivityBloc extends BlocBase {
   Sink<double> get inProgress => this._progressController.sink;
 
   @override
-  void dispose(){
+  void dispose(){    
     this._progressController.close();
     super.dispose();
   }

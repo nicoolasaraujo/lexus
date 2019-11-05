@@ -12,18 +12,15 @@ class PlaceBloc extends BlocBase {
   var _Places = BehaviorSubject<List<Place>>();
   var _selectedPlace = BehaviorSubject<Place>();
 
-  void loadPlace() async{
+  void loadPlace() async {
     await adapter.connect();
     this.bean = PlaceBean(adapter);
-    this.PlaceList = [
-      Place.make("0", "Padaria", "assets/img/padaria.jfif"),
-      Place.make("1", "Shopping", "assets/img/shopping.jfif"),
-      Place.make("2", "Feira", "assets/img/feira.jpeg"),
-      Place.make("3", "Concessionaria", "assets/img/concessionario carros.jfif")
-    ];
-    var data = await this.bean.find('asdasdjasd');
+    Find find = this.bean.finder;
+    find.or(this.bean.situationBean.id.eq('1'));
 
-    print('Place returned: ${data.description} ');
+    var response = await this.bean.findMany(find);
+    this.PlaceList.addAll(response);
+    // print('Place returned: ${data.description} ');
     this.inPlaceList.add(this.PlaceList);
   }
 
@@ -38,10 +35,8 @@ class PlaceBloc extends BlocBase {
   Observable<Place> get outSelectedPlace => this._selectedPlace.stream;
   Sink<Place> get inSelectedPlace => this._selectedPlace.sink;
 
-
   var adapter = AppModule.to.getDependency<SqfliteAdapter>();
   PlaceBean bean;
-
 
   //dispose will be called automatically by closing its streams
   @override

@@ -6,7 +6,10 @@ import 'package:lexus/app/model/ClassActivityAnswer.dart';
 class Student{
   Student();
 
+  Student.makeClassRoom(this.id, this.name, this.birthday, this.gender, this.classRoomId, this.profilePicture);
+
   Student.make(this.id, this.name, this.birthday, this.gender);
+  
 
   @PrimaryKey()
   String id;

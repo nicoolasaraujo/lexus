@@ -5,6 +5,8 @@ import 'package:lexus/app/data/Beans/PlaceBeans.dart';
 class PlaceClothes {
   PlaceClothes();
 
+  PlaceClothes.make(this.placeId, this.clothesId);
+
   @BelongsTo.many(PlaceBean)
   String placeId;
 

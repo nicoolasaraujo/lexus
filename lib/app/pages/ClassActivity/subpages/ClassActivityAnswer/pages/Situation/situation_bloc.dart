@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:lexus/app/pages/ClassActivity/class_bloc.dart';
-import 'package:lexus/app/pages/ClassActivity/class_module.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../class_bloc.dart';
 
 class SituationBloc extends BlocBase {
   Observable<Situation> get outSituation => this._situationController.stream;
@@ -49,7 +48,7 @@ class SituationBloc extends BlocBase {
     this.inSelectedWord.add(selectedWord);
   }
 
-  void next(BuildContext context, ClassActivityBloc clsbloc) {
+  void next(BuildContext context, ClassAnswerBloc clsbloc) {
     this.currentIndex++;
     if (currentIndex == this._situationsList.length){
       clsbloc.increaseProgress();

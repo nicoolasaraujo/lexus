@@ -5,6 +5,8 @@ import 'package:lexus/app/data/Beans/SituationBean.dart';
 class ClassSituation {
   ClassSituation();
 
+  ClassSituation.make(this.classId, this.situationId);
+
   @BelongsTo.many(ClassActivityBean)  
   String classId;
 

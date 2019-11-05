@@ -23,4 +23,5 @@ class Clothes {
   List<ClassActivityAnswer> classanswers;
   
   Clothes.make(this.id, this.description, this.imgPath);
+  Clothes.make2(this.id, this.description, this.imgPath, this.gender);
 }
