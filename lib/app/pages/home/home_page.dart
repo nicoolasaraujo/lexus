@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/class_module.dart';
+import 'package:lexus/app/pages/ClassActivity/ClassActivity_module.dart';
 import 'package:lexus/app/pages/home/home_bloc.dart';
 import 'package:lexus/app/pages/home/home_module.dart';
 
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () => Navigator.push(
-              context, CupertinoPageRoute(builder: (context) => ClassAnswerModule())),
+              context, CupertinoPageRoute(builder: (context) => ClassActivityModule())),
         )
         )
       ),

@@ -17,7 +17,9 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: <Widget>[],
+        children: <Widget>[
+          Text('Várias atividades!')
+        ],
       ),
     );
   }

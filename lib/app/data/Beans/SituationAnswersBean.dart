@@ -25,7 +25,6 @@ class SituationAnswersBean extends Bean<SituationAnswer> with _SituationAnswersB
   OptionBean get optionBean => this._optionBean ??= OptionBean(adapter);
 
   @override
-  // TODO: implement tableName
   String get tableName => 'SituatioAnswers';
 
 }

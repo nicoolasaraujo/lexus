@@ -1,7 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:lexus/app/model/Clothes.dart';
-import 'package:lexus/app/model/classActivity.dart';
-import 'package:lexus/app/model/place.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClothesBloc extends BlocBase {
@@ -27,6 +25,7 @@ class ClothesBloc extends BlocBase {
   //dispose will be called automatically by closing its streams
   @override
   void dispose() {
+    this._selectedClothesController.sink.close();
     super.dispose();
   }
 

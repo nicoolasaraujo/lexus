@@ -36,6 +36,5 @@ class ClassActivityAnswerBean extends Bean<ClassActivityAnswer> with _ClassActiv
   final String tableName = 'ClassActivityAnswer';
 
   @override
-  // TODO: implement situationAnswerBean
   SituationAnswersBean get situationAnswerBean => this._situationAnswersBean ??= SituationAnswersBean(adapter);
 }

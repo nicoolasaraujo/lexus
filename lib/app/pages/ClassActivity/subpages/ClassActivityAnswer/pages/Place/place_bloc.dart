@@ -6,11 +6,11 @@ import 'package:lexus/app/model/place.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PlaceBloc extends BlocBase {
-  List<Place> PlaceList = [];
+  List<Place> placeList = [];
   Place selectedPlace;
 
-  var _Places = BehaviorSubject<List<Place>>();
-  var _selectedPlace = BehaviorSubject<Place>();
+  var _places = BehaviorSubject<List<Place>>();
+  BehaviorSubject<Place> _selectedPlace = BehaviorSubject<Place>();
 
   void loadPlace() async {
     await adapter.connect();
@@ -19,18 +19,18 @@ class PlaceBloc extends BlocBase {
     find.or(this.bean.situationBean.id.eq('1'));
 
     var response = await this.bean.findMany(find);
-    this.PlaceList.addAll(response);
+    this.placeList.addAll(response);
     // print('Place returned: ${data.description} ');
-    this.inPlaceList.add(this.PlaceList);
+    this.inPlaceList.add(this.placeList);
   }
 
   void changeSelectedPlace(int index) {
-    this.selectedPlace = this.PlaceList[index];
+    this.selectedPlace = this.placeList[index];
     this.inSelectedPlace.add(selectedPlace);
   }
 
-  Observable<List<Place>> get outPlaceList => this._Places.stream;
-  Sink<List<Place>> get inPlaceList => this._Places.sink;
+  Observable<List<Place>> get outPlaceList => this._places.stream;
+  Sink<List<Place>> get inPlaceList => this._places.sink;
 
   Observable<Place> get outSelectedPlace => this._selectedPlace.stream;
   Sink<Place> get inSelectedPlace => this._selectedPlace.sink;
@@ -41,8 +41,8 @@ class PlaceBloc extends BlocBase {
   //dispose will be called automatically by closing its streams
   @override
   void dispose() {
-    this._Places.sink.close();
-    this._selectedPlace.sink.close();
+    this._places.sink.close();
+    this._selectedPlace.close();
     super.dispose();
   }
 }

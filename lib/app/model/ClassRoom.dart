@@ -3,12 +3,13 @@ import 'package:lexus/app/data/Beans/ClassActivityBean.dart';
 import 'package:lexus/app/data/Beans/StudentBean.dart';
 import 'package:lexus/app/data/Beans/TeacherBean.dart';
 import 'package:lexus/app/model/Student.dart';
+import 'package:lexus/app/model/Teacher.dart';
 import 'package:lexus/app/model/classActivity.dart';
 
 class Classroom {
   Classroom();
 
-  Classroom.make(this.id, this.description, this.teacherId);
+  Classroom.make(this.id, this.description, this._teacher);
 
   @PrimaryKey()
   String id;
@@ -21,6 +22,23 @@ class Classroom {
   @BelongsTo(TeacherBean)
   String teacherId;
 
+  @IgnoreColumn()
+  Teacher _teacher;
+  
   @HasMany(ClassActivityBean)
   List<ClassActivity> classActivities;
+
+  @IgnoreColumn()
+  Teacher get teacher => this._teacher;
+
+  
+  void setTeacher(Teacher teacher){
+    this._teacher = teacher;
+    this.teacherId = this._teacher.id;
+  }
+
+  @override
+  String toString() {
+    return "Id: ${this.id} Teacher: Name${teacher.description}, ${teacher.emailAddres}"; 
+  }
 }

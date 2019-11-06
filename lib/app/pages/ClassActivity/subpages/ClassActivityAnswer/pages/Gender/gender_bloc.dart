@@ -1,16 +1,13 @@
-import 'dart:async';
-
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 
 class GenderBloc extends BlocBase {
 
-  List<Gender> genderList = [];
+  List<Gender> genderList = []; 
   var _genders = BehaviorSubject<List<Gender>>();
   var _selectedGender = BehaviorSubject<Gender>();
 
-  // = [Gender(0, "Masculino", "assets/img/man.png"), Gender(1, "Feminino", "assets/img/woman.png") ];
-  void loadGender(){
+  void loadGender()async{
     this.genderList = [Gender(0, "Masculino", "assets/img/man.png"), Gender(1, "Feminino", "assets/img/woman.png") ];
     this.inGenderList.add(this.genderList);
   }
