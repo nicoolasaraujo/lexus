@@ -9,6 +9,8 @@ import 'pages/Situation/situation_bloc.dart';
 
 
 class ClassAnswerModule extends ModuleWidget {
+  String activityId;
+  ClassAnswerModule(this.activityId);
   @override
   List<Bloc> get blocs => [
         Bloc((i) => GenderBloc()),
@@ -22,7 +24,7 @@ class ClassAnswerModule extends ModuleWidget {
   List<Dependency> get dependencies => [];
 
   @override
-  Widget get view => ClassAnswerPage();
+  Widget get view => ClassAnswerPage(this.activityId);
 
   static Inject get to => Inject<ClassAnswerModule>.of();
 }

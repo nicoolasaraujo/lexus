@@ -6,7 +6,7 @@ import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages
 
 
 void main() {
-  initModule(ClassAnswerModule());
+  initModule(ClassAnswerModule('1'));
   ClothesBloc bloc;
 
   setUp(() {

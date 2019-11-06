@@ -10,6 +10,8 @@ import 'pages/Gender/gender_page.dart';
 import 'pages/Situation/situation_page.dart';
 
 class ClassAnswerPage extends StatefulWidget {
+  final String activityId;
+  ClassAnswerPage(this.activityId);
   @override
   _ClassAnswerPage createState() => _ClassAnswerPage();
 }
@@ -23,6 +25,10 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
         appBar: AppBar(
           title: Text("Alguma aula"),
           centerTitle: true,
+          leading: new IconButton(
+              icon: new Icon(Icons.close,),
+              onPressed: () => Navigator.of(context).pop(),
+          ), 
         ),
         body: Column(
           mainAxisSize: MainAxisSize.min,
