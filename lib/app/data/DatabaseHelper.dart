@@ -25,7 +25,8 @@ class DatabaseHelper {
     SqfliteAdapter adapter =
         new SqfliteAdapter(dbPath, version: DATABASE_VERSION);
     await adapter.connect();
-    await this.handleCreateTable(adapter);  
+    await this.handleCreateTable(adapter);
+    // await this.fillPlaces(adapter);
   }
 
   Future<void> handleCreateTable(SqfliteAdapter adapter) async {
@@ -45,8 +46,14 @@ class DatabaseHelper {
       SituationAnswersBean(adapter)
     ];
 
-    for (var bean in generatedBeans){
+    for (var bean in generatedBeans) {
       bean.createTable(ifNotExists: true);
     }
   }
+
+  // fillPlaces(SqfliteAdapter adapter) async{
+  //   var bean = PlaceBean(adapter);
+  //   // await bean.update(Place.make('1', 'Padaria', 'assets/img/padaria.jfif'));
+  // }
+
 }

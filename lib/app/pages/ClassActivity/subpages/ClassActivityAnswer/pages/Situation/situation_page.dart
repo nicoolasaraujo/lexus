@@ -45,7 +45,7 @@ class _SituationPageState extends State<SituationPage> {
                       return Column(
                         children: <Widget>[
                           Image.asset(
-                              classBloc.userAnswer.selectedPlace.imgPath , height: 160,),
+                              classBloc.userAnswer.place.imgPath , height: 160,),
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(

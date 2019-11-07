@@ -6,6 +6,8 @@ import 'package:lexus/app/data/Beans/SituationAnswersBean.dart';
 import 'package:lexus/app/data/Beans/StudentBean.dart';
 import 'package:lexus/app/model/SituationAnswers.dart';
 
+import 'place.dart';
+
 class ClassActivityAnswer {
   @PrimaryKey()
   String id;
@@ -23,6 +25,17 @@ class ClassActivityAnswer {
   
   @BelongsTo(StudentBean)
   String studentId;
+
+  @IgnoreColumn()
+  Place _place;
+
+  @IgnoreColumn()
+  Place get place => this._place;
+
+  void setPlace(Place place){
+    this._place = place;
+    this.placeId = this._place.id;
+  }
 
   @HasMany(SituationAnswersBean)
   List<SituationAnswer> situationAnswers;

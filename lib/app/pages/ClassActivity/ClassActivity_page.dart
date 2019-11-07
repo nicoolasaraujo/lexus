@@ -40,7 +40,10 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text('Seleciona uma aula', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700), ),
+              child: Text(
+                'Seleciona uma aula',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+              ),
             ),
             Expanded(
               flex: 1,
@@ -85,9 +88,8 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
     return Card(
         elevation: 10,
         child: Container(
-           decoration: BoxDecoration(
-             borderRadius:  BorderRadius.all(Radius.circular(10))
-           ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Row(children: <Widget>[
               Expanded(
@@ -96,17 +98,25 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('${classActivity.description}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),  ),
+                        child: Text(
+                          '${classActivity.description}',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
+                        ),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Professor: ${classActivity.teacher.description}', style: TextStyle(fontSize: 14,),),
+                        child: Text(
+                          'Professor: ${classActivity.teacher.description}',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                       Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text('Data: ${classActivity.activityDateFormatted()}')
-                      )
-                      
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                              'Data: ${classActivity.activityDateFormatted()}'))
                     ],
                   )),
               Expanded(
@@ -116,9 +126,16 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
                     child: RaisedButton(
                       color: Color(0xff00918E),
                       onPressed: () {
-                        Navigator.push(context, CupertinoPageRoute(builder: (context) => ClassAnswerModule(classActivity.id)));
+                        this.classActBloc.selectedActivity = classActivity;
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => ClassAnswerModule()));
                       },
-                      child: Text('Iniciar', style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        'Iniciar',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     )),
               )
             ])));
