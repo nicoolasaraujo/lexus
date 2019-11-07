@@ -21,7 +21,7 @@ class ClassAnswerModule extends ModuleWidget {
         Bloc((i) => GenderBloc()),
         Bloc((i) => PlaceBloc()),
         Bloc((i) => ClothesBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<ClothesRepository>())),
-        Bloc((i) => SituationBloc()),
+        Bloc((i) => SituationBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>())),
         Bloc((i) => ClassAnswerBloc(ClassActivityModule.to.getBloc<ClassActivityBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>()))
       ];
 

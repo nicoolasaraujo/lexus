@@ -16,7 +16,7 @@ class _ClothesPageState extends State<ClothesPage> {
   var clothesBloc = ClassAnswerModule.to.getBloc<ClothesBloc>();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     clothesBloc.loadClothes();
   }
@@ -27,17 +27,16 @@ class _ClothesPageState extends State<ClothesPage> {
       confirm: this.navigateNext,
       title: "Selecione a roupa mais adequada",
       child: this._buildCardListOptions(context),
-      
     );
-  } 
+  }
 
-  Widget _buildCardListOptions(BuildContext context) { 
+  Widget _buildCardListOptions(BuildContext context) {
     return StreamBuilder<List<Clothes>>(
       stream: clothesBloc.outClothesList,
       builder: (context, snapshot) {
         if (snapshot != null && snapshot.hasData) {
           var list = snapshot.data;
-            return GridView.builder(
+          return GridView.builder(
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2),
             itemCount: list.length,
@@ -79,10 +78,8 @@ class _ClothesPageState extends State<ClothesPage> {
     );
   }
 
-  void navigateNext(){
-    var clasBloc = ClassAnswerModule.to.getBloc<ClassAnswerBloc>();
-    clasBloc.increaseProgress();
+  void navigateNext() {
+    this.clothesBloc.forwardQuestion();
     Navigator.pushReplacementNamed(context, '/class/situation');
-
   }
 }

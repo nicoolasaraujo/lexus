@@ -52,7 +52,7 @@ class DatabaseHelper {
   }
 
   // fillPlaces(SqfliteAdapter adapter) async{
-  //   var bean = PlaceBean(adapter);
+    //   var bean = PlaceBean(adapter);
   //   // await bean.update(Place.make('1', 'Padaria', 'assets/img/padaria.jfif'));
   // }
 

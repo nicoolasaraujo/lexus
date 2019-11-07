@@ -41,12 +41,3 @@ class ClassAnswerBloc extends BlocBase {
     this.totalScreens += response.length;
   }
 }
-
-class Situation {
-  int id;
-  String description;
-  List<String> randomWords;
-  String correctWord;
-
-  Situation(this.id, this.description, this.randomWords, this.correctWord);
-}

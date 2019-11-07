@@ -15,7 +15,6 @@ class PlaceBloc extends BlocBase {
   void loadPlace() async {
     await adapter.connect();
     this.bean = PlaceBean(adapter);
-    await this.bean.update(Place.make('1', 'Feira', 'assets/img/feira.jpeg'));
     Find find = this.bean.finder;
     find.or(this.bean.situationBean.id.eq('1'));
 

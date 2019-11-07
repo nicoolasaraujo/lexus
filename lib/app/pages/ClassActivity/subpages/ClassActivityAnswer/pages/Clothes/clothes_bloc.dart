@@ -5,17 +5,17 @@ import 'package:lexus/app/repositories/ClothesRepository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClothesBloc extends BlocBase {
-
   ClassAnswerBloc _answerBloc;
   ClothesRepository _clothesRepository;
-  ClothesBloc(this._answerBloc, this._clothesRepository); 
+  ClothesBloc(this._answerBloc, this._clothesRepository);
 
-  Observable<List<Clothes>> get outClothesList => this._clothesListController.stream;
-  Sink<List<Clothes>>  get inClothesList => this._clothesListController.sink;
+  Observable<List<Clothes>> get outClothesList =>
+      this._clothesListController.stream;
+  Sink<List<Clothes>> get inClothesList => this._clothesListController.sink;
 
-  Observable<Clothes> get outSelectedClothes => this._selectedClothesController.stream;
+  Observable<Clothes> get outSelectedClothes =>
+      this._selectedClothesController.stream;
   Sink<Clothes> get inSelectedClothes => this._selectedClothesController.sink;
-
 
   Clothes _selectedClothes;
   var _selectedClothesController = BehaviorSubject<Clothes>();
@@ -23,7 +23,7 @@ class ClothesBloc extends BlocBase {
   List<Clothes> _clothesList;
   var _clothesListController = BehaviorSubject<List<Clothes>>();
 
-  void changeSelectedClothes(int index){
+  void changeSelectedClothes(int index) {
     this._selectedClothes = _clothesList[index];
     this.inSelectedClothes.add(this._selectedClothes);
   }
@@ -35,8 +35,17 @@ class ClothesBloc extends BlocBase {
     super.dispose();
   }
 
-  void loadClothes() async{
-    this._clothesList = await  this._clothesRepository.findClothesByPlace(this._answerBloc.userAnswer.placeId);
+  void forwardQuestion(){
+    this._answerBloc.userAnswer.setClothes(this._selectedClothes);
+    this._answerBloc.increaseProgress();
+  }
+
+  void loadClothes() async {
+    this._clothesList = await this
+        ._clothesRepository
+        .findClothesByPlace(this._answerBloc.userAnswer.placeId);
     this.inClothesList.add(this._clothesList);
   }
+
+
 }

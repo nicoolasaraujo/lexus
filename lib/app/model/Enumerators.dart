@@ -8,3 +8,9 @@ enum EnumStatus {
   DOING,
   DONE
 }
+
+enum EnumValidateSituation {
+  NEXT,
+  WRONG,
+  LAST
+}
