@@ -37,7 +37,7 @@ class ClothesBloc extends BlocBase {
 
   void forwardQuestion(){
     this._answerBloc.userAnswer.setClothes(this._selectedClothes);
-    this._answerBloc.increaseProgress();
+    this._answerBloc.loadSituations();
   }
 
   void loadClothes() async {

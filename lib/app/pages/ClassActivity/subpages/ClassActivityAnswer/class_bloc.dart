@@ -11,11 +11,11 @@ class ClassAnswerBloc extends BlocBase {
   ClassAnswerBloc(ClassActivityBloc classActivityBloc, SituationRepository repository) {
     this.classAcBloc = classActivityBloc;
     this._situationRepo = repository;
-    this.loadSituations();
+    // this.loadSituations();
   }
 
   ClassActivityAnswer userAnswer = ClassActivityAnswer();
-  int totalScreens;
+  int totalScreens = 0;
   int finished = 0;
   double progress = 0;
 
@@ -36,8 +36,9 @@ class ClassAnswerBloc extends BlocBase {
   }
 
   void loadSituations() async {
-    this.totalScreens = 3; // 3 because of gender, place and clothes
-    var response = await this._situationRepo.findSituationByActivity(this.classAcBloc.selectedActivity.id);
+    // this.totalScreens = 3; // 3 because of gender, place and clothes
+    var response = await this._situationRepo.loadSituationsByPlaceAndActivity(this.classAcBloc.selectedActivity.id, this.userAnswer.placeId);
     this.totalScreens += response.length;
+    this.inProgress.add(0);
   }
 }

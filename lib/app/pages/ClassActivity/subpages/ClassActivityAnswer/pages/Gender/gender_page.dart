@@ -82,6 +82,5 @@ class _GenderPageState extends State<GenderPage> {
 
   void _navigateNext() async{
       Navigator.pushReplacementNamed(context, '/class/place');
-      classActy.increaseProgress();
   }
 }

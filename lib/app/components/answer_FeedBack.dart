@@ -20,59 +20,90 @@ class _AnswerStateFeedBackState extends State<AnswerFeedBack> {
   String _flareName = "";
 
   @override
-  void initState(){
-    if (widget.positive){
+  void initState() {
+    if (widget.positive) {
       this._themeColor = Color(0xff00CA71);
-      this._textList = ["Parabéns!", "Você acertou!"];
+      this._textList = ["Parabéns!", "Parabéns! Você acertou!"];
       this._flareFile = "assets/flare/SuccessCheck.flr";
       this._flareName = "Untitled";
-    }
-    else {
+    } else {
       this._themeColor = Color(0xffD93E47);
-      this._textList = ["Que pena", "Essa não é a resposta"];
+      this._textList = ["Que pena", "Que pena! Essa não é a resposta"];
       this._flareFile = "assets/flare/Status_E_S.flr";
       this._flareName = "Error";
     }
 
     super.initState();
-     if(!this._showText){
-       Timer(const Duration(milliseconds: 1500), (){
-         setState(() {
-          this._showText = true; 
-         });
-       });
-     }
-     Timer(const Duration(milliseconds: 3200), () {
-      Navigator.pop(context);
-    });  
+    if (!this._showText) {
+      Timer(const Duration(milliseconds: 2500), () {
+        setState(() {
+          this._showText = true;
+        });
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:Center(
+    return Center(
         child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text( this._showText ? this._textList[0] : '', style: TextStyle(fontSize: 35, color: this._themeColor ),),
-          Container(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height/2,
-                maxWidth: MediaQuery.of(context).size.width),
-            child: Align(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+            flex: 10,
+            child: AnimatedContainer(
+              padding: EdgeInsets.all(0),
+              curve: Curves.fastOutSlowIn,
+              margin: EdgeInsets.only(top: 0),
+              duration: Duration(milliseconds: 1000),
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              child: FlareActor(
+                this._flareFile,
                 alignment: Alignment.center,
-                child: FlareActor(
-                  this._flareFile,
-                  alignment: Alignment.center,
-                  fit: BoxFit.scaleDown,
-                  animation: this._flareName,
-                )),
-          ),
-          Text(this._showText? this._textList[1]: '', style: TextStyle(fontSize: 35, color: this._themeColor ),),
-        ],
-      ),
-      ) ,
-    );
+                fit: BoxFit.scaleDown,
+                animation: this._flareName,
+                // )
+              ),
+            )),
+        Expanded(
+            flex: this._showText ? 2 : 0,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 1000),
+              child: Text(
+                this._showText ? this._textList[1] : ' ',
+                style: TextStyle(fontSize: 25, color: this._themeColor),
+              ),
+            )),
+        Expanded(
+            flex: this._showText ? 2 : 0,
+            child: AnimatedContainer(
+                width: double.infinity,
+                color: this._themeColor,
+                padding: EdgeInsets.all(0),
+                duration: Duration(milliseconds: 1000),
+                child: this._showText
+                    ? FlatButton(
+                        color: Colors.white70,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Continuar',
+                                style: TextStyle(
+                                    color: this._themeColor, fontSize: 20),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Icon(Icons.forward, color: this._themeColor,))
+                            ]),
+                        onPressed: () => Navigator.of(context).pop(),
+                      )
+                    : SizedBox(
+                        height: 0,
+                      )))
+      ],
+    ));
   }
 }

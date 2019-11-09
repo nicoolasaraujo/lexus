@@ -11,6 +11,16 @@ import 'package:lexus/app/data/Beans/SituationAnswersBean.dart';
 import 'package:lexus/app/data/Beans/SituationBean.dart';
 import 'package:lexus/app/data/Beans/StudentBean.dart';
 import 'package:lexus/app/data/Beans/TeacherBean.dart';
+import 'package:lexus/app/model/ClassSituation.dart';
+import 'package:lexus/app/model/ClassSituation.dart';
+import 'package:lexus/app/model/Clothes.dart';
+import 'package:lexus/app/model/Enumerators.dart';
+import 'package:lexus/app/model/Option.dart';
+import 'package:lexus/app/model/PlaceClothes.dart';
+import 'package:lexus/app/model/Situation.dart';
+import 'package:lexus/app/model/Situation.dart';
+import 'package:lexus/app/model/SituationOptions.dart';
+import 'package:lexus/app/model/place.dart';
 import 'package:lexus/app/shared/constants.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
@@ -51,9 +61,73 @@ class DatabaseHelper {
     }
   }
 
-  // fillPlaces(SqfliteAdapter adapter) async{
-    //   var bean = PlaceBean(adapter);
-  //   // await bean.update(Place.make('1', 'Padaria', 'assets/img/padaria.jfif'));
-  // }
+  fillPlaces(SqfliteAdapter adapter) {
+    PlaceBean(adapter)
+        .insert(Place.make('200', 'Padaria', 'assets/img/padaria.jfif'));
 
+    List<Clothes> clothes = [
+      Clothes.make2(
+          '200', 'Roupa1', 'assets/img/cold.png', EnumGender.MALE.index),
+      Clothes.make2(
+          '201', 'Roupa2', 'assets/img/cold.png', EnumGender.MALE.index),
+      Clothes.make2(
+          '202', 'Roupa3', 'assets/img/cold.png', EnumGender.MALE.index),
+      Clothes.make2(
+          '203', 'Roupa4', 'assets/img/cold.png', EnumGender.MALE.index),
+    ];
+
+    ClothesBean(adapter).insertMany(clothes);
+
+    List<PlaceClothes> placeClothes = [
+      PlaceClothes.make('200', '200'),
+      PlaceClothes.make('200', '201'),
+      PlaceClothes.make('200', '202'),
+      PlaceClothes.make('200', '203'),
+    ];
+
+    PlaceClothesBean(adapter).insertMany(placeClothes);
+
+    List<Situation> listSituation = [
+      Situation.make('200', 'Situação Padaria 1', 'Selecione uma opção', '200'),
+      Situation.make('201', 'Situação Padaria 2', 'Selecione uma opção', '200')
+    ];
+
+    SituationBean(adapter).insertMany(listSituation);
+
+    List<ClassSituation> clasSituation = [
+      ClassSituation.make('1', '200'),
+      ClassSituation.make('1', '201'),
+    ];
+
+    ClassSituationBean(adapter).insertMany(clasSituation);
+
+
+    List<Option> options = [
+      Option.make('200', 'Opção 1'),
+      Option.make('201', 'Opção 2'),
+      Option.make('202', 'Opção 3'),
+      Option.make('203', 'Opção 4'),
+
+      Option.make('204', 'Opção 5'),
+      Option.make('205', 'Opção 6'),
+      Option.make('206', 'Opção 7'),
+      Option.make('207', 'Opção 8')
+    ];
+    OptionBean(adapter).insertMany(options);
+  
+    List<SituationOptions> sop = [
+      SituationOptions.make('200', '200', true),
+      SituationOptions.make('200', '201', true),
+      SituationOptions.make('200', '202', true),
+      SituationOptions.make('200', '203', true),
+
+      SituationOptions.make('201', '204', true),
+      SituationOptions.make('201', '205', true),
+      SituationOptions.make('201', '206', true),
+      SituationOptions.make('201', '207', true),
+    ];
+
+    SituationOptionsBean(adapter).insertMany(sop);
+
+  }
 }

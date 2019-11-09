@@ -54,7 +54,7 @@ class OptionWord extends StatelessWidget {
   }
 
   Widget renderButton() {
-    return FlatButton(
+    return RaisedButton(
       
         color: selected ? Color.fromRGBO(114, 188, 212, 98) : Color(0xff9B59B6),
         child: Text(
