@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lexus/app/pages/ClassActivity/class_module.dart';
+import 'package:lexus/app/pages/ClassActivity/ClassActivity_module.dart';
 import 'package:lexus/app/pages/home/home_bloc.dart';
 import 'package:lexus/app/pages/home/home_module.dart';
 
@@ -17,17 +17,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-    Center(
+        body: Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: FlatButton(  
+        child: Padding(
+          padding: EdgeInsets.only(right:6, left: 6),
+          child: FlatButton(
           color: Colors.lightGreen,
-          child: Text("Iniciar!", style: TextStyle(color: Colors.white),),
-          onPressed: () => Navigator.push(context, CupertinoPageRoute(builder: (context) => ClassModule())
-        ) ,
-        ) ,),
-
-    ));       
-}
+          child: Text(
+            "Aulas",
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () => Navigator.push(
+              context, CupertinoPageRoute(builder: (context) => ClassActivityModule())),
+        )
+        )
+      ),
+    ));
+  }
 }

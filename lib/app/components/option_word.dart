@@ -16,21 +16,52 @@ class OptionWord extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width ,
-      child: FlatButton(
-        color: selected ? Color.fromRGBO(114, 188, 212, 98) : Color(0xff9B59B6),
-        child: Text(
-          this.title,
-          style: TextStyle(color: Colors.white),
-        ),
-        onPressed: this.handleSelection,
-        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18))
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          SizedBox(
+              width: 20,
+              child: selected
+                  ? Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 20,
+                        maxHeight: 20
+                      ),
+                      alignment: Alignment.center,
+                      
+                      child: Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                      ))
+                  : Text('')),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child:this.renderButton()),
+          ),
+          SizedBox(
+            width: 15,
+          )
+        ],
       ),
     );
   }
 
   void handleSelection() {
     this.handleTap(this.index);
+  }
+
+  Widget renderButton() {
+    return FlatButton(
+      
+        color: selected ? Color.fromRGBO(114, 188, 212, 98) : Color(0xff9B59B6),
+        child: Text(
+          this.title,
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: this.handleSelection,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)));
   }
 }
