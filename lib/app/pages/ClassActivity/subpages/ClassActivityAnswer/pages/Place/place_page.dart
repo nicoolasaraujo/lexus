@@ -85,8 +85,5 @@ class _PlacePageState extends State<PlacePage> {
     var classBloc = ClassAnswerModule.to.getBloc<ClassAnswerBloc>();
     classBloc.userAnswer.setPlace(this.placeBloc.selectedPlace);
     Navigator.pushReplacementNamed(context, '/class/Clothes');
-    Timer(const Duration(milliseconds: 900), () {
-      classBloc.increaseProgress();
-    });
   }
 }

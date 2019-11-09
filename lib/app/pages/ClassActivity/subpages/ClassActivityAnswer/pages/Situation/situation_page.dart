@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lexus/app/components/answer_FeedBack.dart';
@@ -95,15 +97,37 @@ class _SituationPageState extends State<SituationPage> {
 
   void confirmAction() async {
     bool isCorrect = this.situationBloc.validateAnswer();
-    await Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) => AnswerFeedBack(positive: isCorrect)));
+    await showModalBottomSheet(
+        elevation: 5,
+        useRootNavigator: true,
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              AnimatedContainer(
+                padding: EdgeInsets.all(0),
+                duration: Duration(seconds: 2),
+                height: 280,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5))),
+                child: AnswerFeedBack(
+                  positive: isCorrect,
+                ),
+              ),
+            ],
+          );
+        });
 
-    if (this.situationBloc.isLast()) {
-      Navigator.of(context, rootNavigator: true).pop();
-    } else {
-      this.situationBloc.next();
-    }
+    classBloc.increaseProgress();
+    Timer(const Duration(milliseconds: 900), () {
+      if (this.situationBloc.isLast()) {
+        Navigator.of(context, rootNavigator: true).pop();
+      } else {
+        this.situationBloc.next();
+      }
+    });
   }
 }

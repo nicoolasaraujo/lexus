@@ -33,15 +33,16 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Container(
-                margin: EdgeInsets.all(6),
-                height: 25,
-                child: this.status(context)),
+            this.status(context),
             Expanded(
               flex: 1,
-              child: Navigator(
-                onGenerateRoute: (settings) => generateRoute(settings),
-                initialRoute: '/class/gender',
+              child: AnimatedContainer(
+                curve: Curves.fastOutSlowIn,
+                duration: Duration(seconds: 5),
+                child: Navigator(
+                  onGenerateRoute: (settings) => generateRoute(settings),
+                  initialRoute: '/class/gender',
+                ),
               ),
             )
           ],
@@ -51,13 +52,13 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/class/gender':
-        return CupertinoPageRoute(builder: (_) => GenderPage());
+        return MaterialPageRoute(builder: (_) => GenderPage());
       case '/class/place':
-        return CupertinoPageRoute(builder: (_) => PlacePage());
+        return MaterialPageRoute(builder: (_) => PlacePage());
       case '/class/Clothes':
-        return CupertinoPageRoute(builder: (_) => ClothesPage());
+        return MaterialPageRoute(builder: (_) => ClothesPage());
       case '/class/situation':
-        return CupertinoPageRoute(builder: (_) => SituationPage());
+        return MaterialPageRoute(builder: (_) => SituationPage());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
@@ -69,24 +70,28 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
 
   Widget status(BuildContext contextx) {
     return StreamBuilder<double>(
-      initialData: 0,
       stream: classActy.outProgress,
       builder: (context, snapshot) {
-        return Container(
-            margin: EdgeInsets.only(right: 6, left: 6),
-            constraints:
-                BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-            child: LinearPercentIndicator(
-              lineHeight: 25.0,
-              percent: snapshot.data,
-              center: Text(
-                "${(snapshot.data * 100).round()}%",
-                style: new TextStyle(fontSize: 12.0),
-              ),
-              linearStrokeCap: LinearStrokeCap.roundAll,
-              backgroundColor: Colors.white,
-              progressColor: Colors.blue,
-            ));
+        if (!snapshot.hasData) {
+          return SizedBox(width: 0, height: 0);
+        } else {
+          return Container(
+              margin: EdgeInsets.only(right: 6, left: 6, top: 6),
+              height: 25,
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              child: LinearPercentIndicator(
+                lineHeight: 25.0,
+                percent: snapshot.data,
+                center: Text(
+                  "${(snapshot.data * 100).round()}%",
+                  style: new TextStyle(fontSize: 12.0),
+                ),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                backgroundColor: Colors.white,
+                progressColor: Colors.blue,
+              ));
+        }
       },
     );
   }
