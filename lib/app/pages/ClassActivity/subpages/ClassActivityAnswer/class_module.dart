@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:lexus/app/app_module.dart';
 import 'package:lexus/app/pages/ClassActivity/ClassActivity_bloc.dart';
+import 'package:lexus/app/repositories/ClassActivityAnswerRepository.dart';
 import 'package:lexus/app/repositories/ClothesRepository.dart';
 import 'package:lexus/app/repositories/SituationRepository.dart';
 import '../../ClassActivity_module.dart';
@@ -21,14 +22,15 @@ class ClassAnswerModule extends ModuleWidget {
         Bloc((i) => GenderBloc()),
         Bloc((i) => PlaceBloc()),
         Bloc((i) => ClothesBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<ClothesRepository>())),
-        Bloc((i) => SituationBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>())),
+        Bloc((i) => SituationBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>(), ClassAnswerModule.to.getDependency<ClassActivityAnswerRepository>())),
         Bloc((i) => ClassAnswerBloc(ClassActivityModule.to.getBloc<ClassActivityBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>()))
       ];
 
   @override
   List<Dependency> get dependencies => [
     Dependency((i) => SituationRepository(AppModule.to.getDependency<SqfliteAdapter>())),
-    Dependency((i) => ClothesRepository(AppModule.to.getDependency<SqfliteAdapter>()))
+    Dependency((i) => ClothesRepository(AppModule.to.getDependency<SqfliteAdapter>())),
+    Dependency((i) => ClassActivityAnswerRepository(AppModule.to.getDependency<SqfliteAdapter>()))
   ];
 
   @override

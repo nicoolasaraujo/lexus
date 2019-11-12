@@ -10,6 +10,12 @@ import 'package:lexus/app/model/SituationAnswers.dart';
 import 'place.dart';
 
 class ClassActivityAnswer {
+
+  ClassActivityAnswer();
+  ClassActivityAnswer.make(this.id, this.initialTime, {this.studentId = '1', this.classAcitviyId}){
+    this.situationAnswers = [];
+  }
+
   @PrimaryKey()
   String id;
   DateTime initialTime;

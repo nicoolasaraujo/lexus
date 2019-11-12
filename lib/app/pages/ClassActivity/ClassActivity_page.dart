@@ -34,7 +34,8 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text('Minhas aulas'),
+          centerTitle: true,
         ),
         body: Column(
           children: <Widget>[

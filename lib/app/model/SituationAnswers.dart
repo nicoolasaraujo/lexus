@@ -4,6 +4,11 @@ import 'package:lexus/app/data/Beans/OptionBean.dart';
 import 'package:lexus/app/data/Beans/SituationBean.dart';
 
 class SituationAnswer{
+
+  SituationAnswer();
+
+  SituationAnswer.make(this.id, this.acitivityAnswerId,this.situationid, this.optionId);
+
   @PrimaryKey()
   String id;
 

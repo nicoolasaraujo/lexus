@@ -34,7 +34,7 @@ class SituationRepository {
       for (ClassSituation st in activities) {
         find.or(this._situationBean.id.eq(st.situationId));
       }
-      find.where(this._situationBean.placeId.eq(placeId));
+      find.where(this._situationBean.placeId.eq(placeId) | this._situationBean.situationType.eq(1) );
 
       var x = await this._situationBean.findMany(find);
       return await this._situationBean.preloadAll(x, cascade: true);

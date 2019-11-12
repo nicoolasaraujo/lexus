@@ -46,6 +46,4 @@ class ClothesBloc extends BlocBase {
         .findClothesByPlace(this._answerBloc.userAnswer.placeId);
     this.inClothesList.add(this._clothesList);
   }
-
-
 }

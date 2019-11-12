@@ -48,18 +48,18 @@ class _SituationPageState extends State<SituationPage> {
                           selected: item == situationBloc.selectedWord)));
                   return Column(
                     children: <Widget>[
-                      Image.asset(
+                      currentSituation.situationType == 0? Image.asset(
                         classBloc.userAnswer.place.imgPath,
                         height: 160,
-                      ),
+                      ): SizedBox(height: 0,),
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          currentSituation.title,
+                          currentSituation.situationType==0?  currentSituation.title: currentSituation.question,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
-                              fontSize: 16),
+                              fontSize: 20),
                         ),
                       ),
                       this.buildOptions(snapshot.data.options)
@@ -124,7 +124,7 @@ class _SituationPageState extends State<SituationPage> {
     classBloc.increaseProgress();
     Timer(const Duration(milliseconds: 900), () {
       if (this.situationBloc.isLast()) {
-        Navigator.of(context, rootNavigator: true).pop();
+        this.situationBloc.finishClass();
       } else {
         this.situationBloc.next();
       }

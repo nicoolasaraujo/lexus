@@ -1,17 +1,24 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lexus/app/model/ClassActivityAnswer.dart';
 import 'package:lexus/app/model/Enumerators.dart';
 import 'package:lexus/app/model/Option.dart';
 import 'package:lexus/app/model/Situation.dart';
+import 'package:lexus/app/model/SituationAnswers.dart';
 import 'package:lexus/app/model/SituationOptions.dart';
+import 'package:lexus/app/repositories/ClassActivityAnswerRepository.dart';
 import 'package:lexus/app/repositories/SituationRepository.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 import '../../class_bloc.dart';
+import 'dart:convert';
 
 class SituationBloc extends BlocBase {
   ClassAnswerBloc _answerBloc;
   SituationRepository _situationRepository;
+  ClassActivityAnswerRepository _answerRepository;
   List<Situation> _situationsList = [];
+  List<SituationAnswer> _situatioAnswers = [];
   Option selectedWord;
   Situation _currentSituation;
   SituationOptions _rightAnswertOption;
@@ -19,7 +26,7 @@ class SituationBloc extends BlocBase {
   var _situationController = BehaviorSubject<Situation>();
   var _selectedWordController = BehaviorSubject<Option>();
 
-  SituationBloc(this._answerBloc, this._situationRepository);
+  SituationBloc(this._answerBloc, this._situationRepository, this._answerRepository);
 
   Observable<Situation> get outSituation => this._situationController.stream;
   Sink<Situation> get inSituation => this._situationController.sink;
@@ -60,6 +67,18 @@ class SituationBloc extends BlocBase {
   }
 
   void next() {
+    var x = Uuid().v1();
+    SituationAnswer situationAnswer = SituationAnswer.make(x.toString(), this._answerBloc.userAnswer.id, this._currentSituation.id, this.selectedWord.id);
+    _situatioAnswers.add(situationAnswer);
     this._loadCurrentSituation();
+  }
+
+  void finishClass() {
+    this._answerBloc.userAnswer.endTime = DateTime.now();
+    var x = Uuid().v1();
+    SituationAnswer situationAnswer = SituationAnswer.make(x.toString(), this._answerBloc.userAnswer.id, this._currentSituation.id, this.selectedWord.id);
+    _situatioAnswers.add(situationAnswer);
+    this._answerBloc.userAnswer.situationAnswers.addAll(_situatioAnswers);
+    this._answerRepository.insert(this._answerBloc.userAnswer);
   }
 }

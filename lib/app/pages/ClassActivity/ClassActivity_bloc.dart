@@ -18,7 +18,7 @@ class ClassActivityBloc extends BlocBase {
 
   void loadAllActivities() async{
     List<ClassActivity> response = await this._classRepo.getAll();
-    this.activities = List.filled(15, response.first);
+    this.activities = List.filled(2, response.first);
     this.inActivities.add(activities);
   }
 
