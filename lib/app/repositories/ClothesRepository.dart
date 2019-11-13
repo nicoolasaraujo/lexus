@@ -18,22 +18,6 @@ class ClothesRepository {
     for (PlaceClothes x in clothes){
       find.or(this._clothesBean.id.eq(x.clothesId));
     }
-
     return await this._clothesBean.findMany(find);
-
-    // find
-    //     .selAll()
-    //     .selAll(this._clothesBean.placeClothesBean.tableName)
-    //     .innerJoin(this._clothesBean.placeClothesBean.tableName)
-    //     .joinOn(Field(this._clothesBean.id.name)
-    //         .eqF(this._clothesBean.placeClothesBean.placeId.name))
-    //     .where(
-    //         Field(this._clothesBean.placeClothesBean.placeId.name).eq(placeId));
   }
 }
-    // await this._clothesBean.insert(Clothes.make2('6', 'Social','assets/img/cold.png', EnumGender.MALE.index));
-    // await this._clothesBean.insert(Clothes.make2('7', 'Banho','assets/img/cold.png', EnumGender.MALE.index));
-    // await this._clothesBean.insert(Clothes.make2('8', 'Jaqueta','assets/img/cold.png',EnumGender.MALE.index ));
-    // await this._clothesBean.placeClothesBean.insert(PlaceClothes.make('1', '6'));
-    // await this._clothesBean.placeClothesBean.insert(PlaceClothes.make('1', '7'));
-    // await this._clothesBean.placeClothesBean.insert(PlaceClothes.make('1', '8'));

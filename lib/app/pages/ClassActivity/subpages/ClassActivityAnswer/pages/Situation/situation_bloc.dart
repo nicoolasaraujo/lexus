@@ -67,18 +67,20 @@ class SituationBloc extends BlocBase {
   }
 
   void next() {
-    var x = Uuid().v1();
-    SituationAnswer situationAnswer = SituationAnswer.make(x.toString(), this._answerBloc.userAnswer.id, this._currentSituation.id, this.selectedWord.id);
-    _situatioAnswers.add(situationAnswer);
+    this.saveSituation();
     this._loadCurrentSituation();
   }
 
-  void finishClass() {
+  Future<void> finishClass() async {
     this._answerBloc.userAnswer.endTime = DateTime.now();
+    this.saveSituation();
+    this._answerBloc.userAnswer.situationAnswers.addAll(_situatioAnswers);
+    return await this._answerRepository.insert(this._answerBloc.userAnswer);
+  }
+
+  void saveSituation(){
     var x = Uuid().v1();
     SituationAnswer situationAnswer = SituationAnswer.make(x.toString(), this._answerBloc.userAnswer.id, this._currentSituation.id, this.selectedWord.id);
     _situatioAnswers.add(situationAnswer);
-    this._answerBloc.userAnswer.situationAnswers.addAll(_situatioAnswers);
-    this._answerRepository.insert(this._answerBloc.userAnswer);
   }
 }

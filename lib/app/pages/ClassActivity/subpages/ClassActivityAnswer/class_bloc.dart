@@ -9,10 +9,13 @@ class ClassAnswerBloc extends BlocBase {
   ClassActivityBloc classAcBloc;
   SituationRepository _situationRepo;
 
-  ClassAnswerBloc(ClassActivityBloc classActivityBloc, SituationRepository repository) {
+  ClassAnswerBloc(
+      ClassActivityBloc classActivityBloc, SituationRepository repository) {
     this.classAcBloc = classActivityBloc;
     this._situationRepo = repository;
-    this.userAnswer = ClassActivityAnswer.make(Uuid().v1().toString(), DateTime.now(), classAcitviyId: this.classAcBloc.selectedActivity.id);
+    this.userAnswer = ClassActivityAnswer.make(
+        Uuid().v1().toString(), DateTime.now(),
+        classAcitviyId: this.classAcBloc.selectedActivity.id);
   }
 
   ClassActivityAnswer userAnswer;
@@ -37,7 +40,8 @@ class ClassAnswerBloc extends BlocBase {
   }
 
   void loadSituations() async {
-    var response = await this._situationRepo.loadSituationsByPlaceAndActivity(this.classAcBloc.selectedActivity.id, this.userAnswer.placeId);
+    var response = await this._situationRepo.loadSituationsByPlaceAndActivity(
+        this.classAcBloc.selectedActivity.id, this.userAnswer.placeId);
     this.totalScreens += response.length;
     this.inProgress.add(0);
   }

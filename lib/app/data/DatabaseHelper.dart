@@ -6,7 +6,6 @@ import 'package:lexus/app/data/Beans/ClassroomBean.dart';
 import 'package:lexus/app/data/Beans/ClothesBean.dart';
 import 'package:lexus/app/data/Beans/OptionBean.dart';
 import 'package:lexus/app/data/Beans/PlaceBeans.dart';
-import 'package:lexus/app/data/Beans/PlaceBeans.dart' as prefix0;
 import 'package:lexus/app/data/Beans/PlaceClothesBean.dart';
 import 'package:lexus/app/data/Beans/SituationAnswersBean.dart';
 import 'package:lexus/app/data/Beans/SituationBean.dart';
@@ -14,12 +13,10 @@ import 'package:lexus/app/data/Beans/StudentBean.dart';
 import 'package:lexus/app/data/Beans/TeacherBean.dart';
 import 'package:lexus/app/model/ClassRoom.dart';
 import 'package:lexus/app/model/ClassSituation.dart';
-import 'package:lexus/app/model/ClassSituation.dart';
 import 'package:lexus/app/model/Clothes.dart';
 import 'package:lexus/app/model/Enumerators.dart';
 import 'package:lexus/app/model/Option.dart';
 import 'package:lexus/app/model/PlaceClothes.dart';
-import 'package:lexus/app/model/Situation.dart';
 import 'package:lexus/app/model/Situation.dart';
 import 'package:lexus/app/model/SituationOptions.dart';
 import 'package:lexus/app/model/Student.dart';
@@ -39,11 +36,11 @@ class DatabaseHelper {
     dbPath = path.join(await getDatabasesPath(), DATABASE_NAME);
     SqfliteAdapter adapter =
         new SqfliteAdapter(dbPath, version: DATABASE_VERSION);
-    var x = DropDb(dbPath);
+    // var x = DropDb(dbPath);
     await adapter.connect();
 
     await this.handleCreateTable(adapter);
-    await this.fillDatabase(adapter);
+    // await this.fillDatabase(adapter);
   }
 
   Future<void> handleCreateTable(SqfliteAdapter adapter) async {
@@ -64,9 +61,9 @@ class DatabaseHelper {
     ];
 
 
-    for (var bean in generatedBeans) {
-      bean.drop();
-    }
+    // for (var bean in generatedBeans) {
+    //   bean.drop();
+    // }
 
     for (var bean in generatedBeans) {
       bean.createTable(ifNotExists: true);
@@ -143,7 +140,7 @@ class DatabaseHelper {
 
     SituationBean(adapter).insertMany(listSituation);
 
-    ClassActivityBean(adapter).insert(ClassActivity.make('1', 'Aula demo', DateTime.now(), 0, '1', '1'));
+    ClassActivityBean(adapter).insert(ClassActivity.make('1', 'Aula demo', DateTime.now(), '1', '1'));
 
     List<ClassSituation> clasSituation = [
       ClassSituation.make('1', '1'),

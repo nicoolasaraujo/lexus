@@ -17,13 +17,17 @@ class ClassActivityBloc extends BlocBase {
   Observable<List<ClassActivity>> get ouActivities => this._listController.stream;
 
   void loadAllActivities() async{
-    List<ClassActivity> response = await this._classRepo.getAll();
-    this.activities = List.filled(2, response.first);
-    this.inActivities.add(activities);
+    List<ClassActivity> response = await this._classRepo.getTodoClassesAll();
+    
+    this.inActivities.add(response);
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  resetClasses() async{
+    await this._classRepo.remveAll();
   }
 }

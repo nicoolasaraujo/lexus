@@ -24,11 +24,6 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    this.classActBloc.loadAllActivities();
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +40,10 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
                 'Seleciona uma aula',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
+            ),
+            FlatButton(
+              onPressed: () => this.classActBloc.resetClasses(),
+              child: Text('Reset'),
             ),
             Expanded(
               flex: 1,
@@ -126,12 +125,13 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
                     alignment: Alignment.centerRight,
                     child: RaisedButton(
                       color: Color(0xff00918E),
-                      onPressed: () {
+                      onPressed: () async {
                         this.classActBloc.selectedActivity = classActivity;
-                        Navigator.push(
+                        await Navigator.push(
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => ClassAnswerModule()));
+                                this.classActBloc.loadAllActivities();
                       },
                       child: Text(
                         'Iniciar',

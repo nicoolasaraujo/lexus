@@ -10,14 +10,13 @@ import 'package:lexus/app/model/Situation.dart';
 
 import 'Teacher.dart';
 
-class ClassActivity{
+class ClassActivity {
   ClassActivity();
 
   @PrimaryKey()
   String id;
   String description;
   DateTime activityDay;
-  int status;
 
   @BelongsTo(TeacherBean)
   String teacherId;
@@ -31,23 +30,29 @@ class ClassActivity{
   @HasMany(ClassActivityAnswerBean)
   List<ClassActivityAnswer> answer;
 
-
   @IgnoreColumn()
   Teacher _teacher;
 
   @IgnoreColumn()
   Teacher get teacher => this._teacher;
 
-  void setTeacher(Teacher teacher){
+  void setTeacher(Teacher teacher) {
     this._teacher = teacher;
     this.teacherId = this._teacher.id;
   }
 
-  
-  String activityDateFormatted(){
+  String activityDateFormatted() {
     var formatted = DateFormat('dd/MM/yyyy');
     return formatted.format(this.activityDay);
   }
 
-  ClassActivity.make(this.id, this.description, this.activityDay, this.status, this.classroomId, this.teacherId);
+  ClassActivity.make(this.id, this.description, this.activityDay,
+      this.classroomId, this.teacherId);
+
+  ClassActivity.fromJson(Map<String, dynamic> json)
+      : this.id = json['id'],
+        this.description = json['description'],
+        this.activityDay = DateTime.parse(json['activity_day']),
+        this.teacherId = json['teacher_id'],
+        this.classroomId = json['classroom_Id'];
 }

@@ -6,14 +6,12 @@ class ClassActivityAnswerRepository {
   SqfliteAdapter _adapter;
   ClassActivityAnswerBean _activityAnswerBean;
 
-  ClassActivityAnswerRepository(this._adapter){
+  ClassActivityAnswerRepository(this._adapter) {
     this._activityAnswerBean = ClassActivityAnswerBean(this._adapter);
   }
 
-  void insert(ClassActivityAnswer userAnswer) async {
+  Future<void> insert(ClassActivityAnswer userAnswer) async {
     await this._activityAnswerBean.insert(userAnswer, cascade: true);
     var x = await this._activityAnswerBean.find(userAnswer.id, preload: true);
-    print(x);
-
   }
 }

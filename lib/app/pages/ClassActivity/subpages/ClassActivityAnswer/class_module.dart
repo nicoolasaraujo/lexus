@@ -5,6 +5,7 @@ import 'package:lexus/app/app_module.dart';
 import 'package:lexus/app/pages/ClassActivity/ClassActivity_bloc.dart';
 import 'package:lexus/app/repositories/ClassActivityAnswerRepository.dart';
 import 'package:lexus/app/repositories/ClothesRepository.dart';
+import 'package:lexus/app/repositories/PlaceRepository.dart';
 import 'package:lexus/app/repositories/SituationRepository.dart';
 import '../../ClassActivity_module.dart';
 import 'class_bloc.dart';
@@ -19,8 +20,8 @@ class ClassAnswerModule extends ModuleWidget {
   ClassAnswerModule();
   @override
   List<Bloc> get blocs => [
-        Bloc((i) => GenderBloc()),
-        Bloc((i) => PlaceBloc()),
+        Bloc((i) => GenderBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>())),
+        Bloc((i) => PlaceBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<PlaceRepository>())),
         Bloc((i) => ClothesBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<ClothesRepository>())),
         Bloc((i) => SituationBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>(), ClassAnswerModule.to.getDependency<ClassActivityAnswerRepository>())),
         Bloc((i) => ClassAnswerBloc(ClassActivityModule.to.getBloc<ClassActivityBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>()))
@@ -30,7 +31,8 @@ class ClassAnswerModule extends ModuleWidget {
   List<Dependency> get dependencies => [
     Dependency((i) => SituationRepository(AppModule.to.getDependency<SqfliteAdapter>())),
     Dependency((i) => ClothesRepository(AppModule.to.getDependency<SqfliteAdapter>())),
-    Dependency((i) => ClassActivityAnswerRepository(AppModule.to.getDependency<SqfliteAdapter>()))
+    Dependency((i) => ClassActivityAnswerRepository(AppModule.to.getDependency<SqfliteAdapter>())),
+    Dependency((i) => PlaceRepository(AppModule.to.getDependency<SqfliteAdapter>()))
   ];
 
   @override

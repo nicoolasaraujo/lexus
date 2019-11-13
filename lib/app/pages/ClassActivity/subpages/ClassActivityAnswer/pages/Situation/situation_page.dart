@@ -48,14 +48,20 @@ class _SituationPageState extends State<SituationPage> {
                           selected: item == situationBloc.selectedWord)));
                   return Column(
                     children: <Widget>[
-                      currentSituation.situationType == 0? Image.asset(
-                        classBloc.userAnswer.place.imgPath,
-                        height: 160,
-                      ): SizedBox(height: 0,),
+                      currentSituation.situationType == 0
+                          ? Image.asset(
+                              classBloc.userAnswer.place.imgPath,
+                              height: 160,
+                            )
+                          : SizedBox(
+                              height: 0,
+                            ),
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          currentSituation.situationType==0?  currentSituation.title: currentSituation.question,
+                          currentSituation.situationType == 0
+                              ? currentSituation.title
+                              : currentSituation.question,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
@@ -64,6 +70,13 @@ class _SituationPageState extends State<SituationPage> {
                       ),
                       this.buildOptions(snapshot.data.options)
                     ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Nenhum registro encontrado!',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   );
                 } else {
                   return Center(
@@ -124,7 +137,12 @@ class _SituationPageState extends State<SituationPage> {
     classBloc.increaseProgress();
     Timer(const Duration(milliseconds: 900), () {
       if (this.situationBloc.isLast()) {
-        this.situationBloc.finishClass();
+        this
+            .situationBloc
+            .finishClass()
+            .then((value) =>
+                Navigator.pushReplacementNamed(context, '/class/finished'))
+            .catchError((error) => print(error));
       } else {
         this.situationBloc.next();
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages/FinishedClass/finishedClass_page.dart';
 import 'class_bloc.dart';
 import 'class_module.dart';
 import 'pages/Clothes/Clothes_pages.dart';
@@ -59,6 +60,8 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
         return MaterialPageRoute(builder: (_) => ClothesPage());
       case '/class/situation':
         return MaterialPageRoute(builder: (_) => SituationPage());
+      case '/class/finished':
+        return MaterialPageRoute(builder: (_) => FinishedClass());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
