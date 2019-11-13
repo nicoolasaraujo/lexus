@@ -32,8 +32,9 @@ class _SituationPageState extends State<SituationPage> {
   Widget build(BuildContext context) {
     return Container(
       child: ClassesContainer(
+          listeningStream: this.situationBloc.hasSelected,
           confirm: this.confirmAction,
-          title: "Seleciona uma palavra de acordo com o local",
+          title: "",
           child: StreamBuilder<Situation>(
               stream: situationBloc.outSituation,
               builder: (context, snapshot) {
@@ -48,6 +49,17 @@ class _SituationPageState extends State<SituationPage> {
                           selected: item == situationBloc.selectedWord)));
                   return Column(
                     children: <Widget>[
+                      currentSituation.situationType == 0
+                          ? Text("Seleciona uma palavra de acordo com o local",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20))
+                          : Text(currentSituation.question,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20)),
                       currentSituation.situationType == 0
                           ? Image.asset(
                               classBloc.userAnswer.place.imgPath,

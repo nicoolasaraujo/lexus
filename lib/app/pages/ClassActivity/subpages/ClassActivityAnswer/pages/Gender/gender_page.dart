@@ -30,6 +30,7 @@ class _GenderPageState extends State<GenderPage> {
       confirm: this._navigateNext,
       title: "Selecione o sexo",
       child: this._buildCardListOptions(context),
+      listeningStream: this.genderBloc.outHasSelected,
     );
   }
 

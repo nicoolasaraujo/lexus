@@ -17,22 +17,27 @@ class SituationBloc extends BlocBase {
   ClassAnswerBloc _answerBloc;
   SituationRepository _situationRepository;
   ClassActivityAnswerRepository _answerRepository;
+  SituationBloc(this._answerBloc, this._situationRepository, this._answerRepository);
+
+
   List<Situation> _situationsList = [];
   List<SituationAnswer> _situatioAnswers = [];
   Option selectedWord;
   Situation _currentSituation;
   SituationOptions _rightAnswertOption;
   int currentIndex = 0;
+  bool _hasSelected;
   var _situationController = BehaviorSubject<Situation>();
   var _selectedWordController = BehaviorSubject<Option>();
-
-  SituationBloc(this._answerBloc, this._situationRepository, this._answerRepository);
+  var _hasSelectedController = BehaviorSubject<bool>();
 
   Observable<Situation> get outSituation => this._situationController.stream;
   Sink<Situation> get inSituation => this._situationController.sink;
 
   Observable<Option> get outSelectedWord => this._selectedWordController.stream;
   Sink<Option> get inSelectedWord => this._selectedWordController.sink;
+
+  Observable<bool> get hasSelected => this._hasSelectedController.stream;
 
   bool validateAnswer() {
     this.currentIndex++;
@@ -53,11 +58,17 @@ class SituationBloc extends BlocBase {
   }
 
   void changeSelected(int index) {
+    if (this.selectedWord == null){
+      this._hasSelectedController.add(true);
+    }
+
     this.selectedWord = this._currentSituation.options[index];
     this.inSelectedWord.add(this.selectedWord);
   }
 
   void _loadCurrentSituation() async {
+    this._hasSelectedController.add(null);
+    this.selectedWord = null;
     this._currentSituation = this._situationsList[currentIndex];
     this._rightAnswertOption = await this
         ._situationRepository

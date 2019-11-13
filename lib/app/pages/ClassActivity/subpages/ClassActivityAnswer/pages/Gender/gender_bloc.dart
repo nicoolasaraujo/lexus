@@ -12,6 +12,7 @@ class GenderBloc extends BlocBase {
 
   var _genders = BehaviorSubject<List<Gender>>();
   var _selectedGender = BehaviorSubject<Gender>();
+  var _hasSelected = BehaviorSubject<bool>();
 
   void loadGender()async{
     this.genderList = [Gender(0, "Masculino", "assets/img/man.png"), Gender(1, "Feminino", "assets/img/woman.png") ];
@@ -19,6 +20,10 @@ class GenderBloc extends BlocBase {
   }
 
   void changeSelectedGender(int index){
+    if(this._currentGender == null){
+      this._hasSelected.sink.add(true);
+    }
+
     this._currentGender =  this.genderList[index];
     this.inSelectedGender.add(this._currentGender);
   }
@@ -28,6 +33,8 @@ class GenderBloc extends BlocBase {
 
   Observable<Gender> get outSelectedGender => this._selectedGender.stream;
   Sink<Gender> get inSelectedGender => this._selectedGender.sink;
+
+  Observable<bool> get outHasSelected => this._hasSelected.stream;
 
   void nextScreen(Function navigateNext){
     this._answerBloc.userAnswer.genderId = this._currentGender.id;

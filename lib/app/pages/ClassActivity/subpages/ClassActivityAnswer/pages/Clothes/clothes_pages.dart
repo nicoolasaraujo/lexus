@@ -25,6 +25,7 @@ class _ClothesPageState extends State<ClothesPage> {
       confirm: this.navigateNext,
       title: "Selecione a roupa mais adequada",
       child: this._buildCardListOptions(context),
+      listeningStream: this.clothesBloc.hasSelected,
     );
   }
 
