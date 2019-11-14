@@ -65,7 +65,7 @@ class _PlacePageState extends State<PlacePage> {
                         child: Container(
                             margin: EdgeInsets.all(2),
                             child: OptionCard(
-                                description: itemGender.description,  
+                                description: itemGender.description,
                                 selected: false,
                                 imagePath: itemGender.imgPath,
                                 index: index,

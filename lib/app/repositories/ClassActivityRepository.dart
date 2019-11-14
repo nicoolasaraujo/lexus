@@ -26,19 +26,16 @@ class ClassActivityRepository {
   getTodoClassesAll() async {
     await this._adapter.connect();
     List<ClassActivity> activities = [];
-    var x = await this
-        ._adapter
-        .connection
-        .rawQuery(
-            'SELECT * FROM ${this._bean.tableName} class WHERE NOT EXISTS (SELECT 1 FROM ${this._bean.classActivityAnswerBean.tableName} answers where ${this._bean.classActivityAnswerBean.classAcitviyId.name} = class.id)');
-    activities = x.toList().map((item) => ClassActivity.fromJson(item)).toList();
-    for (ClassActivity elem in activities){
-      var teacher = await  this._bean.teacherBean.find(elem.teacherId);
+    var x = await this._adapter.connection.rawQuery(
+        'SELECT * FROM ${this._bean.tableName} class WHERE NOT EXISTS (SELECT 1 FROM ${this._bean.classActivityAnswerBean.tableName} answers where ${this._bean.classActivityAnswerBean.classAcitviyId.name} = class.id)');
+    activities =
+        x.toList().map((item) => ClassActivity.fromJson(item)).toList();
+    for (ClassActivity elem in activities) {
+      var teacher = await this._bean.teacherBean.find(elem.teacherId);
       elem.setTeacher(teacher);
     }
 
     return activities;
-
   }
 
   remveAll() {

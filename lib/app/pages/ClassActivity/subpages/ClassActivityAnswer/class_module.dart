@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jaguar_query_sqflite/jaguar_query_sqflite.dart';
 import 'package:lexus/app/app_module.dart';
 import 'package:lexus/app/pages/ClassActivity/ClassActivity_bloc.dart';
+import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages/FinishedClass/finishedClass_bloc.dart';
 import 'package:lexus/app/repositories/ClassActivityAnswerRepository.dart';
 import 'package:lexus/app/repositories/ClothesRepository.dart';
 import 'package:lexus/app/repositories/PlaceRepository.dart';
@@ -24,7 +25,8 @@ class ClassAnswerModule extends ModuleWidget {
         Bloc((i) => PlaceBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<PlaceRepository>())),
         Bloc((i) => ClothesBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<ClothesRepository>())),
         Bloc((i) => SituationBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>(), ClassAnswerModule.to.getDependency<ClassActivityAnswerRepository>())),
-        Bloc((i) => ClassAnswerBloc(ClassActivityModule.to.getBloc<ClassActivityBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>()))
+        Bloc((i) => ClassAnswerBloc(ClassActivityModule.to.getBloc<ClassActivityBloc>(), ClassAnswerModule.to.getDependency<SituationRepository>())),
+        Bloc((i) => FinishedClassBloc(ClassAnswerModule.to.getBloc<ClassAnswerBloc>(),ClassAnswerModule.to.getDependency<ClassActivityAnswerRepository>() ))
       ];
 
   @override

@@ -34,13 +34,11 @@ class DatabaseHelper {
 
   Future<void> createDatabase() async {
     dbPath = path.join(await getDatabasesPath(), DATABASE_NAME);
-    SqfliteAdapter adapter =
-        new SqfliteAdapter(dbPath, version: DATABASE_VERSION);
-    // var x = DropDb(dbPath);
-    await adapter.connect();
-
-    await this.handleCreateTable(adapter);
-    // await this.fillDatabase(adapter);
+    Database database = await openDatabase(dbPath, version: DATABASE_VERSION,
+        onCreate: (Database database, int version) async {
+      SqfliteAdapter adapter = new SqfliteAdapter.fromConnection(database);
+      this.handleCreateTable(adapter);
+    });
   }
 
   Future<void> handleCreateTable(SqfliteAdapter adapter) async {
@@ -60,14 +58,11 @@ class DatabaseHelper {
       SituationAnswersBean(adapter)
     ];
 
-
-    // for (var bean in generatedBeans) {
-    //   bean.drop();
-    // }
-
     for (var bean in generatedBeans) {
       bean.createTable(ifNotExists: true);
     }
+
+    this.fillDatabase(adapter);
   }
 
   fillDatabase(SqfliteAdapter adapter) async {
@@ -133,14 +128,18 @@ class DatabaseHelper {
       Situation.make('8', 'Sinônimos 2',
           'Qual das palavras abaixo não corresponde ao sinônimo de casa?', '0',
           situationType: 1),
-      Situation.make('9', 'Sinônimos 3',
-          'Qual a palavra que não corresponde ao sinônimo da palavra tarefa?', '0',
+      Situation.make(
+          '9',
+          'Sinônimos 3',
+          'Qual a palavra que não corresponde ao sinônimo da palavra tarefa?',
+          '0',
           situationType: 1),
     ];
 
     SituationBean(adapter).insertMany(listSituation);
 
-    ClassActivityBean(adapter).insert(ClassActivity.make('1', 'Aula demo', DateTime.now(), '1', '1'));
+    ClassActivityBean(adapter)
+        .insert(ClassActivity.make('1', 'Aula demo', DateTime.now(), '1', '1'));
 
     List<ClassSituation> clasSituation = [
       ClassSituation.make('1', '1'),
@@ -183,8 +182,6 @@ class DatabaseHelper {
       Option.make('18', 'Dever'),
       Option.make('19', 'Estado'), //correta
       Option.make('20', 'Efício'),
-
-
     ];
     OptionBean(adapter).insertMany(options);
 
@@ -193,47 +190,38 @@ class DatabaseHelper {
       SituationOptions.make('1', '2', false),
       SituationOptions.make('1', '3', false),
       SituationOptions.make('1', '4', false),
-
       SituationOptions.make('2', '1', true),
       SituationOptions.make('2', '2', false),
       SituationOptions.make('2', '3', false),
       SituationOptions.make('2', '4', false),
-
       SituationOptions.make('3', '4', true),
       SituationOptions.make('3', '5', false),
       SituationOptions.make('3', '6', false),
       SituationOptions.make('3', '7', false),
-
       SituationOptions.make('4', '1', true),
       SituationOptions.make('4', '8', false),
       SituationOptions.make('4', '3', false),
       SituationOptions.make('4', '2', false),
-
       SituationOptions.make('5', '2', true),
       SituationOptions.make('5', '7', false),
       SituationOptions.make('5', '8', false),
       SituationOptions.make('5', '3', false),
-
       SituationOptions.make('6', '5', true),
       SituationOptions.make('6', '6', false),
       SituationOptions.make('6', '7', false),
       SituationOptions.make('6', '8', false),
-
       SituationOptions.make('7', '9', true),
       SituationOptions.make('7', '10', false),
       SituationOptions.make('7', '11', false),
       SituationOptions.make('7', '12', false),
-
       SituationOptions.make('8', '13', false),
       SituationOptions.make('8', '14', false),
       SituationOptions.make('8', '15', false),
       SituationOptions.make('8', '16', true),
-
       SituationOptions.make('9', '19', true),
       SituationOptions.make('9', '17', false),
       SituationOptions.make('9', '18', false),
       SituationOptions.make('9', '20', false),
-
     ];
 
     SituationOptionsBean(adapter).insertMany(sop);

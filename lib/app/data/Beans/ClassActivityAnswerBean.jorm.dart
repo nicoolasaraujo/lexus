@@ -10,6 +10,7 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
   final id = StrField('id');
   final initialTime = DateTimeField('initial_time');
   final endTime = DateTimeField('end_time');
+  final genderId = IntField('gender_id');
   final classAcitviyId = StrField('class_acitviy_id');
   final clothesId = StrField('clothes_id');
   final placeId = StrField('place_id');
@@ -19,6 +20,7 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
         id.name: id,
         initialTime.name: initialTime,
         endTime.name: endTime,
+        genderId.name: genderId,
         classAcitviyId.name: classAcitviyId,
         clothesId.name: clothesId,
         placeId.name: placeId,
@@ -29,6 +31,7 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
     model.id = adapter.parseValue(map['id']);
     model.initialTime = adapter.parseValue(map['initial_time']);
     model.endTime = adapter.parseValue(map['end_time']);
+    model.genderId = adapter.parseValue(map['gender_id']);
     model.classAcitviyId = adapter.parseValue(map['class_acitviy_id']);
     model.clothesId = adapter.parseValue(map['clothes_id']);
     model.placeId = adapter.parseValue(map['place_id']);
@@ -45,6 +48,7 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
       ret.add(id.set(model.id));
       ret.add(initialTime.set(model.initialTime));
       ret.add(endTime.set(model.endTime));
+      ret.add(genderId.set(model.genderId));
       ret.add(classAcitviyId.set(model.classAcitviyId));
       ret.add(clothesId.set(model.clothesId));
       ret.add(placeId.set(model.placeId));
@@ -54,6 +58,7 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
       if (only.contains(initialTime.name))
         ret.add(initialTime.set(model.initialTime));
       if (only.contains(endTime.name)) ret.add(endTime.set(model.endTime));
+      if (only.contains(genderId.name)) ret.add(genderId.set(model.genderId));
       if (only.contains(classAcitviyId.name))
         ret.add(classAcitviyId.set(model.classAcitviyId));
       if (only.contains(clothesId.name))
@@ -70,6 +75,9 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
       }
       if (model.endTime != null) {
         ret.add(endTime.set(model.endTime));
+      }
+      if (model.genderId != null) {
+        ret.add(genderId.set(model.genderId));
       }
       if (model.classAcitviyId != null) {
         ret.add(classAcitviyId.set(model.classAcitviyId));
@@ -93,6 +101,7 @@ abstract class _ClassActivityAnswerBean implements Bean<ClassActivityAnswer> {
     st.addStr(id.name, primary: true, isNullable: false);
     st.addDateTime(initialTime.name, isNullable: false);
     st.addDateTime(endTime.name, isNullable: false);
+    st.addInt(genderId.name, isNullable: false);
     st.addStr(classAcitviyId.name,
         foreignTable: classActivityBean.tableName,
         foreignCol: 'id',

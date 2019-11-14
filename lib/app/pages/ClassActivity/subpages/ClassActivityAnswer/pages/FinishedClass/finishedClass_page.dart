@@ -1,6 +1,9 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
+import '../../class_module.dart';
+import 'finishedClass_bloc.dart';
+
 class FinishedClass extends StatefulWidget {
 
   @override
@@ -8,6 +11,8 @@ class FinishedClass extends StatefulWidget {
 }
 
 class _FinishedClassState extends State<FinishedClass> {
+  var bloc = ClassAnswerModule.to.getBloc<FinishedClassBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,8 +45,8 @@ class _FinishedClassState extends State<FinishedClass> {
           Expanded(
             flex: 1,
             child: RaisedButton(
-               onPressed: () =>  Navigator.of(context, rootNavigator: true).pop(),
-              // onPressed: () => {},
+              //  onPressed: () =>  Navigator.of(context, rootNavigator: true).pop(),
+              onPressed: () => this.bloc.report(),
               child: Text('Voltar a listagem de aula'),
             ),
           )
