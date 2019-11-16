@@ -23,7 +23,14 @@ class ClothesBloc extends BlocBase {
   List<Clothes> _clothesList;
   var _clothesListController = BehaviorSubject<List<Clothes>>();
 
+  var _hasSelected = BehaviorSubject<bool>();
+
+  Observable<bool> get hasSelected => this._hasSelected.stream;
+
   void changeSelectedClothes(int index) {
+    if (this._selectedClothes == null){
+      this._hasSelected.sink.add(true);
+    }
     this._selectedClothes = _clothesList[index];
     this.inSelectedClothes.add(this._selectedClothes);
   }
@@ -46,6 +53,4 @@ class ClothesBloc extends BlocBase {
         .findClothesByPlace(this._answerBloc.userAnswer.placeId);
     this.inClothesList.add(this._clothesList);
   }
-
-
 }

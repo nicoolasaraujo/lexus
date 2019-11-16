@@ -8,19 +8,19 @@ part of 'PlaceBeans.dart';
 
 abstract class _PlaceBean implements Bean<Place> {
   final id = StrField('id');
-  final imgPath = StrField('img_path');
   final description = StrField('description');
+  final imgPath = StrField('img_path');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
-        imgPath.name: imgPath,
         description.name: description,
+        imgPath.name: imgPath,
       };
   Place fromMap(Map map) {
     Place model = Place();
     model.id = adapter.parseValue(map['id']);
-    model.imgPath = adapter.parseValue(map['img_path']);
     model.description = adapter.parseValue(map['description']);
+    model.imgPath = adapter.parseValue(map['img_path']);
 
     return model;
   }
@@ -31,22 +31,22 @@ abstract class _PlaceBean implements Bean<Place> {
 
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
-      ret.add(imgPath.set(model.imgPath));
       ret.add(description.set(model.description));
+      ret.add(imgPath.set(model.imgPath));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
-      if (only.contains(imgPath.name)) ret.add(imgPath.set(model.imgPath));
       if (only.contains(description.name))
         ret.add(description.set(model.description));
+      if (only.contains(imgPath.name)) ret.add(imgPath.set(model.imgPath));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
       }
-      if (model.imgPath != null) {
-        ret.add(imgPath.set(model.imgPath));
-      }
       if (model.description != null) {
         ret.add(description.set(model.description));
+      }
+      if (model.imgPath != null) {
+        ret.add(imgPath.set(model.imgPath));
       }
     }
 
@@ -56,8 +56,8 @@ abstract class _PlaceBean implements Bean<Place> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addStr(id.name, primary: true, isNullable: false);
-    st.addStr(imgPath.name, isNullable: false);
     st.addStr(description.name, isNullable: false);
+    st.addStr(imgPath.name, isNullable: false);
     return adapter.createTable(st);
   }
 

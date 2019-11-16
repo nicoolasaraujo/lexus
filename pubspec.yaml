@@ -32,6 +32,7 @@ dependencies:
   jaguar_orm:
   jaguar_query_sqflite:
   intl: ^0.16.0
+  uuid: '^2.0.2'
   
 
 dev_dependencies:

@@ -10,7 +10,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
   final id = StrField('id');
   final description = StrField('description');
   final activityDay = DateTimeField('activity_day');
-  final status = IntField('status');
   final teacherId = StrField('teacher_id');
   final classroomId = StrField('classroom_id');
   Map<String, Field> _fields;
@@ -18,7 +17,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
         id.name: id,
         description.name: description,
         activityDay.name: activityDay,
-        status.name: status,
         teacherId.name: teacherId,
         classroomId.name: classroomId,
       };
@@ -27,7 +25,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
     model.id = adapter.parseValue(map['id']);
     model.description = adapter.parseValue(map['description']);
     model.activityDay = adapter.parseValue(map['activity_day']);
-    model.status = adapter.parseValue(map['status']);
     model.teacherId = adapter.parseValue(map['teacher_id']);
     model.classroomId = adapter.parseValue(map['classroom_id']);
 
@@ -42,7 +39,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
       ret.add(id.set(model.id));
       ret.add(description.set(model.description));
       ret.add(activityDay.set(model.activityDay));
-      ret.add(status.set(model.status));
       ret.add(teacherId.set(model.teacherId));
       ret.add(classroomId.set(model.classroomId));
     } else if (only != null) {
@@ -51,7 +47,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
         ret.add(description.set(model.description));
       if (only.contains(activityDay.name))
         ret.add(activityDay.set(model.activityDay));
-      if (only.contains(status.name)) ret.add(status.set(model.status));
       if (only.contains(teacherId.name))
         ret.add(teacherId.set(model.teacherId));
       if (only.contains(classroomId.name))
@@ -65,9 +60,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
       }
       if (model.activityDay != null) {
         ret.add(activityDay.set(model.activityDay));
-      }
-      if (model.status != null) {
-        ret.add(status.set(model.status));
       }
       if (model.teacherId != null) {
         ret.add(teacherId.set(model.teacherId));
@@ -85,7 +77,6 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
     st.addStr(id.name, primary: true, isNullable: false);
     st.addStr(description.name, isNullable: false);
     st.addDateTime(activityDay.name, isNullable: false);
-    st.addInt(status.name, isNullable: false);
     st.addStr(teacherId.name,
         foreignTable: teacherBean.tableName,
         foreignCol: 'id',

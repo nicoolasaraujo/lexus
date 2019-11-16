@@ -26,7 +26,7 @@ class OptionWord extends StatelessWidget {
                   ? Container(
                       constraints: BoxConstraints(
                         maxWidth: 20,
-                        maxHeight: 20
+                        maxHeight: 30
                       ),
                       alignment: Alignment.center,
                       
@@ -55,7 +55,7 @@ class OptionWord extends StatelessWidget {
 
   Widget renderButton() {
     return RaisedButton(
-      
+        padding: EdgeInsets.symmetric(vertical: 8),
         color: selected ? Color.fromRGBO(114, 188, 212, 98) : Color(0xff9B59B6),
         child: Text(
           this.title,

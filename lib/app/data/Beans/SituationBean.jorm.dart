@@ -10,12 +10,14 @@ abstract class _SituationBean implements Bean<Situation> {
   final id = StrField('id');
   final title = StrField('title');
   final question = StrField('question');
+  final situationType = IntField('situation_type');
   final placeId = StrField('place_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         title.name: title,
         question.name: question,
+        situationType.name: situationType,
         placeId.name: placeId,
       };
   Situation fromMap(Map map) {
@@ -23,6 +25,7 @@ abstract class _SituationBean implements Bean<Situation> {
     model.id = adapter.parseValue(map['id']);
     model.title = adapter.parseValue(map['title']);
     model.question = adapter.parseValue(map['question']);
+    model.situationType = adapter.parseValue(map['situation_type']);
     model.placeId = adapter.parseValue(map['place_id']);
 
     return model;
@@ -36,11 +39,14 @@ abstract class _SituationBean implements Bean<Situation> {
       ret.add(id.set(model.id));
       ret.add(title.set(model.title));
       ret.add(question.set(model.question));
+      ret.add(situationType.set(model.situationType));
       ret.add(placeId.set(model.placeId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(title.name)) ret.add(title.set(model.title));
       if (only.contains(question.name)) ret.add(question.set(model.question));
+      if (only.contains(situationType.name))
+        ret.add(situationType.set(model.situationType));
       if (only.contains(placeId.name)) ret.add(placeId.set(model.placeId));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
@@ -51,6 +57,9 @@ abstract class _SituationBean implements Bean<Situation> {
       }
       if (model.question != null) {
         ret.add(question.set(model.question));
+      }
+      if (model.situationType != null) {
+        ret.add(situationType.set(model.situationType));
       }
       if (model.placeId != null) {
         ret.add(placeId.set(model.placeId));
@@ -65,6 +74,7 @@ abstract class _SituationBean implements Bean<Situation> {
     st.addStr(id.name, primary: true, isNullable: false);
     st.addStr(title.name, isNullable: false);
     st.addStr(question.name, isNullable: false);
+    st.addInt(situationType.name, isNullable: false);
     st.addStr(placeId.name,
         foreignTable: placeBean.tableName, foreignCol: 'id', isNullable: false);
     return adapter.createTable(st);

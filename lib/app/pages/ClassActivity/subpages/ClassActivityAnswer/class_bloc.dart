@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:lexus/app/model/ClassActivityAnswer.dart';
 import 'package:lexus/app/repositories/SituationRepository.dart';
+import 'package:uuid/uuid.dart';
 import '../../ClassActivity_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -8,13 +9,16 @@ class ClassAnswerBloc extends BlocBase {
   ClassActivityBloc classAcBloc;
   SituationRepository _situationRepo;
 
-  ClassAnswerBloc(ClassActivityBloc classActivityBloc, SituationRepository repository) {
+  ClassAnswerBloc(
+      ClassActivityBloc classActivityBloc, SituationRepository repository) {
     this.classAcBloc = classActivityBloc;
     this._situationRepo = repository;
-    // this.loadSituations();
+    this.userAnswer = ClassActivityAnswer.make(
+        Uuid().v1().toString(), DateTime.now(),
+        classAcitviyId: this.classAcBloc.selectedActivity.id);
   }
 
-  ClassActivityAnswer userAnswer = ClassActivityAnswer();
+  ClassActivityAnswer userAnswer;
   int totalScreens = 0;
   int finished = 0;
   double progress = 0;
@@ -36,8 +40,8 @@ class ClassAnswerBloc extends BlocBase {
   }
 
   void loadSituations() async {
-    // this.totalScreens = 3; // 3 because of gender, place and clothes
-    var response = await this._situationRepo.loadSituationsByPlaceAndActivity(this.classAcBloc.selectedActivity.id, this.userAnswer.placeId);
+    var response = await this._situationRepo.loadSituationsByPlaceAndActivity(
+        this.classAcBloc.selectedActivity.id, this.userAnswer.placeId);
     this.totalScreens += response.length;
     this.inProgress.add(0);
   }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_card.dart';
 import 'package:lexus/app/model/Clothes.dart';
-
-import '../../class_bloc.dart';
 import '../../class_module.dart';
 import 'clothes_bloc.dart';
 
@@ -27,6 +25,7 @@ class _ClothesPageState extends State<ClothesPage> {
       confirm: this.navigateNext,
       title: "Selecione a roupa mais adequada",
       child: this._buildCardListOptions(context),
+      listeningStream: this.clothesBloc.hasSelected,
     );
   }
 

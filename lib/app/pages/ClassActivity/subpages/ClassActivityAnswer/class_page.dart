@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lexus/app/components/common_dialog.dart';
+import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages/FinishedClass/finishedClass_page.dart';
 import 'class_bloc.dart';
 import 'class_module.dart';
 import 'pages/Clothes/Clothes_pages.dart';
@@ -27,7 +29,14 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
             icon: new Icon(
               Icons.close,
             ),
-            onPressed: () => Navigator.of(context).pop(),
+            // onPressed: () => Navigator.of(context).pop(),
+            onPressed: () async {
+              var response = await dialogLeaveClass();
+              if(response == null ){
+                response = false;
+              }
+              if (response) Navigator.of(context).pop();
+            },
           ),
         ),
         body: Column(
@@ -59,6 +68,8 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
         return MaterialPageRoute(builder: (_) => ClothesPage());
       case '/class/situation':
         return MaterialPageRoute(builder: (_) => SituationPage());
+      case '/class/finished':
+        return MaterialPageRoute(builder: (_) => FinishedClass());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
@@ -94,6 +105,26 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
         }
       },
     );
+  }
+
+  Future<bool> dialogLeaveClass() async {
+    return showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return CustomAlertDialog(
+            'Se você sair da atividades, todas as respostas serão perdidas',
+            [
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Sair'),
+              ),
+              FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('Continuar atividade'))
+            ],
+            'Deseja sair da atividade?',
+          );
+        });
   }
 
   @override

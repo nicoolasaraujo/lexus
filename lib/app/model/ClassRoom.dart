@@ -10,6 +10,7 @@ class Classroom {
   Classroom();
 
   Classroom.make(this.id, this.description, this._teacher);
+  Classroom.makeTeacherId(this.id, this.description, this.teacherId);
 
   @PrimaryKey()
   String id;

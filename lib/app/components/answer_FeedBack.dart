@@ -64,7 +64,6 @@ class _AnswerStateFeedBackState extends State<AnswerFeedBack> {
                 alignment: Alignment.center,
                 fit: BoxFit.scaleDown,
                 animation: this._flareName,
-                // )
               ),
             )),
         Expanded(
@@ -96,7 +95,10 @@ class _AnswerStateFeedBackState extends State<AnswerFeedBack> {
                               ),
                               Padding(
                                   padding: EdgeInsets.only(left: 5),
-                                  child: Icon(Icons.forward, color: this._themeColor,))
+                                  child: Icon(
+                                    Icons.forward,
+                                    color: this._themeColor,
+                                  ))
                             ]),
                         onPressed: () => Navigator.of(context).pop(),
                       )

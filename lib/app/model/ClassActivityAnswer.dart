@@ -10,10 +10,17 @@ import 'package:lexus/app/model/SituationAnswers.dart';
 import 'place.dart';
 
 class ClassActivityAnswer {
+
+  ClassActivityAnswer();
+  ClassActivityAnswer.make(this.id, this.initialTime, {this.studentId = '1', this.classAcitviyId, this.genderId = 0}){
+    this.situationAnswers = [];
+  }
+
   @PrimaryKey()
   String id;
   DateTime initialTime;
   DateTime endTime;
+  int genderId;
 
   @BelongsTo(ClassActivityBean)
   String classAcitviyId;

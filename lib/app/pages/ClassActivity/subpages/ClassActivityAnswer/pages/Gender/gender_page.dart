@@ -26,11 +26,12 @@ class _GenderPageState extends State<GenderPage> {
 
   @override
   Widget build(BuildContext context) {
-        return ClassesContainer(
-          confirm: this._navigateNext,
-          title: "Selecione o sexo",
-          child: this._buildCardListOptions(context),
-        );
+    return ClassesContainer(
+      confirm: this._navigateNext,
+      title: "Selecione o sexo",
+      child: this._buildCardListOptions(context),
+      listeningStream: this.genderBloc.outHasSelected,
+    );
   }
 
   Widget _buildCardListOptions(BuildContext context) {
@@ -80,7 +81,8 @@ class _GenderPageState extends State<GenderPage> {
     );
   }
 
-  void _navigateNext() async{
-      Navigator.pushReplacementNamed(context, '/class/place');
+  void _navigateNext() async {
+    this.genderBloc.nextScreen(
+        () => Navigator.pushReplacementNamed(context, '/class/place'));
   }
 }

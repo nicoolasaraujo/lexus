@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:lexus/app/components/home_button.dart';
+
 import 'package:lexus/app/pages/ClassActivity/ClassActivity_module.dart';
 import 'package:lexus/app/pages/home/home_bloc.dart';
 import 'package:lexus/app/pages/home/home_module.dart';
@@ -17,22 +20,40 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: EdgeInsets.only(right:6, left: 6),
-          child: FlatButton(
-          color: Colors.lightGreen,
-          child: Text(
-            "Aulas",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () => Navigator.push(
-              context, CupertinoPageRoute(builder: (context) => ClassActivityModule())),
-        )
-        )
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Align(
+        alignment: Alignment.topCenter,
+        child: Text('Bem vindo ao Lexus',
+            style: TextStyle(color: Color(0xff9B59B6), fontSize: 20)),
       ),
-    ));
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            flex: 5,
+            child: HomeButton(
+                Icons.book,
+                Text('Aulas', style: TextStyle(color: Colors.white)),
+                this.navigateClassess),
+          ),
+          Expanded(
+            flex: 5,
+            child: HomeButton(
+                Icons.sync,
+                Text(
+                  'Sincronizar',
+                  style: TextStyle(color: Colors.white),
+                ),
+                this.navigateClassess),
+          ),
+        ],
+      )
+    ]));
+  }
+
+  void navigateClassess() {
+    Navigator.push(context,
+        CupertinoPageRoute(builder: (context) => ClassActivityModule()));
   }
 }
+

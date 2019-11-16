@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -31,6 +30,7 @@ class _PlacePageState extends State<PlacePage> {
       title: "Selecione um local",
       confirm: this.navigateNext,
       child: this._buildCardListOptions(context),
+      listeningStream: this.placeBloc.outSelectedPlace,
     );
   }
 

@@ -9,11 +9,8 @@ class Clothes {
   Clothes();
   @PrimaryKey()
   String id;
-
   String imgPath;
-
   String description;
-
   int gender;
 
   @ManyToMany(PlaceClothesBean, PlaceBean )

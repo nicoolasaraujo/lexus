@@ -12,8 +12,8 @@ class Place {
 
   @PrimaryKey()
   String id;
-  String imgPath;
   String description;
+  String imgPath;
 
   @ManyToMany(PlaceClothesBean, ClothesBean)
   List<Clothes> placesClothes;
@@ -24,5 +24,9 @@ class Place {
   @HasMany(ClassActivityAnswerBean)
   List<ClassActivityAnswer> classanswers;
 
-  Place.make(this.id, this.description, this.imgPath);
+  Place.make(String id, String description, String imgPath) {
+    this.id = id;
+    this.description = description;
+    this.imgPath = imgPath;
+  }
 }
