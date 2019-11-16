@@ -40,27 +40,28 @@ class _SituationPageState extends State<SituationPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var currentSituation = snapshot.data;
-                  List<Widget> children = [];
-                  currentSituation.options.asMap().forEach((index, item) =>
-                      children.add(OptionWord(
-                          title: item.description,
-                          index: index,
-                          handleTap: situationBloc.changeSelected,
-                          selected: item == situationBloc.selectedWord)));
-                  return Column(
+                  return Center(
+                      child: Column(
                     children: <Widget>[
-                      currentSituation.situationType == 0
-                          ? Text("Seleciona uma palavra de acordo com o local",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20))
-                          : Text(currentSituation.question,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20)),
-                      currentSituation.situationType == 0
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: currentSituation.situationType ==
+                                EnumSituationType.PLACE_SITUATION.index
+                            ? Text(
+                                "Seleciona uma palavra de acordo com o local",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20))
+                            : Text(currentSituation.question,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 25)),
+                      ),
+                      currentSituation.situationType ==
+                              EnumSituationType.PLACE_SITUATION.index
                           ? Image.asset(
                               classBloc.userAnswer.place.imgPath,
                               height: 160,
@@ -68,21 +69,31 @@ class _SituationPageState extends State<SituationPage> {
                           : SizedBox(
                               height: 0,
                             ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          currentSituation.situationType == 0
-                              ? currentSituation.title
-                              : currentSituation.question,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20),
-                        ),
-                      ),
-                      this.buildOptions(snapshot.data.options)
+                      currentSituation.situationType ==
+                              EnumSituationType.PLACE_SITUATION.index
+                          ? Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                currentSituation.title,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 0,
+                            ),
+                      Expanded(
+                        flex: 1,
+                          child: Container(
+                              alignment: Alignment.center,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: this.buildOptions(snapshot.data.options),
+                              )))
                     ],
-                  );
+                  ));
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text(
@@ -104,6 +115,7 @@ class _SituationPageState extends State<SituationPage> {
         stream: situationBloc.outSelectedWord,
         builder: (context, snapshot) {
           return (Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: list
                 .asMap()
                 .map((index, element) => MapEntry(

@@ -14,3 +14,8 @@ enum EnumValidateSituation {
   WRONG,
   LAST
 }
+
+enum EnumSituationType {
+  PLACE_SITUATION,
+  COMMON_SITUATION
+}

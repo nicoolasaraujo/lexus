@@ -8,8 +8,4 @@ class FinishedClassBloc extends BlocBase{
   ClassActivityAnswerRepository repo;
   FinishedClassBloc(this.answerBloc, this.repo);
 
-
-  void report(){
-    this.repo.report(this.answerBloc.userAnswer.classAcitviyId);
-  }
 }

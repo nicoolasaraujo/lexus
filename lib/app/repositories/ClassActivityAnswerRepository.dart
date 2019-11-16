@@ -19,31 +19,31 @@ class ClassActivityAnswerRepository {
     return await this._activityAnswerBean.insert(userAnswer, cascade: true);
   }
 
-  Future<ClassActivityAnswer> report(String classId) async {
-    if (!this._adapter.connection.isOpen) {
-      await this._adapter.connect();
-    }
+  // Future<ClassActivityAnswer> report(String classId) async {
+  //   if (!this._adapter.connection.isOpen) {
+  //     await this._adapter.connect();
+  //   }
 
-    String query = """SELECT * 
-                    FROM ClassActivityAnswer CLASSAN
-                    INNER JOIN ${this._activityAnswerBean.situationAnswerBean.tableName} STAN
-                      ON (CLASSAN.ID = STAN.CLASSANSWERID)
-                    INNER JOIN OPTIONS OPT ON (OPT.ID = STAN.ID)
-                    INNER JOIN (SELECT 
-                                  ST1.*, 
-                                  OPT1.DESCRIPTION
-                                FROM SITUATION ST1
-                                INNER JOIN SITUATIONOPTION STOP
-                                ON (ST1.ID = STOP.SITUATIONID)
-                                INNER JOIN OPTIONS OPT1
-                                ON (STOP.OPTIONID = OPT1.ID)
-                                WHERE STOP.RIGHTANSWER = 1
-                                ) SITOP
-                    ON (SITOP.ID = STAN.SITUATIONID) WHERE STAN.CLASSID = $classId""";
+  //   String query = """SELECT *
+  //                   FROM ClassActivityAnswer CLASSAN
+  //                   INNER JOIN ${this._activityAnswerBean.situationAnswerBean.tableName} STAN
+  //                     ON (CLASSAN.ID = STAN.acitivity_answer_id)
+  //                   INNER JOIN ${this._activityAnswerBean.situationAnswerBean.optionBean.tableName} OPT ON (OPT.ID = STAN.option_id)
+  //                                       INNER JOIN (SELECT 
+  //                                 ST1.*,
+  //                                 STOP.*, 
+  //                                 OPT1.DESCRIPTION
+  //                               FROM ${this._activityAnswerBean.situationAnswerBean.situationBean.tableName} ST1
+  //                               INNER JOIN ${this._activityAnswerBean.situationAnswerBean.situationBean.situationOptionsBean.tableName} STOP
+  //                               ON (ST1.ID = STOP.${this._activityAnswerBean.situationAnswerBean.situationBean.situationOptionsBean.situationId.name})
+  //                               INNER JOIN ${this._activityAnswerBean.situationAnswerBean.optionBean.tableName} OPT1
+  //                               ON (STOP.${this._activityAnswerBean.situationAnswerBean.situationBean.situationOptionsBean.optionsId.name} = OPT1.ID)
+  //                               WHERE rigth_answer = 1
+  //                               ) SITOP
+  //                   ON (SITOP.ID = STAN.situationid)
+  //                    WHERE CLASSAN.class_acitviy_id = $classId""";
 
-    var response = await this._adapter.connection.rawQuery(query);
-    print(response);
-
-    // return await this._activityAnswerBean.find(classId, preload: true, cascade: true);
-  }
+  //   var response = await this._adapter.connection.rawQuery(query);
+  //   response.asMap().forEach((key, value) => print('Key: $key  Value: $value'));
+  // }
 }
