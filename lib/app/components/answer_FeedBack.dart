@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _AnswerStateFeedBackState extends State<AnswerFeedBack> {
             flex: this._showText ? 2 : 0,
             child: AnimatedContainer(
               duration: Duration(milliseconds: 1000),
-              child: Text(
+              child: AutoSizeText(
                 this._showText ? this._textList[1] : ' ',
                 style: TextStyle(fontSize: 25, color: this._themeColor),
               ),
@@ -88,7 +89,7 @@ class _AnswerStateFeedBackState extends State<AnswerFeedBack> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              AutoSizeText(
                                 'Continuar',
                                 style: TextStyle(
                                     color: this._themeColor, fontSize: 20),

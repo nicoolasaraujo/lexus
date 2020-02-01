@@ -4,7 +4,7 @@ import 'package:lexus/app/data/DatabaseHelper.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() async{
-  await Sqflite.devSetDebugModeOn(true);
+  // await Sqflite.devSetDebugModeOn(true);
   var dbHelper = DatabaseHelper();
   await dbHelper.createDatabase();
   

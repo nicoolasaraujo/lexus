@@ -85,14 +85,13 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SizedBox(width: 0, height: 0);
-        } else {
+        } else {  
           return Container(
               margin: EdgeInsets.only(right: 6, left: 6, top: 6),
-              height: 25,
               constraints:
-                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: 20),
               child: LinearPercentIndicator(
-                lineHeight: 25.0,
+                lineHeight: 20.0,
                 percent: snapshot.data,
                 center: Text(
                   "${(snapshot.data * 100).round()}%",

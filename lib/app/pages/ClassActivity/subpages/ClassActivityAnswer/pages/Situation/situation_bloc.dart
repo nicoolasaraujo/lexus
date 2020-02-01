@@ -22,6 +22,7 @@ class SituationBloc extends BlocBase {
 
   List<Situation> _situationsList = [];
   List<SituationAnswer> _situatioAnswers = [];
+  List<Option> _optionsList = [];
   Option selectedWord;
   Situation _currentSituation;
   SituationOptions _rightAnswertOption;
@@ -30,6 +31,10 @@ class SituationBloc extends BlocBase {
   var _situationController = BehaviorSubject<Situation>();
   var _selectedWordController = BehaviorSubject<Option>();
   var _hasSelectedController = BehaviorSubject<bool>();
+  var _optionsListController = BehaviorSubject<List<Option>>();
+
+  Observable<List<Option>> get outOptionsList => this._optionsListController.stream;
+  Sink<List<Option>> get inOptionsList => this._optionsListController.sink;
 
   Observable<Situation> get outSituation => this._situationController.stream;
   Sink<Situation> get inSituation => this._situationController.sink;
