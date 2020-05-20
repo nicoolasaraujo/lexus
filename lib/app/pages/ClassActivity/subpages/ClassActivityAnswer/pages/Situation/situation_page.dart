@@ -67,10 +67,9 @@ class _SituationPageState extends State<SituationPage> {
                       currentSituation.situationType ==
                               EnumSituationType.PLACE_SITUATION.index
                           ? Container(
-                              constraints: BoxConstraints(maxHeight: 100),
+                              constraints: BoxConstraints(maxHeight: 110),
                               child: Image.asset(
                                 classBloc.userAnswer.place.imgPath,
-                                // height: 160,
                                 fit: BoxFit.fitHeight,
                               ))
                           : SizedBox(

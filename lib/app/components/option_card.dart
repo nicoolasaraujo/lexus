@@ -48,15 +48,15 @@ class OptionCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(0),
                 child: Image.asset(imagePath,
-                  height: 100, width: 200, fit: BoxFit.scaleDown) ,
+                  height: 110, width: 200, fit: BoxFit.scaleDown) ,
               ),
             ),
             decoration: BoxDecoration(color: Colors.white),
           ),
           Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(16),  
             child: Center(
-              child: AutoSizeText(description, style: TextStyle(color: Colors.white, fontSize: 10)),
+              child: AutoSizeText(description, style: TextStyle(color: Colors.white)),
             ),
             decoration: BoxDecoration(color: Color(0xff9B59B6)),
           ),

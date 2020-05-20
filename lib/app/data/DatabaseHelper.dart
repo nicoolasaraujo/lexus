@@ -34,7 +34,7 @@ class DatabaseHelper {
 
   Future<void> createDatabase() async {
     dbPath = path.join(await getDatabasesPath(), DATABASE_NAME);
-    Database database = await openDatabase(dbPath, version: DATABASE_VERSION,
+    await openDatabase(dbPath, version: DATABASE_VERSION,
         onCreate: (Database database, int version) async {
       SqfliteAdapter adapter = new SqfliteAdapter.fromConnection(database);
       this.handleCreateTable(adapter);
@@ -157,7 +157,6 @@ class DatabaseHelper {
       Situation.make('4', 'Situação Padaria 4', 'Selecione uma opção', '1'),
 
       Situation.make('5', 'Situação Shopping 1', 'Selecione uma opção', '2'),
-      Situation.make('6', 'Situação Shopping 2', 'Selecione uma opção', '2'),
       // Situation.make('7', 'Situação Shopping 3', 'Selecione uma opção', '2'),
       // Situation.make('8', 'Situação Shopping 4', 'Selecione uma opção', '2'),
 
@@ -205,21 +204,16 @@ class DatabaseHelper {
     ClassActivityBean(adapter).insert(
         ClassActivity.make('1', 'Aula Locais', DateTime.now(), '1', '1'));
 
-    ClassActivityBean(adapter).insert(
-        ClassActivity.make('2', 'Aula Sinônimos', DateTime.now(), '1', '1'));
-
     List<ClassSituation> clasSituation = [
       ClassSituation.make('1', '1'),
       ClassSituation.make('1', '2'),
       ClassSituation.make('1', '3'),
       ClassSituation.make('1', '4'),
       ClassSituation.make('1', '5'),
-      ClassSituation.make('1', '6'),
       ClassSituation.make('1', '9'),
       ClassSituation.make('1', '10'),
       ClassSituation.make('1', '13'),
       ClassSituation.make('1', '14'),
-
       ClassSituation.make('1', '17'),
       ClassSituation.make('1', '18'),
       ClassSituation.make('1', '19'),
@@ -297,9 +291,8 @@ class DatabaseHelper {
       //Situação 21
       Option.make('117', 'Formosura'), //correta
       Option.make('118', 'Alteza'),
-      Option.make('119', 'Bondade'), 
+      Option.make('119', 'Bondade'),
       Option.make('120', 'Engraçado'),
-
     ];
     OptionBean(adapter).insertMany(options);
 
@@ -331,11 +324,6 @@ class DatabaseHelper {
       SituationOptions.make('5', '22', false),
       SituationOptions.make('5', '23', false),
 
-      SituationOptions.make('6', '6', true),
-      SituationOptions.make('6', '6', true),
-      SituationOptions.make('6', '6', true),
-      SituationOptions.make('6', '6', true),
-
       //Feira
       SituationOptions.make('9', '9', true),
       SituationOptions.make('9', '24', false),
@@ -358,7 +346,6 @@ class DatabaseHelper {
       SituationOptions.make('14', '111', false),
       SituationOptions.make('14', '29', false),
 
-
       //Sinônimos
       SituationOptions.make('17', '101', true),
       SituationOptions.make('17', '102', false),
@@ -368,8 +355,8 @@ class DatabaseHelper {
       SituationOptions.make('18', '105', false),
       SituationOptions.make('18', '106', false),
       SituationOptions.make('18', '107', false),
-      SituationOptions.make('18', '108', true),      
-      
+      SituationOptions.make('18', '108', true),
+
       SituationOptions.make('19', '109', true),
       SituationOptions.make('19', '110', false),
       SituationOptions.make('19', '111', false),
