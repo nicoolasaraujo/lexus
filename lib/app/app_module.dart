@@ -7,6 +7,11 @@ import 'package:lexus/app/data/DatabaseHelper.dart';
 import 'package:lexus/app/shared/constants.dart';
 
 class AppModule extends ModuleWidget {
+
+  Future initDatabase() async {
+    await DatabaseHelper().createDatabase();
+  }
+
   @override
   List<Bloc> get blocs => [
         Bloc((i) => AppBloc()),

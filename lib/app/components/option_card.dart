@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -21,7 +22,9 @@ class OptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: selected
-          ? Stack(children: <Widget>[
+          ? Stack(
+            children: <Widget>[
+              
               this._buildCardOption(),
               Container(
                 color: Color.fromRGBO(114, 188, 212, 98),
@@ -51,9 +54,9 @@ class OptionCard extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.white),
           ),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),  
             child: Center(
-              child: Text(description, style: TextStyle(color: Colors.white)),
+              child: AutoSizeText(description, style: TextStyle(color: Colors.white)),
             ),
             decoration: BoxDecoration(color: Color(0xff9B59B6)),
           ),

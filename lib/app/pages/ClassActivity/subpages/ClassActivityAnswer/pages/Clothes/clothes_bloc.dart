@@ -50,7 +50,7 @@ class ClothesBloc extends BlocBase {
   void loadClothes() async {
     this._clothesList = await this
         ._clothesRepository
-        .findClothesByPlace(this._answerBloc.userAnswer.placeId);
+        .findClothesByPlace(this._answerBloc.userAnswer.placeId, this._answerBloc.userAnswer.genderId);
     this.inClothesList.add(this._clothesList);
   }
 }

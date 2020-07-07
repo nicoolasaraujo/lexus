@@ -35,17 +35,17 @@ class _HomePageState extends State<HomePage> {
                 Icons.book,
                 Text('Aulas', style: TextStyle(color: Colors.white)),
                 this.navigateClassess),
-          ),
-          Expanded(
-            flex: 5,
-            child: HomeButton(
-                Icons.sync,
-                Text(
-                  'Sincronizar',
-                  style: TextStyle(color: Colors.white),
-                ),
-                this.navigateClassess),
-          ),
+          )
+          // Expanded(
+          //   flex: 5,
+          //   child: HomeButton(
+          //       Icons.sync,
+          //       Text(
+          //         'Sincronizar',
+          //         style: TextStyle(color: Colors.white),
+          //       ),
+          //       this.navigateClassess),
+          // ),
         ],
       )
     ]));

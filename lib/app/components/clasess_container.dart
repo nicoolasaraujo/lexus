@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lexus/app/components/common_dialog.dart';
@@ -24,7 +25,7 @@ class _ClassesContainerState extends State<ClassesContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10)),
@@ -36,9 +37,9 @@ class _ClassesContainerState extends State<ClassesContainer> {
             child: Center(
               child: Padding(
                   padding: EdgeInsets.only(left: 4, right: 4),
-                  child: this.widget.title == '' ? SizedBox(height: 0,): Text(this.widget.title,
+                  child: this.widget.title == '' ? SizedBox(height: 0,): AutoSizeText(this.widget.title,
                       style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           color: Colors.white,
                           fontWeight: FontWeight.w700))),
             ),
@@ -46,7 +47,7 @@ class _ClassesContainerState extends State<ClassesContainer> {
           Expanded(
               flex: 8,
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(2),
                 alignment: Alignment.center,
                 child: this.widget.child,
               )),
@@ -57,7 +58,7 @@ class _ClassesContainerState extends State<ClassesContainer> {
               child: SizedBox(
                 width: double.infinity,
                 child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(8),
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 2000),
                       child: StreamBuilder(

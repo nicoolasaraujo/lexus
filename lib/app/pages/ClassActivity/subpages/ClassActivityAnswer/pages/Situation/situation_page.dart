@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lexus/app/components/answer_FeedBack.dart';
@@ -44,53 +45,44 @@ class _SituationPageState extends State<SituationPage> {
                       child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: currentSituation.situationType ==
                                 EnumSituationType.PLACE_SITUATION.index
-                            ? Text(
-                                "Seleciona uma palavra de acordo com o local",
+                            ? AutoSizeText(
+                                "Selecione uma palavra de acordo com o local: ${classBloc.userAnswer.place.description}",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 20))
-                            : Text(currentSituation.question,
+                                    fontSize: 14))
+                            : AutoSizeText(
+                                currentSituation.question,
                                 style: TextStyle(
+                                    fontSize: 14,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 25)),
+                                    fontWeight: FontWeight.w700),
+                                maxLines: 4,
+                              ),
                       ),
                       currentSituation.situationType ==
                               EnumSituationType.PLACE_SITUATION.index
-                          ? Image.asset(
-                              classBloc.userAnswer.place.imgPath,
-                              height: 160,
-                            )
-                          : SizedBox(
-                              height: 0,
-                            ),
-                      currentSituation.situationType ==
-                              EnumSituationType.PLACE_SITUATION.index
-                          ? Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                currentSituation.title,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18),
-                              ),
-                            )
+                          ? Container(
+                              constraints: BoxConstraints(maxHeight: 110),
+                              child: Image.asset(
+                                classBloc.userAnswer.place.imgPath,
+                                fit: BoxFit.fitHeight,
+                              ))
                           : SizedBox(
                               height: 0,
                             ),
                       Expanded(
-                        flex: 1,
+                          flex: 1,
                           child: Container(
                               alignment: Alignment.center,
                               child: Align(
                                 alignment: Alignment.center,
-                                child: this.buildOptions(snapshot.data.options),
+                                child: this
+                                    .buildOptionsList(currentSituation.options),
                               )))
                     ],
                   ));
@@ -116,20 +108,59 @@ class _SituationPageState extends State<SituationPage> {
         builder: (context, snapshot) {
           return (Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: list
                 .asMap()
                 .map((index, element) => MapEntry(
                     index,
-                    OptionWord(
-                      handleTap: situationBloc.changeSelected,
-                      title: element.description,
-                      selected: element == this.situationBloc.selectedWord,
-                      index: index,
+                    Expanded(
+                      flex: 1,
+                      child: OptionWord(
+                        handleTap: situationBloc.changeSelected,
+                        title: element.description,
+                        selected: element == this.situationBloc.selectedWord,
+                        index: index,
+                      ),
                     )))
                 .values
                 .toList(),
           ));
         });
+  }
+
+  Widget buildOptionsList(List<Option> list) {
+          return ListView.builder(
+              itemCount: list.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (_, index) {
+                var element = list[index];
+                return StreamBuilder<Option>(
+                    stream: situationBloc.outSelectedWord,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return OptionWord(
+                          handleTap: situationBloc.changeSelected,
+                          title: element.description,
+                          selected: element == this.situationBloc.selectedWord,
+                          index: index,
+                        );
+                      } else if (!snapshot.hasError){
+                        return OptionWord(
+                          handleTap: situationBloc.changeSelected,
+                          title: element.description,
+                          selected: false,
+                          index: index,
+                        );
+                      } else {
+                        return Center(
+                          heightFactor: 1,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    });
+              });
+        
   }
 
   void confirmAction() async {

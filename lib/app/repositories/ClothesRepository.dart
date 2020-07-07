@@ -10,7 +10,7 @@ class ClothesRepository {
     this._clothesBean = ClothesBean(this._adapter);
   }
 
-  Future<List<Clothes>> findClothesByPlace(String placeId) async {
+  Future<List<Clothes>> findClothesByPlace(String placeId, int gender) async {
     await this._adapter.connect();
     Find find = this._clothesBean.finder;
     var clothes = await this._clothesBean.placeClothesBean.findWhere(this._clothesBean.placeClothesBean.placeId.eq(placeId));
@@ -18,6 +18,7 @@ class ClothesRepository {
     for (PlaceClothes x in clothes){
       find.or(this._clothesBean.id.eq(x.clothesId));
     }
+    find.and(this._clothesBean.gender.eq(gender));
     return await this._clothesBean.findMany(find);
   }
 }

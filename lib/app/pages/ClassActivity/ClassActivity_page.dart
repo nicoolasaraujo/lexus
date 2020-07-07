@@ -37,13 +37,13 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
             Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                'Seleciona uma aula',
+                'Selecione uma aula',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
             ),
             FlatButton(
-              onPressed: () => this.classActBloc.resetClasses(),
-              child: Text('Reset'),
+              onPressed: () =>  this.resetClasses(),
+              child: Text('Reiniciar Atividades'),
             ),
             Expanded(
               flex: 1,
@@ -54,6 +54,11 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
             ),
           ],
         ));
+  }
+
+  void resetClasses(){
+    this.classActBloc.resetClasses(); 
+    this.classActBloc.loadAllActivities();
   }
 
   StreamBuilder<List<ClassActivity>> _buildClassActivityList(
@@ -120,7 +125,7 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
                     ],
                   )),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: RaisedButton(

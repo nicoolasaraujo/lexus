@@ -33,6 +33,7 @@ dependencies:
   jaguar_query_sqflite:
   intl: ^0.16.0
   uuid: '^2.0.2'
+  auto_size_text: '^2.1.0'
   
 
 dev_dependencies:
@@ -58,6 +59,10 @@ flutter:
   assets:
    - assets/img/
    - assets/flare/
+   - assets/img/roupas/terno/
+   - assets/img/roupas/despojado/
+   - assets/img/roupas/formal/
+   - assets/img/roupas/banho/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

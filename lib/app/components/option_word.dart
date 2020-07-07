@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class OptionWord extends StatelessWidget {
@@ -26,10 +27,9 @@ class OptionWord extends StatelessWidget {
                   ? Container(
                       constraints: BoxConstraints(
                         maxWidth: 20,
-                        maxHeight: 30
+                        maxHeight: 22
                       ),
                       alignment: Alignment.center,
-                      
                       child: Icon(
                         Icons.play_arrow,
                         color: Colors.white,
@@ -55,11 +55,12 @@ class OptionWord extends StatelessWidget {
 
   Widget renderButton() {
     return RaisedButton(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 5),
         color: selected ? Color.fromRGBO(114, 188, 212, 98) : Color(0xff9B59B6),
-        child: Text(
+        child: AutoSizeText(
           this.title,
           style: TextStyle(color: Colors.white),
+          maxLines: 1,
         ),
         onPressed: this.handleSelection,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)));
