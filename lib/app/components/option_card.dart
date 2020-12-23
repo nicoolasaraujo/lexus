@@ -22,9 +22,7 @@ class OptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: selected
-          ? Stack(
-            children: <Widget>[
-              
+          ? Stack(fit: StackFit.loose, children: <Widget>[
               this._buildCardOption(),
               Container(
                 color: Color.fromRGBO(114, 188, 212, 98),
@@ -35,32 +33,40 @@ class OptionCard extends StatelessWidget {
     );
   }
 
-  Card _buildCardOption() {
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Center(
-              widthFactor: 0.4,
-              child: 
-              Padding(
-                padding: EdgeInsets.all(0),
-                child: Image.asset(imagePath,
-                  height: 110, width: 200, fit: BoxFit.scaleDown) ,
+  Widget _buildCardOption() {
+    return Container(
+      padding: EdgeInsets.zero,
+      child: Card(
+        borderOnForeground: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              child: Center(
+                widthFactor: 0.4,
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: AspectRatio(
+                    aspectRatio: 4 / 2,
+                    child: Image.asset(imagePath, fit: BoxFit.contain),
+                  ),
+                ),
               ),
+              decoration: BoxDecoration(color: Colors.white),
             ),
-            decoration: BoxDecoration(color: Colors.white),
-          ),
-          Container(
-            padding: EdgeInsets.all(16),  
-            child: Center(
-              child: AutoSizeText(description, style: TextStyle(color: Colors.white)),
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Center(
+                child: AutoSizeText(description,
+                    style: TextStyle(color: Colors.white)),
+              ),
+              decoration: BoxDecoration(
+                  color: Color(0xff9B59B6),
+                  border: Border.all(color: Color(0xff9B59B6))),
             ),
-            decoration: BoxDecoration(color: Color(0xff9B59B6)),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

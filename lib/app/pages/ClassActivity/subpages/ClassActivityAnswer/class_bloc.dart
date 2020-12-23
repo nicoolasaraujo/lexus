@@ -27,6 +27,14 @@ class ClassAnswerBloc extends BlocBase {
   Observable<double> get outProgress => this._progressController.stream;
   Sink<double> get inProgress => this._progressController.sink;
 
+  var _loadedSituations = BehaviorSubject<int>();
+  Observable<int> get outIsLoadedSituation => this._loadedSituations.stream;
+  Sink<int> get inIsLoadedSituation => this._loadedSituations.sink;
+
+  var _finishedController = BehaviorSubject<int>();
+  Observable<int> get outFinishedQuestions => this._finishedController.stream;
+  Sink<int> get inFinishedQuestions => this._finishedController.sink;
+
   @override
   void dispose() {
     this._progressController.close();
@@ -35,6 +43,7 @@ class ClassAnswerBloc extends BlocBase {
 
   void increaseProgress() {
     finished++;
+    this._finishedController.add(finished);
     progress = (finished / totalScreens);
     this.inProgress.add(progress);
   }
@@ -43,6 +52,8 @@ class ClassAnswerBloc extends BlocBase {
     var response = await this._situationRepo.loadSituationsByPlaceAndActivity(
         this.classAcBloc.selectedActivity.id, this.userAnswer.placeId);
     this.totalScreens += response.length;
+    this.inIsLoadedSituation.add(this.totalScreens);
+    this.inFinishedQuestions.add(0);
     this.inProgress.add(0);
   }
 }

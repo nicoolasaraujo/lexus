@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:lexus/app/components/answer_FeedBack.dart';
 import 'package:lexus/app/components/clasess_container.dart';
 import 'package:lexus/app/components/option_word.dart';
+import 'package:lexus/app/components/photoHero.dart';
 import 'package:lexus/app/model/Enumerators.dart';
 import 'package:lexus/app/model/Option.dart';
 import 'package:lexus/app/model/Situation.dart';
+import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages/Place/place_details.dart';
 
 import '../../class_bloc.dart';
 import '../../class_module.dart';
@@ -44,22 +46,40 @@ class _SituationPageState extends State<SituationPage> {
                   return Center(
                       child: Column(
                     children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: StreamBuilder<int>(
+                            stream: this.classBloc.outFinishedQuestions,
+                            builder: (context, snapshot) {
+                              return Text(
+                                  "Questão ${snapshot.data + 1}/${this.classBloc.totalScreens}",
+                                  style: TextStyle(
+                                      color: Color(0xff5C5757),
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18));
+                            }),
+                      ),
+                      Divider(
+                        color: Colors.grey.shade400,
+                        height: 2,
+                      ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                         child: currentSituation.situationType ==
                                 EnumSituationType.PLACE_SITUATION.index
                             ? AutoSizeText(
                                 "Selecione uma palavra de acordo com o local: ${classBloc.userAnswer.place.description}",
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color(0xff5C5757),
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 14))
+                                    fontSize: 18))
                             : AutoSizeText(
                                 currentSituation.question,
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
+                                    fontSize: 18,
+                                    color: Color(0xff5C5757),
                                     fontWeight: FontWeight.w700),
                                 maxLines: 4,
                               ),
@@ -67,10 +87,36 @@ class _SituationPageState extends State<SituationPage> {
                       currentSituation.situationType ==
                               EnumSituationType.PLACE_SITUATION.index
                           ? Container(
-                              constraints: BoxConstraints(maxHeight: 110),
-                              child: Image.asset(
-                                classBloc.userAnswer.place.imgPath,
-                                fit: BoxFit.fitHeight,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 3))
+                                  ]),
+                              child: PhotoHero(
+                                photo: classBloc.userAnswer.place.imgPath,
+                                onTap: () =>
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                PlaceDetails(
+                                                    this
+                                                        .classBloc
+                                                        .userAnswer
+                                                        .place
+                                                        .imgPath,
+                                                    "Teste",
+                                                    this
+                                                        .classBloc
+                                                        .userAnswer
+                                                        .place
+                                                        .imgPath))),
+                                width: 300,
                               ))
                           : SizedBox(
                               height: 0,
@@ -107,8 +153,8 @@ class _SituationPageState extends State<SituationPage> {
         stream: situationBloc.outSelectedWord,
         builder: (context, snapshot) {
           return (Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: list
                 .asMap()
                 .map((index, element) => MapEntry(
@@ -129,38 +175,40 @@ class _SituationPageState extends State<SituationPage> {
   }
 
   Widget buildOptionsList(List<Option> list) {
-          return ListView.builder(
-              itemCount: list.length,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemBuilder: (_, index) {
-                var element = list[index];
-                return StreamBuilder<Option>(
-                    stream: situationBloc.outSelectedWord,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return OptionWord(
-                          handleTap: situationBloc.changeSelected,
-                          title: element.description,
-                          selected: element == this.situationBloc.selectedWord,
-                          index: index,
-                        );
-                      } else if (!snapshot.hasError){
-                        return OptionWord(
-                          handleTap: situationBloc.changeSelected,
-                          title: element.description,
-                          selected: false,
-                          index: index,
-                        );
-                      } else {
-                        return Center(
-                          heightFactor: 1,
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    });
-              });
-        
+    return ListView.builder(
+        itemCount: list.length,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          var element = list[index];
+          return Container(
+            margin: EdgeInsets.all(4),
+            child: StreamBuilder<Option>(
+                stream: situationBloc.outSelectedWord,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return OptionWord(
+                      handleTap: situationBloc.changeSelected,
+                      title: element.description,
+                      selected: element == this.situationBloc.selectedWord,
+                      index: index,
+                    );
+                  } else if (!snapshot.hasError) {
+                    return OptionWord(
+                      handleTap: situationBloc.changeSelected,
+                      title: element.description,
+                      selected: false,
+                      index: index,
+                    );
+                  } else {
+                    return Center(
+                      heightFactor: 1,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
+          );
+        });
   }
 
   void confirmAction() async {

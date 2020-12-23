@@ -43,7 +43,7 @@ class _PlacePageState extends State<PlacePage> {
           return GridView.builder(
             shrinkWrap: true,
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
+                mainAxisSpacing: 10, crossAxisSpacing: 10, crossAxisCount: 2),
             itemCount: list.length,
             itemBuilder: (_, index) {
               var itemGender = list[index];

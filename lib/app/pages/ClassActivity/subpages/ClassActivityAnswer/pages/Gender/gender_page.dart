@@ -28,7 +28,7 @@ class _GenderPageState extends State<GenderPage> {
   Widget build(BuildContext context) {
     return ClassesContainer(
       confirm: this._navigateNext,
-      title: "Selecione o sexo",
+      title: "Selecione o gênero",
       child: this._buildCardListOptions(context),
       listeningStream: this.genderBloc.outHasSelected,
     );
@@ -43,7 +43,7 @@ class _GenderPageState extends State<GenderPage> {
           return GridView.builder(
             shrinkWrap: true,
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
+                mainAxisSpacing: 10, crossAxisSpacing: 10, crossAxisCount: 2),
             itemCount: list.length,
             itemBuilder: (_, index) {
               var itemGender = list[index];

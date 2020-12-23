@@ -7,7 +7,6 @@ import 'package:lexus/app/data/DatabaseHelper.dart';
 import 'package:lexus/app/shared/constants.dart';
 
 class AppModule extends ModuleWidget {
-
   Future initDatabase() async {
     await DatabaseHelper().createDatabase();
   }
@@ -19,8 +18,9 @@ class AppModule extends ModuleWidget {
 
   @override
   List<Dependency> get dependencies => [
-    Dependency((i) => SqfliteAdapter(DatabaseHelper.dbPath, version: DATABASE_VERSION))
-  ];
+        Dependency((i) =>
+            SqfliteAdapter(DatabaseHelper.dbPath, version: DATABASE_VERSION))
+      ];
 
   @override
   Widget get view => AppWidget();

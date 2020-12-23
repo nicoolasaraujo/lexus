@@ -24,40 +24,35 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Minhas aulas'),
-          centerTitle: true,
-        ),
         body: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                'Selecione uma aula',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              ),
-            ),
-            FlatButton(
-              onPressed: () =>  this.resetClasses(),
-              child: Text('Reiniciar Atividades'),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width),
-                  child: this._buildClassActivityList(context)),
-            ),
-          ],
-        ));
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            'Selecione uma aula',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+          ),
+        ),
+        FlatButton(
+          onPressed: () => this.resetClasses(),
+          child: Text('Reiniciar Atividades'),
+        ),
+        Expanded(
+          flex: 1,
+          child: Container(
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              child: this._buildClassActivityList(context)),
+        ),
+      ],
+    ));
   }
 
-  void resetClasses(){
-    this.classActBloc.resetClasses(); 
+  void resetClasses() {
+    this.classActBloc.resetClasses();
     this.classActBloc.loadAllActivities();
   }
 
@@ -136,7 +131,7 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => ClassAnswerModule()));
-                                this.classActBloc.loadAllActivities();
+                        this.classActBloc.loadAllActivities();
                       },
                       child: Text(
                         'Iniciar',

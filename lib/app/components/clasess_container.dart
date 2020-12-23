@@ -26,28 +26,32 @@ class _ClassesContainerState extends State<ClassesContainer> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(10)),
+      color: Color(0xfff5f5f5),
       padding: EdgeInsets.only(top: 20),
       child: Column(
         children: <Widget>[
           Expanded(
-            flex: this.widget.title == ''? 0:1,
+            flex: this.widget.title == '' ? 0 : 1,
             child: Center(
               child: Padding(
-                  padding: EdgeInsets.only(left: 4, right: 4),
-                  child: this.widget.title == '' ? SizedBox(height: 0,): AutoSizeText(this.widget.title,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700))),
+                  padding: EdgeInsets.only(right: 4),
+                  child: this.widget.title == ''
+                      ? SizedBox(
+                          height: 0,
+                        )
+                      : Align(
+                          alignment: Alignment.centerLeft,
+                          child: AutoSizeText(this.widget.title,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xff5C5757),
+                                  fontWeight: FontWeight.w700)),
+                        )),
             ),
           ),
           Expanded(
               flex: 8,
               child: Container(
-                margin: EdgeInsets.all(2),
                 alignment: Alignment.center,
                 child: this.widget.child,
               )),
@@ -88,16 +92,17 @@ class _ClassesContainerState extends State<ClassesContainer> {
                       [
                         FlatButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: Text('Ok'),
+                          child: Text('Ok',
+                              style: TextStyle(color: Color(0xff9B59B6))),
                         )
                       ],
                       'Aviso');
                 }),
         child: (Text(
-          "Confirmar",
-          style: TextStyle(color: enable ? Colors.white : Colors.blueGrey),
+          "Avançar",
+          style: TextStyle(color: enable ? Colors.white : Colors.grey.shade700),
         )),
-        color: enable ? Color(0xff2ed573) : Color.fromRGBO(46, 213, 115, 0.8),
+        color: enable ? Color(0xff00918E) : Colors.grey.shade400,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)));
   }
 }

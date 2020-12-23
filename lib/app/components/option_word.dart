@@ -25,21 +25,18 @@ class OptionWord extends StatelessWidget {
               width: 20,
               child: selected
                   ? Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 20,
-                        maxHeight: 22
-                      ),
+                      constraints: BoxConstraints(maxWidth: 20, maxHeight: 22),
                       alignment: Alignment.center,
                       child: Icon(
                         Icons.play_arrow,
-                        color: Colors.white,
+                        color: Color(0xff405E7B),
                       ))
                   : Text('')),
           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child:this.renderButton()),
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: this.renderButton()),
           ),
           SizedBox(
             width: 15,
@@ -55,8 +52,8 @@ class OptionWord extends StatelessWidget {
 
   Widget renderButton() {
     return RaisedButton(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        color: selected ? Color.fromRGBO(114, 188, 212, 98) : Color(0xff9B59B6),
+        padding: EdgeInsets.symmetric(vertical: 10),
+        color: selected ? Color(0xff008AD0) : Color(0xff9B59B6),
         child: AutoSizeText(
           this.title,
           style: TextStyle(color: Colors.white),

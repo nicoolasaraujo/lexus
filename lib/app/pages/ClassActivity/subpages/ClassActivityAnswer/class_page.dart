@@ -23,26 +23,34 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(classActy.classAcBloc.selectedActivity.description),
-          centerTitle: true,
-          leading: new IconButton(
-            icon: new Icon(
-              Icons.close,
+            title: StreamBuilder<int>(
+                stream: this.classActy.outIsLoadedSituation,
+                builder: (context, snapshot) {
+                  return !snapshot.hasData || snapshot.data <= 0
+                      ? Text(
+                          classActy.classAcBloc.selectedActivity.description,
+                          style: TextStyle(color: Color(0xff5C5757)),
+                        )
+                      : this.status(context);
+                }),
+            leading: new IconButton(
+              icon: new Icon(
+                Icons.close,
+                color: Color(0xff5C5757),
+              ),
+              // onPressed: () => Navigator.of(context).pop(),
+              onPressed: () async {
+                var response = await dialogLeaveClass();
+                if (response == null) {
+                  response = false;
+                }
+                if (response) Navigator.of(context).pop();
+              },
             ),
-            // onPressed: () => Navigator.of(context).pop(),
-            onPressed: () async {
-              var response = await dialogLeaveClass();
-              if(response == null ){
-                response = false;
-              }
-              if (response) Navigator.of(context).pop();
-            },
-          ),
-        ),
+            backgroundColor: Colors.white),
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            this.status(context),
             Expanded(
               flex: 1,
               child: AnimatedContainer(
@@ -85,11 +93,11 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SizedBox(width: 0, height: 0);
-        } else {  
+        } else {
           return Container(
               margin: EdgeInsets.only(right: 6, left: 6, top: 6),
-              constraints:
-                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: 20),
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width, maxHeight: 20),
               child: LinearPercentIndicator(
                 lineHeight: 20.0,
                 percent: snapshot.data,
@@ -98,7 +106,7 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
                   style: new TextStyle(fontSize: 12.0),
                 ),
                 linearStrokeCap: LinearStrokeCap.roundAll,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.grey.shade400,
                 progressColor: Colors.blue,
               ));
         }
@@ -115,11 +123,15 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
             [
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Sair'),
+                child: Text(
+                  'Sair',
+                  style: TextStyle(color: Color(0xff9B59B6)),
+                ),
               ),
               FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('Continuar atividade'))
+                  child: Text('Continuar atividade',
+                      style: TextStyle(color: Color(0xff9B59B6))))
             ],
             'Deseja sair da atividade?',
           );
