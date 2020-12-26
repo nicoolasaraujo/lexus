@@ -46,26 +46,17 @@ class _SituationPageState extends State<SituationPage> {
                   return Center(
                       child: Column(
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: StreamBuilder<int>(
-                            stream: this.classBloc.outFinishedQuestions,
-                            builder: (context, snapshot) {
-                              return Text(
-                                  "Questão ${snapshot.data + 1}/${this.classBloc.totalScreens}",
-                                  style: TextStyle(
-                                      color: Color(0xff5C5757),
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 18));
-                            }),
-                      ),
-                      Divider(
-                        color: Colors.grey.shade400,
-                        height: 2,
+                      QuestionAnswered(classBloc: classBloc),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Divider(
+                          color: Colors.grey.shade600,
+                          height: 2,
+                        ),
                       ),
                       Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                         child: currentSituation.situationType ==
                                 EnumSituationType.PLACE_SITUATION.index
                             ? AutoSizeText(
@@ -73,20 +64,26 @@ class _SituationPageState extends State<SituationPage> {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Color(0xff5C5757),
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 18))
-                            : AutoSizeText(
-                                currentSituation.question,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0xff5C5757),
-                                    fontWeight: FontWeight.w700),
-                                maxLines: 4,
+                            : Align(
+                                alignment: Alignment.centerLeft,
+                                child: AutoSizeText(
+                                  currentSituation.question,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      color: Color(0xff5C5757),
+                                      fontWeight: FontWeight.w700),
+                                  maxLines: 4,
+                                ),
                               ),
                       ),
                       currentSituation.situationType ==
                               EnumSituationType.PLACE_SITUATION.index
                           ? Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: MediaQuery.of(context).size.width,
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -95,10 +92,11 @@ class _SituationPageState extends State<SituationPage> {
                                     BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 5,
-                                        blurRadius: 7,
+                                        blurRadius: 3,
                                         offset: Offset(0, 3))
                                   ]),
                               child: PhotoHero(
+                                usePhotoView: false,
                                 photo: classBloc.userAnswer.place.imgPath,
                                 onTap: () =>
                                     Navigator.of(context, rootNavigator: true)
@@ -116,13 +114,11 @@ class _SituationPageState extends State<SituationPage> {
                                                         .userAnswer
                                                         .place
                                                         .imgPath))),
-                                width: 300,
                               ))
                           : SizedBox(
                               height: 0,
                             ),
                       Expanded(
-                          flex: 1,
                           child: Container(
                               alignment: Alignment.center,
                               child: Align(
@@ -250,5 +246,31 @@ class _SituationPageState extends State<SituationPage> {
         this.situationBloc.next();
       }
     });
+  }
+}
+
+class QuestionAnswered extends StatelessWidget {
+  const QuestionAnswered({
+    Key key,
+    @required this.classBloc,
+  }) : super(key: key);
+
+  final ClassAnswerBloc classBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: StreamBuilder<int>(
+          stream: this.classBloc.outFinishedQuestions,
+          builder: (context, snapshot) {
+            return Text(
+                "Questão ${snapshot.data + 1}/${this.classBloc.totalScreens}",
+                style: TextStyle(
+                    color: Color(0xff5C5757),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18));
+          }),
+    );
   }
 }

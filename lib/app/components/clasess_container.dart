@@ -25,16 +25,16 @@ class _ClassesContainerState extends State<ClassesContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       color: Color(0xfff5f5f5),
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: this.widget.title == '' ? 10 : 0),
       child: Column(
         children: <Widget>[
           Expanded(
             flex: this.widget.title == '' ? 0 : 1,
             child: Center(
               child: Padding(
-                  padding: EdgeInsets.only(right: 4),
+                  padding: EdgeInsets.only(right: 0),
                   child: this.widget.title == ''
                       ? SizedBox(
                           height: 0,
@@ -82,6 +82,7 @@ class _ClassesContainerState extends State<ClassesContainer> {
 
   Widget buildConfirmButton(bool enable) {
     return FlatButton(
+        padding: EdgeInsets.all(10),
         onPressed: enable
             ? widget.confirm
             : () => showDialog<void>(
@@ -103,6 +104,6 @@ class _ClassesContainerState extends State<ClassesContainer> {
           style: TextStyle(color: enable ? Colors.white : Colors.grey.shade700),
         )),
         color: enable ? Color(0xff00918E) : Colors.grey.shade400,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)));
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)));
   }
 }

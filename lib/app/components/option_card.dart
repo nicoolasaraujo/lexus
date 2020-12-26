@@ -37,6 +37,7 @@ class OptionCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       child: Card(
+        elevation: 5,
         borderOnForeground: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,

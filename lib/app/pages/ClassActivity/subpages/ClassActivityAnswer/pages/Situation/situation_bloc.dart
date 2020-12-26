@@ -17,8 +17,8 @@ class SituationBloc extends BlocBase {
   ClassAnswerBloc _answerBloc;
   SituationRepository _situationRepository;
   ClassActivityAnswerRepository _answerRepository;
-  SituationBloc(this._answerBloc, this._situationRepository, this._answerRepository);
-
+  SituationBloc(
+      this._answerBloc, this._situationRepository, this._answerRepository);
 
   List<Situation> _situationsList = [];
   List<SituationAnswer> _situatioAnswers = [];
@@ -32,8 +32,11 @@ class SituationBloc extends BlocBase {
   var _selectedWordController = BehaviorSubject<Option>();
   var _hasSelectedController = BehaviorSubject<bool>();
   var _optionsListController = BehaviorSubject<List<Option>>();
+  int rightAnswers = 0;
+  int wrongAnswers = 0;
 
-  Observable<List<Option>> get outOptionsList => this._optionsListController.stream;
+  Observable<List<Option>> get outOptionsList =>
+      this._optionsListController.stream;
   Sink<List<Option>> get inOptionsList => this._optionsListController.sink;
 
   Observable<Situation> get outSituation => this._situationController.stream;
@@ -45,11 +48,18 @@ class SituationBloc extends BlocBase {
   Observable<bool> get hasSelected => this._hasSelectedController.stream;
 
   bool validateAnswer() {
+    var isRight = this._rightAnswertOption.optionsId == this.selectedWord.id;
+    if (isRight) {
+      this.rightAnswers++;
+    } else {
+      this.wrongAnswers++;
+    }
+
     this.currentIndex++;
-    return this._rightAnswertOption.optionsId == this.selectedWord.id;
+    return isRight;
   }
 
-  bool isLast(){
+  bool isLast() {
     return this.currentIndex == this._situationsList.length;
   }
 
@@ -63,7 +73,7 @@ class SituationBloc extends BlocBase {
   }
 
   void changeSelected(int index) {
-    if (this.selectedWord == null){
+    if (this.selectedWord == null) {
       this._hasSelectedController.add(true);
     }
 
@@ -94,9 +104,13 @@ class SituationBloc extends BlocBase {
     return await this._answerRepository.insert(this._answerBloc.userAnswer);
   }
 
-  void saveSituation(){
+  void saveSituation() {
     var x = Uuid().v1();
-    SituationAnswer situationAnswer = SituationAnswer.make(x.toString(), this._answerBloc.userAnswer.id, this._currentSituation.id, this.selectedWord.id);
+    SituationAnswer situationAnswer = SituationAnswer.make(
+        x.toString(),
+        this._answerBloc.userAnswer.id,
+        this._currentSituation.id,
+        this.selectedWord.id);
     _situatioAnswers.add(situationAnswer);
   }
 }

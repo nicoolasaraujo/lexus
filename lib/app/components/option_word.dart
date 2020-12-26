@@ -52,7 +52,7 @@ class OptionWord extends StatelessWidget {
 
   Widget renderButton() {
     return RaisedButton(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(vertical: 12),
         color: selected ? Color(0xff008AD0) : Color(0xff9B59B6),
         child: AutoSizeText(
           this.title,
@@ -60,6 +60,6 @@ class OptionWord extends StatelessWidget {
           maxLines: 1,
         ),
         onPressed: this.handleSelection,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)));
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)));
   }
 }

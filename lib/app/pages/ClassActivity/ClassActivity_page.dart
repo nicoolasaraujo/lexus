@@ -31,9 +31,12 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.all(10),
-          child: Text(
-            'Selecione uma aula',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Selecione uma aula',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ),
           ),
         ),
         FlatButton(
