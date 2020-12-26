@@ -5,7 +5,6 @@ import 'package:lexus/app/components/home_button.dart';
 import 'package:lexus/app/pages/home/home_bloc.dart';
 import 'package:lexus/app/pages/home/home_module.dart';
 import 'package:lexus/app/pages/student/student_home_module.dart';
-import 'package:lexus/app/pages/teacher/students/student_home_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
