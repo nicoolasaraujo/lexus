@@ -1,6 +1,5 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:lexus/app/components/option_word.dart';
 import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages/Situation/situation_bloc.dart';
 
 import '../../class_module.dart';

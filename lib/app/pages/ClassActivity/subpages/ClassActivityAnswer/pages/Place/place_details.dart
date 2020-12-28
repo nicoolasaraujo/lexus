@@ -21,7 +21,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.widget.placeTitle),
+        title: Text("Feira"),
         backgroundColor: Colors.black,
       ),
       body: Stack(
@@ -44,14 +44,25 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   alignment: Alignment.bottomCenter,
                   child: Card(
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.24,
                       margin: EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Text(this.widget.placeTitle),
-                          Text(
-                              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and")
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Feira",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Uma feira é um evento em um espaço público em que as pessoas, em dias e épocas predeterminados, expõem e vendem mercadorias. Também é uma designação complementar dos cinco dias úteis da semana: segunda-feira, terça-feira, quarta-feira, quinta-feira e sexta-feira. Pode ser, ainda, uma exposição ou um parque de diversão.",
+                              style: TextStyle(height: 1.5, fontSize: 15),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

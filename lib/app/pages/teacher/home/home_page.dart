@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lexus/app/components/home_button.dart';
-import 'package:lexus/app/pages/home/home_bloc.dart';
-import 'package:lexus/app/pages/home/home_module.dart';
 import 'package:lexus/app/pages/student/student_home_module.dart';
+import 'package:lexus/app/pages/teacher/classrooms/classroom_page.dart';
+import 'package:lexus/app/pages/teacher/students/student_page.dart';
+
+import 'home_bloc.dart';
+import 'home_module.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -33,10 +36,8 @@ class _HomePageState extends State<HomePage> {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Olá, Jonas!",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Theme.of(context).primaryColor),
+                              "Olá, Professor!",
+                              style: TextStyle(fontSize: 20),
                             )),
                         Align(
                             alignment: Alignment.centerRight,
@@ -58,14 +59,13 @@ class _HomePageState extends State<HomePage> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text('Cadastros',
-                                  style: TextStyle(
-                                      color: Color(0xff9B59B6), fontSize: 20)),
+                                  style: TextStyle(fontSize: 20)),
                             ),
                             HomeButton(
                                 Icons.group,
                                 Text('Turmas',
                                     style: TextStyle(color: Colors.white)),
-                                this.navigateClassess),
+                                this.navigateClassrooms),
                             HomeButton(
                                 Icons.group,
                                 Text('Alunos',
@@ -87,8 +87,7 @@ class _HomePageState extends State<HomePage> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text('Atividades',
-                                  style: TextStyle(
-                                      color: Color(0xff9B59B6), fontSize: 20)),
+                                  style: TextStyle(fontSize: 20)),
                             ),
                             HomeButton(
                                 Icons.my_library_books,
@@ -118,6 +117,11 @@ class _HomePageState extends State<HomePage> {
 
   void navigateStudents() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Students()));
+        context, MaterialPageRoute(builder: (context) => StudentsPage()));
+  }
+
+  void navigateClassrooms() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ClassroomPage()));
   }
 }

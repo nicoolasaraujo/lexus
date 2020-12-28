@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lexus/app/pages/account/login_page.dart';
-import 'package:lexus/app/pages/home/home_module.dart';
 
 class AppWidget extends StatelessWidget {
   @override
@@ -9,8 +8,11 @@ class AppWidget extends StatelessWidget {
       title: 'Lexus',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primarySwatch: MaterialColor(0xFF9B59B6, color),
-          brightness: Brightness.light),
+        primarySwatch: MaterialColor(0xFF9B59B6, color),
+        accentColor: Color(0xff00938C),
+        backgroundColor: Color(0xffF5F5F5),
+        brightness: Brightness.light,
+      ),
       home: LoginPage(),
     );
   }

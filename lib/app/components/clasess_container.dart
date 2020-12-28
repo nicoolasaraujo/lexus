@@ -81,7 +81,7 @@ class _ClassesContainerState extends State<ClassesContainer> {
   }
 
   Widget buildConfirmButton(bool enable) {
-    return FlatButton(
+    return RaisedButton(
         padding: EdgeInsets.all(10),
         onPressed: enable
             ? widget.confirm

@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lexus/app/pages/home/home_module.dart';
-import 'package:lexus/app/pages/home/home_page.dart';
+import 'package:lexus/app/model/Enumerators.dart';
+import 'package:lexus/app/pages/account/register/teacher_register.dart';
 import 'package:lexus/app/pages/student/settings/settings_module.dart';
+import 'package:lexus/app/pages/teacher/home/home_module.dart';
 import '../ClassActivity/ClassActivity_module.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
     ClassActivityModule(),
     SettingsModule()
   ];
+
+  var _isObscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +82,20 @@ class _LoginPageState extends State<LoginPage> {
             ),
             TextFormField(
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                    onPressed: () => this.setState(() {
+                          this._isObscureText = !this._isObscureText;
+                        }),
+                    icon: FaIcon(!this._isObscureText
+                        ? FontAwesomeIcons.eye
+                        : FontAwesomeIcons.eyeSlash)),
                 icon: Icon(Icons.vpn_key),
                 hintText: 'Senha',
                 border: const OutlineInputBorder(),
                 labelText: 'Senha',
               ),
               cursorColor: Colors.red,
-              obscureText: true,
+              obscureText: this._isObscureText,
             ),
             SizedBox(
               height: 10,
@@ -154,32 +164,50 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildSignUp() {
     return Container(
-      alignment: Alignment.bottomCenter,
-      padding: EdgeInsets.only(right: 40, left: 40),
-      child: Container(
-          width: double.infinity,
-          color: Colors.transparent,
-          child: RaisedButton.icon(
-            color: Colors.white,
-            onPressed: () => {},
-            icon: Icon(
-              Icons.add,
-              color: Theme.of(context).primaryColor,
-            ),
-            label: Text(
-              "Cadastrar",
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                side: BorderSide(
-                    color: Theme.of(context).primaryColor, width: 1.0)),
-          )),
-    );
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(right: 40, left: 40),
+        child: Container(
+            width: double.infinity,
+            color: Colors.transparent,
+            child: CustomOutlinedButton(this.navigateRegister)));
   }
 
   void navigateHome() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomeModule()));
+  }
+
+  void navigateRegister() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TeacherRegisterPage(
+                  crudAction: EnumCrudAction.CREATE,
+                )));
+  }
+}
+
+class CustomOutlinedButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  CustomOutlinedButton(this.onPressed);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton.icon(
+      color: Colors.white,
+      onPressed: onPressed,
+      icon: Icon(
+        Icons.add,
+        color: Theme.of(context).primaryColor,
+      ),
+      label: Text(
+        "Cadastrar",
+        style: TextStyle(color: Theme.of(context).primaryColor),
+      ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          side: BorderSide(color: Theme.of(context).primaryColor, width: 1.0)),
+    );
   }
 }

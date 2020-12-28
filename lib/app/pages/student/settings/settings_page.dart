@@ -32,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Align(
                       alignment: Alignment.centerRight,
                       child: OutlinedButton.icon(
-                          onPressed: null,
+                          onPressed: () => {},
                           icon: Icon(Icons.logout),
                           label: Text("Sair"))),
                 ],

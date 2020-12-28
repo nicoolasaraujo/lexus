@@ -17,6 +17,9 @@ class Classroom {
 
   String description;
 
+  @IgnoreColumn()
+  String extraInfo;
+
   @HasMany(StudentBean)
   List<Student> students;
 
@@ -25,21 +28,20 @@ class Classroom {
 
   @IgnoreColumn()
   Teacher _teacher;
-  
+
   @HasMany(ClassActivityBean)
   List<ClassActivity> classActivities;
 
   @IgnoreColumn()
   Teacher get teacher => this._teacher;
 
-  
-  void setTeacher(Teacher teacher){
+  void setTeacher(Teacher teacher) {
     this._teacher = teacher;
     this.teacherId = this._teacher.id;
   }
 
   @override
   String toString() {
-    return "Id: ${this.id} Teacher: Name${teacher.description}, ${teacher.emailAddres}"; 
+    return "Id: ${this.id} Teacher: Name${teacher.description}, ${teacher.emailAddres}";
   }
 }
