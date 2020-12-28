@@ -14,29 +14,28 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "Configurações",
+          style: TextStyle(fontSize: 20, color: Color(0xff5C5757)),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton.icon(
+                onPressed: () => {},
+                icon: Icon(Icons.logout),
+                label: Text("Sair")),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
           padding: EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Olá, Jonas!",
-                        style: TextStyle(fontSize: 20),
-                      )),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: OutlinedButton.icon(
-                          onPressed: () => {},
-                          icon: Icon(Icons.logout),
-                          label: Text("Sair"))),
-                ],
-              ),
               Align(
                   alignment: Alignment.topLeft,
                   child: Text(

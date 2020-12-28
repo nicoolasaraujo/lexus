@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:lexus/app/components/home_button.dart';
 import 'package:lexus/app/pages/student/student_home_module.dart';
 import 'package:lexus/app/pages/teacher/classrooms/classroom_page.dart';
+import 'package:lexus/app/pages/teacher/selectStudent/select_student_page.dart';
 import 'package:lexus/app/pages/teacher/students/student_page.dart';
 
 import 'home_bloc.dart';
@@ -26,26 +27,32 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(16),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Olá, Professor!",
-                              style: TextStyle(fontSize: 20),
-                            )),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: OutlinedButton.icon(
-                                onPressed: null,
-                                icon: Icon(Icons.logout),
-                                label: Text("Sair"))),
-                      ],
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Olá, Professor!",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xff5C5757)),
+                              )),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: OutlinedButton.icon(
+                                  onPressed: () => {},
+                                  icon: Icon(Icons.logout),
+                                  label: Text("Sair"))),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -67,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(color: Colors.white)),
                                 this.navigateClassrooms),
                             HomeButton(
-                                Icons.group,
+                                Icons.school,
                                 Text('Alunos',
                                     style: TextStyle(color: Colors.white)),
                                 this.navigateStudents)
@@ -94,12 +101,6 @@ class _HomePageState extends State<HomePage> {
                                 Text('Iniciar Atividades',
                                     style: TextStyle(color: Colors.white)),
                                 this.navigateClassess)
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: <Widget>[
-                            //     ,
-                            //   ],
-                            // )
                           ],
                         ),
                       ),
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
 
   void navigateClassess() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => StudentHomeModule()));
+        context, MaterialPageRoute(builder: (context) => SelectStudent()));
   }
 
   void navigateStudents() {

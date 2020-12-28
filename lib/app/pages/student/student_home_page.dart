@@ -36,6 +36,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.white,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.my_library_books),

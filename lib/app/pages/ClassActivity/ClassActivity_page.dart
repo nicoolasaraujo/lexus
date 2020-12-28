@@ -26,37 +26,52 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Selecione uma aula',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-            ),
-          ),
-        ),
-        FlatButton(
-          onPressed: () => this.resetClasses(),
-          child: Text('Reiniciar Atividades'),
-        ),
-        Expanded(
-          flex: 1,
-          child: Container(
-              constraints:
-                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-              child: this._buildClassActivityList(context)),
-        ),
-      ],
-    ));
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          appBar: AppBar(
+              title: Text("Lista de Atividades",
+                  style: TextStyle(color: Color(0xff5C5757))),
+              backgroundColor: Colors.white,
+              bottom: TabBar(
+                tabs: [
+                  Tab(
+                    child: Text("Pendentes",
+                        style: TextStyle(color: Color(0xff5C5757))),
+                    icon: Icon(
+                      Icons.warning,
+                      color: Color(0xff5C5757),
+                    ),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.check, color: Color(0xff5C5757)),
+                    child: Text("Concluídas",
+                        style: TextStyle(color: Color(0xff5C5757))),
+                  ),
+                ],
+              )),
+          body: TabBarView(
+            children: [
+              this._buildAcitvitiesList(),
+              Icon(Icons.directions_transit),
+            ],
+          )),
+    );
   }
 
   void resetClasses() {
     this.classActBloc.resetClasses();
     this.classActBloc.loadAllActivities();
+  }
+
+  Widget _buildAcitvitiesList() {
+    return Expanded(
+      flex: 1,
+      child: Container(
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+          child: this._buildClassActivityList(context)),
+    );
   }
 
   StreamBuilder<List<ClassActivity>> _buildClassActivityList(

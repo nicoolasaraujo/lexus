@@ -8,7 +8,7 @@ import 'package:lexus/app/model/Student.dart';
 import 'register/register/student_register_page.dart';
 
 class StudentsPage extends StatefulWidget {
-  const StudentsPage({Key key}) : super(key: key);
+  const StudentsPage({Key key, VoidCallback onItemC}) : super(key: key);
 
   @override
   _StudentsPageState createState() => _StudentsPageState();

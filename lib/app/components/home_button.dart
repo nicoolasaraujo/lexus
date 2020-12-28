@@ -15,7 +15,7 @@ class HomeButton extends StatelessWidget {
       margin: EdgeInsets.only(top: 10, bottom: 10),
       decoration: BoxDecoration(
           color: Color(0xff9B59B6),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -27,6 +27,7 @@ class HomeButton extends StatelessWidget {
         icon: Icon(
           icon,
           color: Colors.white,
+          size: 40,
         ),
         label: label,
         onPressed: onPressedFunction,

@@ -128,10 +128,11 @@ class _ClassAnswerPage extends State<ClassAnswerPage> {
                   style: TextStyle(color: Color(0xff9B59B6)),
                 ),
               ),
-              FlatButton(
+              RaisedButton(
+                  color: Theme.of(context).primaryColor,
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text('Continuar atividade',
-                      style: TextStyle(color: Color(0xff9B59B6))))
+                      style: TextStyle(color: Colors.white)))
             ],
             'Deseja sair da atividade?',
           );
