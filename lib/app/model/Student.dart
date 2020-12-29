@@ -9,7 +9,7 @@ class Student {
   Student();
 
   Student.makeClassRoom(this.id, this.name, this.birthday, this.gender,
-      this.classRoomId, this.profilePicture);
+      this.classRoomId, this.extraInfo);
 
   Student.make(this.id, this.name, this.birthday, this.gender);
 
@@ -20,11 +20,9 @@ class Student {
 
   DateTime birthday;
 
-  String profilePicture;
+  String extraInfo;
 
   int gender;
-
-  String extraInfo;
 
   @BelongsTo(ClassroomBean)
   String classRoomId;

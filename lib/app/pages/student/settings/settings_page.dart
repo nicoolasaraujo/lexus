@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -109,7 +110,10 @@ class _SettingsPageState extends State<SettingsPage> {
               Card(
                 elevation: 1,
                 child: GestureDetector(
-                  onTap: () => this.changeTheme(!this._useDarkTheme),
+                  onTap: () {
+                    Get.changeTheme(ThemeData.dark());
+                    this.changeTheme(!this._useDarkTheme);
+                  },
                   child: SwitchListTile(
                     value: this._useDarkTheme,
                     onChanged: this.changeTheme,

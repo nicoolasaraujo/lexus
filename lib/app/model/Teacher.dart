@@ -7,14 +7,18 @@ import 'package:lexus/app/model/classActivity.dart';
 class Teacher {
   Teacher();
 
-  Teacher.make(this.id, this.description, this.birthday, this.profilePicture, this.emailAddres);
-  
+  Teacher.make(
+    this.id,
+    this.description,
+    this.username,
+    this.password,
+  );
+
   @PrimaryKey()
   String id;
   String description;
-  DateTime birthday;
-  String profilePicture;
-  String emailAddres;
+  String username;
+  String password;
 
   @HasMany(ClassroomBean)
   List<Classroom> classes;

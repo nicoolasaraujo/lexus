@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:lexus/app/pages/student/settings/settings_module.dart';
 import '../ClassActivity/ClassActivity_module.dart';
 
@@ -28,27 +29,29 @@ class _StudentHomePageState extends State<StudentHomePage> {
   }
 
   Widget buildMainWidget(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.my_library_books),
-                label: 'Atividades',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Configurações',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: Scaffold(
+            body: Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.white,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.my_library_books),
+                  label: 'Atividades',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Configurações',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+            ),
           ),
         ),
       ),

@@ -14,11 +14,12 @@ class ClassActivityBloc extends BlocBase {
 
   var _listController = BehaviorSubject<List<ClassActivity>>();
   Sink<List<ClassActivity>> get inActivities => this._listController.sink;
-  Observable<List<ClassActivity>> get ouActivities => this._listController.stream;
+  Observable<List<ClassActivity>> get ouActivities =>
+      this._listController.stream;
 
-  void loadAllActivities() async{
+  void loadAllActivities() async {
     List<ClassActivity> response = await this._classRepo.getTodoClassesAll();
-    
+
     this.inActivities.add(response);
   }
 
@@ -27,7 +28,7 @@ class ClassActivityBloc extends BlocBase {
     super.dispose();
   }
 
-  resetClasses() async{
+  resetClasses() async {
     await this._classRepo.remveAll();
   }
 }

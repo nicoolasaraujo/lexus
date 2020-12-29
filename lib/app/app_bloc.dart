@@ -1,7 +1,10 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 
+import 'model/Teacher.dart';
+
 class AppBloc extends BlocBase {
-  //dispose will be called automatically by closing its streams
+  Teacher teacher;
+
   @override
   void dispose() {
     super.dispose();

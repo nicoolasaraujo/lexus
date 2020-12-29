@@ -9,17 +9,20 @@ part of 'ClassroomBean.dart';
 abstract class _ClassroomBean implements Bean<Classroom> {
   final id = StrField('id');
   final description = StrField('description');
+  final extraInfo = StrField('extra_info');
   final teacherId = StrField('teacher_id');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         description.name: description,
+        extraInfo.name: extraInfo,
         teacherId.name: teacherId,
       };
   Classroom fromMap(Map map) {
     Classroom model = Classroom();
     model.id = adapter.parseValue(map['id']);
     model.description = adapter.parseValue(map['description']);
+    model.extraInfo = adapter.parseValue(map['extra_info']);
     model.teacherId = adapter.parseValue(map['teacher_id']);
 
     return model;
@@ -32,11 +35,14 @@ abstract class _ClassroomBean implements Bean<Classroom> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(description.set(model.description));
+      ret.add(extraInfo.set(model.extraInfo));
       ret.add(teacherId.set(model.teacherId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(description.name))
         ret.add(description.set(model.description));
+      if (only.contains(extraInfo.name))
+        ret.add(extraInfo.set(model.extraInfo));
       if (only.contains(teacherId.name))
         ret.add(teacherId.set(model.teacherId));
     } else /* if (onlyNonNull) */ {
@@ -45,6 +51,9 @@ abstract class _ClassroomBean implements Bean<Classroom> {
       }
       if (model.description != null) {
         ret.add(description.set(model.description));
+      }
+      if (model.extraInfo != null) {
+        ret.add(extraInfo.set(model.extraInfo));
       }
       if (model.teacherId != null) {
         ret.add(teacherId.set(model.teacherId));
@@ -58,9 +67,10 @@ abstract class _ClassroomBean implements Bean<Classroom> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addStr(id.name, primary: true, isNullable: false);
     st.addStr(description.name, isNullable: false);
+    st.addStr(extraInfo.name, isNullable: false);
     st.addStr(teacherId.name,
         foreignTable: teacherBean.tableName,
-        foreignCol: 'id',
+        foreignCol: teacherBean.id.name,
         isNullable: false);
     return adapter.createTable(st);
   }
@@ -119,10 +129,24 @@ abstract class _ClassroomBean implements Bean<Classroom> {
   Future<dynamic> upsert(Classroom model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
-    var retId = await adapter.upsert(upsert);
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
+    var retId;
+    if (isForeignKeyEnabled) {
+      final Insert insert = Insert(tableName, ignoreIfExist: true)
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.insert(insert);
+      if (retId == null) {
+        final Update update = updater
+            .where(this.id.eq(model.id))
+            .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        retId = adapter.update(update);
+      }
+    } else {
+      final Upsert upsert = upserter
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.upsert(upsert);
+    }
     if (cascade) {
       Classroom newModel;
       if (model.students != null) {
@@ -148,11 +172,13 @@ abstract class _ClassroomBean implements Bean<Classroom> {
   Future<void> upsertMany(List<Classroom> models,
       {bool cascade = false,
       bool onlyNonNull = false,
-      Set<String> only}) async {
-    if (cascade) {
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
+    if (cascade || isForeignKeyEnabled) {
       final List<Future> futures = [];
       for (var model in models) {
-        futures.add(upsert(model, cascade: cascade));
+        futures.add(upsert(model,
+            cascade: cascade, isForeignKeyEnabled: isForeignKeyEnabled));
       }
       await Future.wait(futures);
       return;

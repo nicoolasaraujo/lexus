@@ -141,14 +141,14 @@ class DatabaseHelper {
     ];
     PlaceClothesBean(adapter).insertMany(placeClothes);
 
-    TeacherBean(adapter).insert(Teacher.make(
-        '1', 'Mariana', DateTime.now(), 'xxxx', 'email@email.com'));
+    TeacherBean(adapter)
+        .insert(Teacher.make('1', 'Mariana', 'educador1', '12345'));
 
-    ClassroomBean(adapter)
-        .insert(Classroom.makeTeacherId('1', 'Turma - 1', '1'));
+    ClassroomBean(adapter).insert(Classroom.makeTeacherId(
+        '1', 'Turma - 1', '1', "Turma 1 - Atendimento tarde"));
 
     StudentBean(adapter).insert(Student.makeClassRoom(
-        '1', 'Aluno padrão', DateTime.now(), 0, '1', 'xxxx'));
+        '1', 'Aluno padrão', DateTime.now(), 0, '1', 'Aluno padrão'));
 
     List<Situation> listSituation = [
       Situation.make('1', 'Situação Padaria 1', 'Selecione uma opção', '1'),

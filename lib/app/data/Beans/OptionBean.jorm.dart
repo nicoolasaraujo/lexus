@@ -105,10 +105,24 @@ abstract class _OptionBean implements Bean<Option> {
   Future<dynamic> upsert(Option model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
-    var retId = await adapter.upsert(upsert);
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
+    var retId;
+    if (isForeignKeyEnabled) {
+      final Insert insert = Insert(tableName, ignoreIfExist: true)
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.insert(insert);
+      if (retId == null) {
+        final Update update = updater
+            .where(this.id.eq(model.id))
+            .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        retId = adapter.update(update);
+      }
+    } else {
+      final Upsert upsert = upserter
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.upsert(upsert);
+    }
     if (cascade) {
       Option newModel;
       if (model.situations != null) {
@@ -133,11 +147,13 @@ abstract class _OptionBean implements Bean<Option> {
   Future<void> upsertMany(List<Option> models,
       {bool cascade = false,
       bool onlyNonNull = false,
-      Set<String> only}) async {
-    if (cascade) {
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
+    if (cascade || isForeignKeyEnabled) {
       final List<Future> futures = [];
       for (var model in models) {
-        futures.add(upsert(model, cascade: cascade));
+        futures.add(upsert(model,
+            cascade: cascade, isForeignKeyEnabled: isForeignKeyEnabled));
       }
       await Future.wait(futures);
       return;

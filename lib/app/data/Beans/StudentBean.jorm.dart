@@ -10,7 +10,7 @@ abstract class _StudentBean implements Bean<Student> {
   final id = StrField('id');
   final name = StrField('name');
   final birthday = DateTimeField('birthday');
-  final profilePicture = StrField('profile_picture');
+  final extraInfo = StrField('extra_info');
   final gender = IntField('gender');
   final classRoomId = StrField('class_room_id');
   Map<String, Field> _fields;
@@ -18,7 +18,7 @@ abstract class _StudentBean implements Bean<Student> {
         id.name: id,
         name.name: name,
         birthday.name: birthday,
-        profilePicture.name: profilePicture,
+        extraInfo.name: extraInfo,
         gender.name: gender,
         classRoomId.name: classRoomId,
       };
@@ -27,7 +27,7 @@ abstract class _StudentBean implements Bean<Student> {
     model.id = adapter.parseValue(map['id']);
     model.name = adapter.parseValue(map['name']);
     model.birthday = adapter.parseValue(map['birthday']);
-    model.profilePicture = adapter.parseValue(map['profile_picture']);
+    model.extraInfo = adapter.parseValue(map['extra_info']);
     model.gender = adapter.parseValue(map['gender']);
     model.classRoomId = adapter.parseValue(map['class_room_id']);
 
@@ -42,15 +42,15 @@ abstract class _StudentBean implements Bean<Student> {
       ret.add(id.set(model.id));
       ret.add(name.set(model.name));
       ret.add(birthday.set(model.birthday));
-      ret.add(profilePicture.set(model.profilePicture));
+      ret.add(extraInfo.set(model.extraInfo));
       ret.add(gender.set(model.gender));
       ret.add(classRoomId.set(model.classRoomId));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(name.name)) ret.add(name.set(model.name));
       if (only.contains(birthday.name)) ret.add(birthday.set(model.birthday));
-      if (only.contains(profilePicture.name))
-        ret.add(profilePicture.set(model.profilePicture));
+      if (only.contains(extraInfo.name))
+        ret.add(extraInfo.set(model.extraInfo));
       if (only.contains(gender.name)) ret.add(gender.set(model.gender));
       if (only.contains(classRoomId.name))
         ret.add(classRoomId.set(model.classRoomId));
@@ -64,8 +64,8 @@ abstract class _StudentBean implements Bean<Student> {
       if (model.birthday != null) {
         ret.add(birthday.set(model.birthday));
       }
-      if (model.profilePicture != null) {
-        ret.add(profilePicture.set(model.profilePicture));
+      if (model.extraInfo != null) {
+        ret.add(extraInfo.set(model.extraInfo));
       }
       if (model.gender != null) {
         ret.add(gender.set(model.gender));
@@ -83,11 +83,11 @@ abstract class _StudentBean implements Bean<Student> {
     st.addStr(id.name, primary: true, isNullable: false);
     st.addStr(name.name, isNullable: false);
     st.addDateTime(birthday.name, isNullable: false);
-    st.addStr(profilePicture.name, isNullable: false);
+    st.addStr(extraInfo.name, isNullable: false);
     st.addInt(gender.name, isNullable: false);
     st.addStr(classRoomId.name,
         foreignTable: classroomBean.tableName,
-        foreignCol: 'id',
+        foreignCol: classroomBean.id.name,
         isNullable: false);
     return adapter.createTable(st);
   }
@@ -138,10 +138,24 @@ abstract class _StudentBean implements Bean<Student> {
   Future<dynamic> upsert(Student model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
-    var retId = await adapter.upsert(upsert);
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
+    var retId;
+    if (isForeignKeyEnabled) {
+      final Insert insert = Insert(tableName, ignoreIfExist: true)
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.insert(insert);
+      if (retId == null) {
+        final Update update = updater
+            .where(this.id.eq(model.id))
+            .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        retId = adapter.update(update);
+      }
+    } else {
+      final Upsert upsert = upserter
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.upsert(upsert);
+    }
     if (cascade) {
       Student newModel;
       if (model.classAnswers != null) {
@@ -159,11 +173,13 @@ abstract class _StudentBean implements Bean<Student> {
   Future<void> upsertMany(List<Student> models,
       {bool cascade = false,
       bool onlyNonNull = false,
-      Set<String> only}) async {
-    if (cascade) {
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
+    if (cascade || isForeignKeyEnabled) {
       final List<Future> futures = [];
       for (var model in models) {
-        futures.add(upsert(model, cascade: cascade));
+        futures.add(upsert(model,
+            cascade: cascade, isForeignKeyEnabled: isForeignKeyEnabled));
       }
       await Future.wait(futures);
       return;

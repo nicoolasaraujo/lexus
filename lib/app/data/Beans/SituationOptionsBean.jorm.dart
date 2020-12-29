@@ -59,11 +59,11 @@ abstract class _SituationOptionsBean implements Bean<SituationOptions> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addStr(situationId.name,
         foreignTable: situationBean.tableName,
-        foreignCol: 'id',
+        foreignCol: situationBean.id.name,
         isNullable: false);
     st.addStr(optionsId.name,
         foreignTable: optionBean.tableName,
-        foreignCol: 'id',
+        foreignCol: optionBean.id.name,
         isNullable: false);
     st.addBool(rigthAnswer.name, isNullable: false);
     return adapter.createTable(st);
@@ -92,14 +92,17 @@ abstract class _SituationOptionsBean implements Bean<SituationOptions> {
   Future<dynamic> upsert(SituationOptions model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
     final Upsert upsert = upserter
         .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
 
   Future<void> upsertMany(List<SituationOptions> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+      {bool onlyNonNull = false,
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];

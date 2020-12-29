@@ -67,15 +67,15 @@ abstract class _SituationAnswersBean implements Bean<SituationAnswer> {
     st.addStr(id.name, primary: true, isNullable: false);
     st.addStr(acitivityAnswerId.name,
         foreignTable: classActivityAnswerBean.tableName,
-        foreignCol: 'id',
+        foreignCol: classActivityAnswerBean.id.name,
         isNullable: false);
     st.addStr(situationid.name,
         foreignTable: situationBean.tableName,
-        foreignCol: 'id',
+        foreignCol: situationBean.id.name,
         isNullable: false);
     st.addStr(optionId.name,
         foreignTable: optionBean.tableName,
-        foreignCol: 'id',
+        foreignCol: optionBean.id.name,
         isNullable: false);
     return adapter.createTable(st);
   }
@@ -103,14 +103,17 @@ abstract class _SituationAnswersBean implements Bean<SituationAnswer> {
   Future<dynamic> upsert(SituationAnswer model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
     final Upsert upsert = upserter
         .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
 
   Future<void> upsertMany(List<SituationAnswer> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+      {bool onlyNonNull = false,
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];

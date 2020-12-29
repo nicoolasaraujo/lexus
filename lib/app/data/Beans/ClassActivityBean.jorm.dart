@@ -79,11 +79,11 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
     st.addDateTime(activityDay.name, isNullable: false);
     st.addStr(teacherId.name,
         foreignTable: teacherBean.tableName,
-        foreignCol: 'id',
+        foreignCol: teacherBean.id.name,
         isNullable: false);
     st.addStr(classroomId.name,
         foreignTable: classroomBean.tableName,
-        foreignCol: 'id',
+        foreignCol: classroomBean.id.name,
         isNullable: false);
     return adapter.createTable(st);
   }
@@ -141,10 +141,24 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
   Future<dynamic> upsert(ClassActivity model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
-    var retId = await adapter.upsert(upsert);
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
+    var retId;
+    if (isForeignKeyEnabled) {
+      final Insert insert = Insert(tableName, ignoreIfExist: true)
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.insert(insert);
+      if (retId == null) {
+        final Update update = updater
+            .where(this.id.eq(model.id))
+            .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        retId = adapter.update(update);
+      }
+    } else {
+      final Upsert upsert = upserter
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.upsert(upsert);
+    }
     if (cascade) {
       ClassActivity newModel;
       if (model.situations != null) {
@@ -169,11 +183,13 @@ abstract class _ClassActivityBean implements Bean<ClassActivity> {
   Future<void> upsertMany(List<ClassActivity> models,
       {bool cascade = false,
       bool onlyNonNull = false,
-      Set<String> only}) async {
-    if (cascade) {
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
+    if (cascade || isForeignKeyEnabled) {
       final List<Future> futures = [];
       for (var model in models) {
-        futures.add(upsert(model, cascade: cascade));
+        futures.add(upsert(model,
+            cascade: cascade, isForeignKeyEnabled: isForeignKeyEnabled));
       }
       await Future.wait(futures);
       return;

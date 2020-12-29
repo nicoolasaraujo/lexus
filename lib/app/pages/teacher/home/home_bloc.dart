@@ -1,12 +1,16 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:lexus/app/model/Teacher.dart';
+
+import '../../../app_bloc.dart';
 
 class HomeBloc extends BlocBase {
+  AppBloc _appBloc;
+  HomeBloc(this._appBloc);
 
-  //dispose will be called automatically by closing its streams
+  Teacher get currentTeacher => this._appBloc.teacher;
+
   @override
   void dispose() {
-    // this._genders.sink.close();
-    // this._selectedGender.sink.close();
     super.dispose();
   }
 }

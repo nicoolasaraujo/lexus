@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lexus/app/pages/account/login_page.dart';
 
 class AppWidget extends StatelessWidget {

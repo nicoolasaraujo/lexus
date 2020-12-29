@@ -9,24 +9,21 @@ part of 'TeacherBean.dart';
 abstract class _TeacherBean implements Bean<Teacher> {
   final id = StrField('id');
   final description = StrField('description');
-  final birthday = DateTimeField('birthday');
-  final profilePicture = StrField('profile_picture');
-  final emailAddres = StrField('email_addres');
+  final username = StrField('username');
+  final password = StrField('password');
   Map<String, Field> _fields;
   Map<String, Field> get fields => _fields ??= {
         id.name: id,
         description.name: description,
-        birthday.name: birthday,
-        profilePicture.name: profilePicture,
-        emailAddres.name: emailAddres,
+        username.name: username,
+        password.name: password,
       };
   Teacher fromMap(Map map) {
     Teacher model = Teacher();
     model.id = adapter.parseValue(map['id']);
     model.description = adapter.parseValue(map['description']);
-    model.birthday = adapter.parseValue(map['birthday']);
-    model.profilePicture = adapter.parseValue(map['profile_picture']);
-    model.emailAddres = adapter.parseValue(map['email_addres']);
+    model.username = adapter.parseValue(map['username']);
+    model.password = adapter.parseValue(map['password']);
 
     return model;
   }
@@ -38,18 +35,14 @@ abstract class _TeacherBean implements Bean<Teacher> {
     if (only == null && !onlyNonNull) {
       ret.add(id.set(model.id));
       ret.add(description.set(model.description));
-      ret.add(birthday.set(model.birthday));
-      ret.add(profilePicture.set(model.profilePicture));
-      ret.add(emailAddres.set(model.emailAddres));
+      ret.add(username.set(model.username));
+      ret.add(password.set(model.password));
     } else if (only != null) {
       if (only.contains(id.name)) ret.add(id.set(model.id));
       if (only.contains(description.name))
         ret.add(description.set(model.description));
-      if (only.contains(birthday.name)) ret.add(birthday.set(model.birthday));
-      if (only.contains(profilePicture.name))
-        ret.add(profilePicture.set(model.profilePicture));
-      if (only.contains(emailAddres.name))
-        ret.add(emailAddres.set(model.emailAddres));
+      if (only.contains(username.name)) ret.add(username.set(model.username));
+      if (only.contains(password.name)) ret.add(password.set(model.password));
     } else /* if (onlyNonNull) */ {
       if (model.id != null) {
         ret.add(id.set(model.id));
@@ -57,14 +50,11 @@ abstract class _TeacherBean implements Bean<Teacher> {
       if (model.description != null) {
         ret.add(description.set(model.description));
       }
-      if (model.birthday != null) {
-        ret.add(birthday.set(model.birthday));
+      if (model.username != null) {
+        ret.add(username.set(model.username));
       }
-      if (model.profilePicture != null) {
-        ret.add(profilePicture.set(model.profilePicture));
-      }
-      if (model.emailAddres != null) {
-        ret.add(emailAddres.set(model.emailAddres));
+      if (model.password != null) {
+        ret.add(password.set(model.password));
       }
     }
 
@@ -75,9 +65,8 @@ abstract class _TeacherBean implements Bean<Teacher> {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addStr(id.name, primary: true, isNullable: false);
     st.addStr(description.name, isNullable: false);
-    st.addDateTime(birthday.name, isNullable: false);
-    st.addStr(profilePicture.name, isNullable: false);
-    st.addStr(emailAddres.name, isNullable: false);
+    st.addStr(username.name, isNullable: false);
+    st.addStr(password.name, isNullable: false);
     return adapter.createTable(st);
   }
 
@@ -135,10 +124,24 @@ abstract class _TeacherBean implements Bean<Teacher> {
   Future<dynamic> upsert(Teacher model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
-    final Upsert upsert = upserter
-        .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
-    var retId = await adapter.upsert(upsert);
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
+    var retId;
+    if (isForeignKeyEnabled) {
+      final Insert insert = Insert(tableName, ignoreIfExist: true)
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.insert(insert);
+      if (retId == null) {
+        final Update update = updater
+            .where(this.id.eq(model.id))
+            .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+        retId = adapter.update(update);
+      }
+    } else {
+      final Upsert upsert = upserter
+          .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
+      retId = await adapter.upsert(upsert);
+    }
     if (cascade) {
       Teacher newModel;
       if (model.classes != null) {
@@ -164,11 +167,13 @@ abstract class _TeacherBean implements Bean<Teacher> {
   Future<void> upsertMany(List<Teacher> models,
       {bool cascade = false,
       bool onlyNonNull = false,
-      Set<String> only}) async {
-    if (cascade) {
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
+    if (cascade || isForeignKeyEnabled) {
       final List<Future> futures = [];
       for (var model in models) {
-        futures.add(upsert(model, cascade: cascade));
+        futures.add(upsert(model,
+            cascade: cascade, isForeignKeyEnabled: isForeignKeyEnabled));
       }
       await Future.wait(futures);
       return;

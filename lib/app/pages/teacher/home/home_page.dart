@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lexus/app/components/home_button.dart';
-import 'package:lexus/app/pages/student/student_home_module.dart';
 import 'package:lexus/app/pages/teacher/classrooms/classroom_page.dart';
 import 'package:lexus/app/pages/teacher/selectStudent/select_student_page.dart';
 import 'package:lexus/app/pages/teacher/students/student_page.dart';
@@ -39,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Olá, Professor!",
+                                "Olá, ${this.homeBloc.currentTeacher.description}!",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

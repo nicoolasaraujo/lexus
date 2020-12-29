@@ -27,16 +27,14 @@ class _StudentsPageState extends State<StudentsPage> {
   ];
 
   var students = [
-    Student.makeClassRoom('1', 'Jonas de Souza', DateTime.now(), 0, '1', 'xxxx')
-      ..extraInfo =
-          "Aluno CID F: 70. Auxilio em atividades relacionadas a sinônimos"
+    Student.makeClassRoom('1', 'Jonas de Souza', DateTime.now(), 0, '1',
+        "Aluno CID F: 70. Auxilio em atividades relacionadas a sinônimos")
       ..setClassroom(Classroom()
         ..description = "6º ano - Tarde"
         ..extraInfo = "Atendimento para ampliação de acervo lexical 6º ano"
         ..id = "1"),
-    Student.makeClassRoom(
-        '2', 'Claudia Ferreira', DateTime.now(), 0, '1', 'xxxx')
-      ..extraInfo = "Aluna CID F: 70. Auxilio em atividades situação"
+    Student.makeClassRoom('2', 'Claudia Ferreira', DateTime.now(), 0, '1',
+        "Aluna CID F: 70. Auxilio em atividades situação")
       ..setClassroom(Classroom()
         ..description = "9º ano - Manhã"
         ..extraInfo = "Atendimento voltado para ensino de sinônimos 9º ano"

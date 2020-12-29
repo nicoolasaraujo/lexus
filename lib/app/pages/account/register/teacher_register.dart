@@ -2,9 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:lexus/app/model/Enumerators.dart';
+import 'package:lexus/app/model/Teacher.dart';
+import 'package:lexus/app/pages/account/register/teacher_register_bloc.dart';
 import 'package:lexus/app/pages/teacher/home/home_module.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../app_module.dart';
 
 class TeacherRegisterPage extends StatefulWidget {
   final EnumCrudAction crudAction;
@@ -18,10 +24,15 @@ class TeacherRegisterPage extends StatefulWidget {
 
 class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final _teacherRegisterBloc = AppModule.to.getBloc<TeacherRegisterBloc>();
 
   bool isCreateAction;
 
   bool _isObscureText = true;
+
+  final _inputNameController = TextEditingController();
+  final _inputUsernameController = TextEditingController();
+  final _inputPasswordController = TextEditingController();
 
   @override
   void initState() {
@@ -98,8 +109,20 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   color: Color(0xff9B59B6),
-                  onPressed: () =>
-                      Navigator.of(context, rootNavigator: true).pop()),
+                  onPressed: this.insertTeacher
+                  // () {
+                  //   ()
+
+                  //   print('hey');
+                  //   Get.snackbar(
+                  //     "oi",
+                  //     this._inputNameController.text,
+                  //     snackPosition: SnackPosition.BOTTOM,
+                  //     maxWidth: double.infinity,
+                  //     borderRadius: 0,
+                  //   );
+                  // }
+                  ),
             )
           ],
         ),
@@ -113,6 +136,7 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
 
   Widget _buildInputName() {
     return TextFormField(
+        controller: this._inputNameController,
         decoration: InputDecoration(
             icon: Icon(MdiIcons.accountDetails),
             hintText: 'Nome',
@@ -122,6 +146,7 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
 
   Widget _buildUsername() {
     return TextFormField(
+        controller: this._inputUsernameController,
         decoration: InputDecoration(
             icon: Icon(Icons.person),
             hintText: 'Usuário',
@@ -131,6 +156,7 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
 
   Widget _buildPasswordField() {
     return TextFormField(
+      controller: this._inputPasswordController,
       decoration: InputDecoration(
         suffixIcon: IconButton(
             onPressed: () => this.setState(() {
@@ -147,5 +173,19 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
       cursorColor: Colors.red,
       obscureText: this._isObscureText,
     );
+  }
+
+  void insertTeacher() async {
+    Teacher teacherToInsert = Teacher.make(
+        Uuid().v1().toString(),
+        this._inputNameController.text,
+        this._inputUsernameController.text,
+        this._inputPasswordController.text);
+    bool isSuccess =
+        await this._teacherRegisterBloc.createTeacher(teacherToInsert);
+    if (isSuccess) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeModule()));
+    }
   }
 }

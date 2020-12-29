@@ -48,10 +48,12 @@ abstract class _PlaceClothesBean implements Bean<PlaceClothes> {
   Future<void> createTable({bool ifNotExists = false}) async {
     final st = Sql.create(tableName, ifNotExists: ifNotExists);
     st.addStr(placeId.name,
-        foreignTable: placeBean.tableName, foreignCol: 'id', isNullable: false);
+        foreignTable: placeBean.tableName,
+        foreignCol: placeBean.id.name,
+        isNullable: false);
     st.addStr(clothesId.name,
         foreignTable: clothesBean.tableName,
-        foreignCol: 'id',
+        foreignCol: clothesBean.id.name,
         isNullable: false);
     return adapter.createTable(st);
   }
@@ -79,14 +81,17 @@ abstract class _PlaceClothesBean implements Bean<PlaceClothes> {
   Future<dynamic> upsert(PlaceClothes model,
       {bool cascade = false,
       Set<String> only,
-      bool onlyNonNull = false}) async {
+      bool onlyNonNull = false,
+      isForeignKeyEnabled = false}) async {
     final Upsert upsert = upserter
         .setMany(toSetColumns(model, only: only, onlyNonNull: onlyNonNull));
     return adapter.upsert(upsert);
   }
 
   Future<void> upsertMany(List<PlaceClothes> models,
-      {bool onlyNonNull = false, Set<String> only}) async {
+      {bool onlyNonNull = false,
+      Set<String> only,
+      isForeignKeyEnabled = false}) async {
     final List<List<SetColumn>> data = [];
     for (var i = 0; i < models.length; ++i) {
       var model = models[i];

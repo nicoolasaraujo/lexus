@@ -2,11 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:lexus/app/model/Enumerators.dart';
+import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/pages/Situation/situation_bloc.dart';
 import 'package:lexus/app/pages/account/register/teacher_register.dart';
 import 'package:lexus/app/pages/student/settings/settings_module.dart';
 import 'package:lexus/app/pages/teacher/home/home_module.dart';
+import '../../app_module.dart';
 import '../ClassActivity/ClassActivity_module.dart';
+import 'login_bloc.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -17,6 +22,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  var loginBloc = AppModule.to.getBloc<LoginBloc>();
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -28,6 +34,10 @@ class _LoginPageState extends State<LoginPage> {
 
   var _isObscureText = true;
 
+  var _inputUsernameController = TextEditingController();
+
+  var _inputPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Theme.of(context).primaryColor,
-              const Color(0xffFF7388)
-            ], // red to yellow
+            colors: [Theme.of(context).primaryColor, const Color(0xffFF7388)],
           ),
         ),
         child: SafeArea(
@@ -71,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              controller: this._inputUsernameController,
               decoration: InputDecoration(
                   icon: Icon(Icons.person),
                   hintText: 'Usuário educador',
@@ -81,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             TextFormField(
+              controller: this._inputPasswordController,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                     onPressed: () => this.setState(() {
@@ -172,9 +181,21 @@ class _LoginPageState extends State<LoginPage> {
             child: CustomOutlinedButton(this.navigateRegister)));
   }
 
-  void navigateHome() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeModule()));
+  void navigateHome() async {
+    bool isCorrectLogin = await this.loginBloc.validateLogin(
+        this._inputUsernameController.text, this._inputPasswordController.text);
+
+    if (isCorrectLogin) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeModule()));
+    } else {
+      Get.snackbar("", "",
+          messageText: Container(color: Colors.green, child: Text("Erro")),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent[700],
+          snackStyle: SnackStyle.GROUNDED,
+          padding: EdgeInsets.all(16));
+    }
   }
 
   void navigateRegister() {

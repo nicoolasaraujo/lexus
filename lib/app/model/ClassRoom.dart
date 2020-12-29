@@ -9,15 +9,15 @@ import 'package:lexus/app/model/classActivity.dart';
 class Classroom {
   Classroom();
 
-  Classroom.make(this.id, this.description, this._teacher);
-  Classroom.makeTeacherId(this.id, this.description, this.teacherId);
+  Classroom.make(this.id, this.description, this._teacher, this.extraInfo);
+  Classroom.makeTeacherId(
+      this.id, this.description, this.teacherId, this.extraInfo);
 
   @PrimaryKey()
   String id;
 
   String description;
 
-  @IgnoreColumn()
   String extraInfo;
 
   @HasMany(StudentBean)
@@ -42,6 +42,6 @@ class Classroom {
 
   @override
   String toString() {
-    return "Id: ${this.id} Teacher: Name${teacher.description}, ${teacher.emailAddres}";
+    return "Id: ${this.id} Teacher: Name${teacher.description}, ${teacher.username}";
   }
 }

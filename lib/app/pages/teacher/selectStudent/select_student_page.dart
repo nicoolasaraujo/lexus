@@ -37,16 +37,14 @@ class _SelectStudentState extends State<SelectStudent> {
   ];
 
   var students = [
-    Student.makeClassRoom('1', 'Jonas de Souza', DateTime.now(), 0, '1', 'xxxx')
-      ..extraInfo =
-          "Aluno CID F: 70. Auxilio em atividades relacionadas a sinônimos"
+    Student.makeClassRoom('1', 'Jonas de Souza', DateTime.now(), 0, '1',
+        "Aluno CID F: 70. Auxilio em atividades relacionadas a sinônimos")
       ..setClassroom(Classroom()
         ..description = "6º ano - Tarde"
         ..extraInfo = "Atendimento para ampliação de acervo lexical 6º ano"
         ..id = "1"),
-    Student.makeClassRoom(
-        '2', 'Claudia Ferreira', DateTime.now(), 0, '1', 'xxxx')
-      ..extraInfo = "Aluna CID F: 70. Auxilio em atividades situação"
+    Student.makeClassRoom('2', 'Claudia Ferreira', DateTime.now(), 0, '1',
+        '"Aluna CID F: 70. Auxilio em atividades situação"')
       ..setClassroom(Classroom()
         ..description = "9º ano - Manhã"
         ..extraInfo = "Atendimento voltado para ensino de sinônimos 9º ano"
@@ -96,7 +94,7 @@ class _SelectStudentState extends State<SelectStudent> {
   }
 
   Future<bool> dialogRequestPassword() async {
-    // call routine to valida password
+    // call routine to validate password
     return showDialog<bool>(
         context: context,
         builder: (context) {
@@ -104,42 +102,43 @@ class _SelectStudentState extends State<SelectStudent> {
             title: Text("Digite a senha para iniciar o atendimento:"),
             content: InputLogin(),
             actions: [
-              Expanded(
-                child: RaisedButton.icon(
-                  padding: EdgeInsets.all(12),
-                  color: Colors.white,
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(
-                    Icons.cancel,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  label: Text(
-                    "Cancelar",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      side: BorderSide(
-                          color: Theme.of(context).primaryColor, width: 1.0)),
+              // Expanded(
+              // child:
+              RaisedButton.icon(
+                padding: EdgeInsets.all(12),
+                color: Colors.white,
+                onPressed: () => Navigator.of(context).pop(),
+                icon: Icon(
+                  Icons.cancel,
+                  color: Theme.of(context).primaryColor,
                 ),
+                label: Text(
+                  "Cancelar",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 1.0)),
               ),
-              Expanded(
-                child: FlatButton.icon(
-                    padding: EdgeInsets.all(12),
-                    icon: Icon(
-                      Icons.check,
-                      color: Colors.white,
-                    ),
-                    label:
-                        Text('Avançar', style: TextStyle(color: Colors.white)),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    color: Color(0xff9B59B6),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => StudentHomeModule()))),
-              ),
+              // ),
+              // Expanded(
+              //   child:
+              FlatButton.icon(
+                  padding: EdgeInsets.all(12),
+                  icon: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
+                  label: Text('Avançar', style: TextStyle(color: Colors.white)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  color: Color(0xff9B59B6),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StudentHomeModule()))),
+              // ),
             ],
           );
         });
