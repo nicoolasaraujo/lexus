@@ -5,7 +5,7 @@ import 'package:lexus/app/pages/student/student_home_page.dart';
 
 class LoginModule extends ModuleWidget {
   @override
-  List<Bloc> get blocs => [Bloc((i) => StudentHomeBloc())];
+  List<Bloc> get blocs => [];
 
   @override
   List<Dependency> get dependencies => [];

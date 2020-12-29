@@ -27,4 +27,13 @@ class ClassroomBloc extends BlocBase {
 
     this.inClassrooms.add(response);
   }
+
+  Future<bool> createTeacher(Classroom classToInsert) async {
+    try {
+      var returnedValue = await this._classroomRepo.insert(classToInsert);
+      return returnedValue > 0;
+    } catch (error) {
+      return false;
+    }
+  }
 }

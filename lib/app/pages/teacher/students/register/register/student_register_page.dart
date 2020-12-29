@@ -17,6 +17,7 @@ class StudentRegisterPage extends StatefulWidget {
 
 class _StudentRegisterStatePage extends State<StudentRegisterPage> {
   final _formKey = GlobalKey<FormState>();
+
   List<bool> isSelected = [false, true];
   final format = DateFormat("dd-MM-yyyy");
   bool isCreateAction = true;
@@ -30,6 +31,12 @@ class _StudentRegisterStatePage extends State<StudentRegisterPage> {
   ];
 
   String _currentSelectedValue;
+
+  var _inputNameController;
+
+  var _inputExtraInfoController;
+
+  var _inputBirthdayController;
 
   @override
   void initState() {
@@ -142,6 +149,7 @@ class _StudentRegisterStatePage extends State<StudentRegisterPage> {
 
   Widget _buildInputName() {
     return TextFormField(
+        controller: this._inputNameController,
         decoration: InputDecoration(
             icon: Icon(Icons.person),
             hintText: 'Nome do aluno',
@@ -151,6 +159,7 @@ class _StudentRegisterStatePage extends State<StudentRegisterPage> {
 
   Widget _buildExtraInfo() {
     return TextFormField(
+      controller: this._inputExtraInfoController,
       minLines: 4,
       maxLines: 4,
       keyboardType: TextInputType.multiline,
@@ -165,6 +174,7 @@ class _StudentRegisterStatePage extends State<StudentRegisterPage> {
 
   Widget _buildBirthday() {
     return DateTimeField(
+      controller: this._inputBirthdayController,
       format: format,
       decoration: InputDecoration(
         icon: Icon(Icons.calendar_today),

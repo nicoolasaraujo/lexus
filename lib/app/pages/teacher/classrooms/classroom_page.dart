@@ -37,62 +37,19 @@ class _ClassroomPageState extends State<ClassroomPage> {
           child: this._buildClasses(context))),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ClassroomRegister(
-                      crudAction: EnumCrudAction.CREATE,
-                    ))),
+        onPressed: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ClassroomRegister(
+                        crudAction: EnumCrudAction.CREATE,
+                      )));
+          this.classroomBloc.loadAllClasses();
+        },
         child: Icon(Icons.add),
       ),
     );
   }
-
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: CustomScrollView(
-  //       slivers: [
-  //         SliverAppBar(
-  //           elevation: 8,
-  //           title: Text(
-  //             "Minhas Turmas",
-  //           ),
-  //           floating: true,
-  //           expandedHeight: 0,
-  //         ),
-  //         StreamBuilder<List<Classroom>>(
-  //             stream: this.classroomBloc.outClassrooms,
-  //             builder: (context, snapshot) {
-  //               if (!snapshot.hasData) {
-  //                 return Center(
-  //                   child: Center(child: CircularProgressIndicator()),
-  //                 );
-  //               }
-  //               if (!snapshot.hasError) {
-  //                 var classrooms = snapshot.data ?? List();
-  //                 return SliverList(
-  //                     delegate: SliverChildBuilderDelegate(
-  //                   (context, index) => this._buildListItem(classrooms[index]),
-  //                   childCount: classrooms.length,
-  //                 ));
-  //               } else {
-  //                 return Center();
-  //               }
-  //             })
-  //       ],
-  //     ),
-  //     floatingActionButton: FloatingActionButton(
-  //       backgroundColor: Theme.of(context).accentColor,
-  //       onPressed: () => Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => ClassroomRegister(
-  //                     crudAction: EnumCrudAction.CREATE,
-  //                   ))),
-  //       child: Icon(Icons.add),
-  //     ),
-  //   );
-  // }
 
   Widget _buildListItem(Classroom item) {
     return Container(

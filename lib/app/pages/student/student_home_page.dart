@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:lexus/app/pages/student/settings/settings_module.dart';
+import 'package:lexus/app/pages/student/student_home_bloc.dart';
+import 'package:lexus/app/pages/student/student_home_module.dart';
 import '../ClassActivity/ClassActivity_module.dart';
 
 class StudentHomePage extends StatefulWidget {
@@ -13,6 +15,7 @@ class StudentHomePage extends StatefulWidget {
 }
 
 class _StudentHomePageState extends State<StudentHomePage> {
+  var bloc = StudentHomeModule.to.getBloc<StudentHomeBloc>();
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -60,13 +63,18 @@ class _StudentHomePageState extends State<StudentHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Lexus',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primarySwatch: MaterialColor(0xFF9B59B6, color),
-            brightness: Brightness.light),
-        home: this.buildMainWidget(context));
+    return StreamBuilder<ThemeData>(
+        stream: this.bloc.outThemeData,
+        builder: (context, snapshot) {
+          return MaterialApp(
+              title: 'Lexus',
+              debugShowCheckedModeBanner: false,
+              theme: snapshot.data,
+              // ThemeData(
+              //     primarySwatch: MaterialColor(0xFF9B59B6, color),
+              //     brightness: Brightness.light),
+              home: this.buildMainWidget(context));
+        });
   }
 
   final Map<int, Color> color = {

@@ -1,5 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:lexus/app/model/ClassActivityAnswer.dart';
+import 'package:lexus/app/pages/student/student_home_bloc.dart';
+import 'package:lexus/app/pages/student/student_home_module.dart';
 import 'package:lexus/app/repositories/SituationRepository.dart';
 import 'package:uuid/uuid.dart';
 import '../../ClassActivity_bloc.dart';
@@ -8,6 +10,7 @@ import 'package:rxdart/rxdart.dart';
 class ClassAnswerBloc extends BlocBase {
   ClassActivityBloc classAcBloc;
   SituationRepository _situationRepo;
+  var homebloc = StudentHomeModule.to.getBloc<StudentHomeBloc>();
 
   ClassAnswerBloc(
       ClassActivityBloc classActivityBloc, SituationRepository repository) {
@@ -15,7 +18,8 @@ class ClassAnswerBloc extends BlocBase {
     this._situationRepo = repository;
     this.userAnswer = ClassActivityAnswer.make(
         Uuid().v1().toString(), DateTime.now(),
-        classAcitviyId: this.classAcBloc.selectedActivity.id);
+        classAcitviyId: this.classAcBloc.selectedActivity.id,
+        studentId: homebloc.student.id);
   }
 
   ClassActivityAnswer userAnswer;

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lexus/app/model/ClassRoom.dart';
 import 'package:lexus/app/model/Enumerators.dart';
 import 'package:lexus/app/pages/teacher/home/home_module.dart';
+import 'package:uuid/uuid.dart';
 
 import 'classroom_register_bloc.dart';
 
@@ -136,7 +138,17 @@ class _ClassroomRegisterState extends State<ClassroomRegister> {
     );
   }
 
-  _saveClassroom() {
-    Navigator.of(context, rootNavigator: true).pop();
+  _saveClassroom() async {
+    Classroom classToInsert = Classroom.makeTeacherId(
+        Uuid().v1().toString(),
+        this._inputDescriptionController.text,
+        this.blocRegister.homeBloc.currentTeacher.id,
+        this._inputExtraInfoController.text);
+
+    bool returnedFromInsert =
+        await this.blocRegister.createClassroom(classToInsert);
+    if (returnedFromInsert) {
+      Navigator.of(context).pop();
+    }
   }
 }

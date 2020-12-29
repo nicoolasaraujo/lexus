@@ -1,11 +1,25 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:flutter/material.dart';
+import 'package:lexus/app/model/Student.dart';
+import 'package:rxdart/rxdart.dart';
 
 class StudentHomeBloc extends BlocBase {
-  //dispose will be called automatically by closing its streams
+  Student student;
+  StudentHomeBloc(this.student);
+  ThemeData _themeData = ThemeData.light();
+
+  var _themeDataController = BehaviorSubject<ThemeData>();
+  Sink<ThemeData> get inThemeData => this._themeDataController.sink;
+  Observable<ThemeData> get outThemeData => this._themeDataController.stream;
+
   @override
   void dispose() {
-    // this._genders.sink.close();
-    // this._selectedGender.sink.close();
     super.dispose();
   }
+
+  void changeTheme() {
+    this.inThemeData.add(ThemeData.dark());
+  }
+
+  void loadAllStudents() {}
 }

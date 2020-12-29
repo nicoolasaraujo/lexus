@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lexus/app/model/classActivity.dart';
 import 'package:lexus/app/pages/ClassActivity/ClassActivity_module.dart';
 import 'package:lexus/app/pages/ClassActivity/subpages/ClassActivityAnswer/class_module.dart';
+import 'package:lexus/app/pages/student/student_home_bloc.dart';
+import 'package:lexus/app/pages/student/student_home_module.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'ClassActivity_bloc.dart';
 
@@ -17,9 +20,10 @@ class ClassActivityPage extends StatefulWidget {
 
 class _ClassActivityPageState extends State<ClassActivityPage> {
   var classActBloc = ClassActivityModule.to.getBloc<ClassActivityBloc>();
-
+  var bloc = StudentHomeModule.to.getBloc<StudentHomeBloc>();
   @override
   void initState() {
+    // this.resetClasses();
     this.classActBloc.loadAllActivities();
     super.initState();
   }
@@ -30,7 +34,7 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
-              title: Text("Lista de Atividades",
+              title: Text("Lista de Atividades ${bloc.student.name}",
                   style: TextStyle(color: Color(0xff5C5757))),
               backgroundColor: Colors.white,
               bottom: TabBar(
@@ -52,8 +56,9 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
               )),
           body: TabBarView(
             children: [
-              this._buildAcitvitiesList(),
-              Icon(Icons.directions_transit),
+              this._buildAcitvitiesList(this.classActBloc.ouActivities),
+              this._buildAcitvitiesList(
+                  this.classActBloc.outActivitiesFinished),
             ],
           )),
     );
@@ -64,20 +69,17 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
     this.classActBloc.loadAllActivities();
   }
 
-  Widget _buildAcitvitiesList() {
-    return Expanded(
-      flex: 1,
-      child: Container(
-          constraints:
-              BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-          child: this._buildClassActivityList(context)),
-    );
+  Widget _buildAcitvitiesList(Observable<List<ClassActivity>> observable) {
+    return Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+        child: this._buildClassActivityList(context, observable));
   }
 
   StreamBuilder<List<ClassActivity>> _buildClassActivityList(
-      BuildContext context) {
+      BuildContext context, Observable<List<ClassActivity>> observable) {
     return StreamBuilder(
-      stream: this.classActBloc.ouActivities,
+      stream: observable,
       builder: (context, AsyncSnapshot<List<ClassActivity>> snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -159,4 +161,6 @@ class _ClassActivityPageState extends State<ClassActivityPage> {
               )
             ])));
   }
+
+  _buildFinishedAcitvitiesList() {}
 }

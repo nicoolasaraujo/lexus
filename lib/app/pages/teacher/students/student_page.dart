@@ -4,6 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:lexus/app/model/ClassRoom.dart';
 import 'package:lexus/app/model/Enumerators.dart';
 import 'package:lexus/app/model/Student.dart';
+import 'package:lexus/app/pages/student/student_home_bloc.dart';
+import 'package:lexus/app/pages/teacher/home/home_module.dart';
+import 'package:lexus/app/pages/teacher/students/student_bloc.dart';
 
 import 'register/register/student_register_page.dart';
 
@@ -15,85 +18,84 @@ class StudentsPage extends StatefulWidget {
 }
 
 class _StudentsPageState extends State<StudentsPage> {
-  var listClassroom = [
-    Classroom()
-      ..description = "6º ano - Tarde"
-      ..extraInfo = "Atendimento para ampliação de acervo lexical 6º ano"
-      ..id = "1",
-    Classroom()
-      ..description = "9º ano - Manhã"
-      ..extraInfo = "Atendimento voltado para ensino de sinônimos 9º ano"
-      ..id = "2",
-  ];
-
-  var students = [
-    Student.makeClassRoom('1', 'Jonas de Souza', DateTime.now(), 0, '1',
-        "Aluno CID F: 70. Auxilio em atividades relacionadas a sinônimos")
-      ..setClassroom(Classroom()
-        ..description = "6º ano - Tarde"
-        ..extraInfo = "Atendimento para ampliação de acervo lexical 6º ano"
-        ..id = "1"),
-    Student.makeClassRoom('2', 'Claudia Ferreira', DateTime.now(), 0, '1',
-        "Aluna CID F: 70. Auxilio em atividades situação")
-      ..setClassroom(Classroom()
-        ..description = "9º ano - Manhã"
-        ..extraInfo = "Atendimento voltado para ensino de sinônimos 9º ano"
-        ..id = "2"),
-  ];
+  final studentBloc = HomeModule.to.getBloc<StudentBloc>();
+  @override
+  void initState() {
+    this.studentBloc.loadAllStudents();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text("Meus Alunos"),
-            floating: true,
-            expandedHeight: 0,
-          ),
-          SliverList(
-              // Use a delegate to build items as they're scrolled on screen.
-              delegate: SliverChildBuilderDelegate(
-            // The builder function returns a ListTile with a title that
-            // displays the index of the current item.
-            (context, index) => this._buildListItem(index),
-            // Builds 1000 ListTiles
-            childCount: this.students.length,
-          ))
-        ],
+      appBar: AppBar(
+        title: Text(
+          "Meus Alunos",
+        ),
       ),
+      body: Container(
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+          child: this._buildClasses(context)),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => StudentRegisterPage(
-                      crudAction: EnumCrudAction.CREATE,
-                    ))),
+        onPressed: () => this.navigateRegisterPage(EnumCrudAction.CREATE),
         child: Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildListItem(int index) {
+  Widget _buildListItem(Student student) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       child: Card(
         elevation: 6,
         child: ListTile(
-          title: Text(this.students[index].name,
+          title: Text(student.name,
               style: TextStyle(fontWeight: FontWeight.bold),
               overflow: TextOverflow.ellipsis),
-          subtitle: Text(this.students[index].extraInfo),
+          subtitle: Text(student.extraInfo),
           isThreeLine: true,
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => StudentRegisterPage(
-                        crudAction: EnumCrudAction.EDIT,
-                      ))),
+          onTap: () => this.navigateRegisterPage(EnumCrudAction.EDIT),
         ),
       ),
     );
+  }
+
+  _buildClasses(BuildContext context) {
+    return StreamBuilder(
+      stream: this.studentBloc.outStudents,
+      builder: (context, AsyncSnapshot<List<Student>> snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        } else if (!snapshot.hasError) {
+          var activities = snapshot.data ?? List();
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: activities.length,
+            itemBuilder: (_, index) {
+              final itemTask = activities[index];
+              return _buildListItem(itemTask);
+            },
+          );
+        } else {
+          return Center(
+            child: Text('Erro:/'),
+          );
+        }
+      },
+    );
+  }
+
+  navigateRegisterPage(EnumCrudAction crudAction) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => StudentRegisterPage(
+                  crudAction: crudAction,
+                )));
+    this.studentBloc.loadAllStudents();
   }
 }

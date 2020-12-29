@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../student_home_bloc.dart';
+import '../student_home_module.dart';
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -11,6 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _advanceButtonSound = false;
   bool _textToSpeechSound = false;
   bool _useDarkTheme = false;
+  var bloc = StudentHomeModule.to.getBloc<StudentHomeBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -145,5 +149,6 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       this._useDarkTheme = value;
     });
+    this.bloc.changeTheme();
   }
 }

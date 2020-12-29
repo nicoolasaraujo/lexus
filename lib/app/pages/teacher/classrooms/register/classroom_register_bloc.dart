@@ -5,15 +5,18 @@ import 'package:lexus/app/repositories/ClassroomRepository.dart';
 
 class ClassroomRegisterBloc extends BlocBase {
   ClassroomRepository _classroomRepo;
-  HomeBloc _homeBloc;
+  HomeBloc homeBloc;
 
   String test = "testando";
   List<Classroom> classrooms;
-  ClassroomRegisterBloc(this._homeBloc, this._classroomRepo);
+  ClassroomRegisterBloc(this.homeBloc, this._classroomRepo);
   @override
   void dispose() {
-    // this._genders.sink.close();
-    // this._selectedGender.sink.close();
     super.dispose();
+  }
+
+  Future<bool> createClassroom(Classroom classroom) async {
+    var returnedValue = await this._classroomRepo.insert(classroom);
+    return returnedValue > 0;
   }
 }

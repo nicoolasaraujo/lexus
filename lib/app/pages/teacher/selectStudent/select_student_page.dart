@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lexus/app/components/common_dialog.dart';
+import 'package:lexus/app/app_bloc.dart';
+import 'package:lexus/app/app_module.dart';
 import 'package:lexus/app/model/ClassRoom.dart';
-import 'package:lexus/app/model/Enumerators.dart';
 import 'package:lexus/app/model/Student.dart';
-import 'package:lexus/app/pages/ClassActivity/ClassActivity_module.dart';
+import 'package:lexus/app/pages/account/login_bloc.dart';
 import 'package:lexus/app/pages/student/student_home_module.dart';
+import 'package:lexus/app/pages/teacher/home/home_module.dart';
+import 'package:lexus/app/pages/teacher/students/student_bloc.dart';
 
 class SelectStudent extends StatefulWidget {
   const SelectStudent({Key key, VoidCallback onItemC}) : super(key: key);
@@ -17,6 +19,11 @@ class SelectStudent extends StatefulWidget {
 }
 
 class _SelectStudentState extends State<SelectStudent> {
+  final accountBloc = AppModule.to.getBloc<LoginBloc>();
+  final appBloc = AppModule.to.getBloc<AppBloc>();
+  var _isObscureText = true;
+  var passController = TextEditingController();
+
   var _currencies = [
     "Turma 1",
     "Turma 2",
@@ -51,59 +58,87 @@ class _SelectStudentState extends State<SelectStudent> {
         ..id = "2"),
   ];
 
+  final studentBloc = HomeModule.to.getBloc<StudentBloc>();
+  @override
+  void initState() {
+    this.studentBloc.loadAllStudents();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text("Selecione um aluno para avançar"),
-            floating: false,
-            expandedHeight: 0,
-          ),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-            (context, index) => this._buildListItem(index),
-            childCount: this.students.length,
-          ))
-        ],
+      appBar: AppBar(
+        title: Text(
+          "Meus Alunos",
+        ),
       ),
+      body: Container(
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+          child: this._buildClasses(context)),
     );
   }
 
-  Widget _buildListItem(int index) {
+  Widget _buildListItem(Student student) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       child: Card(
         elevation: 6,
         child: ListTile(
-            title: Text(this.students[index].name,
-                style: TextStyle(fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis),
-            subtitle: Text(this.students[index].extraInfo),
-            isThreeLine: true,
-            onTap: () async {
-              var response = await dialogRequestPassword();
-              if (response == null) {
-                response = false;
-              }
-              if (response) Navigator.of(context).pop();
-            }),
+          title: Text(student.name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis),
+          subtitle: Text(student.extraInfo),
+          isThreeLine: true,
+          onTap: () async {
+            var response = await dialogRequestPassword(student);
+            if (response == null) {
+              response = false;
+            }
+            if (response) Navigator.of(context).pop();
+          },
+        ),
       ),
     );
   }
 
-  Future<bool> dialogRequestPassword() async {
+  _buildClasses(BuildContext context) {
+    return StreamBuilder(
+      stream: this.studentBloc.outStudents,
+      builder: (context, AsyncSnapshot<List<Student>> snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        } else if (!snapshot.hasError) {
+          var activities = snapshot.data ?? List();
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: activities.length,
+            itemBuilder: (_, index) {
+              final itemTask = activities[index];
+              return _buildListItem(itemTask);
+            },
+          );
+        } else {
+          return Center(
+            child: Text('Erro:/'),
+          );
+        }
+      },
+    );
+  }
+
+  Future<bool> dialogRequestPassword(Student student) async {
     // call routine to validate password
     return showDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text("Digite a senha para iniciar o atendimento:"),
-            content: InputLogin(),
+            content: this._inputLogin(this.passController),
             actions: [
-              // Expanded(
-              // child:
               RaisedButton.icon(
                 padding: EdgeInsets.all(12),
                 color: Colors.white,
@@ -121,9 +156,6 @@ class _SelectStudentState extends State<SelectStudent> {
                     side: BorderSide(
                         color: Theme.of(context).primaryColor, width: 1.0)),
               ),
-              // ),
-              // Expanded(
-              //   child:
               FlatButton.icon(
                   padding: EdgeInsets.all(12),
                   icon: Icon(
@@ -134,28 +166,26 @@ class _SelectStudentState extends State<SelectStudent> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   color: Color(0xff9B59B6),
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => StudentHomeModule()))),
-              // ),
+                  onPressed: () => this.validateLogin(student)),
             ],
           );
         });
   }
-}
 
-class InputLogin extends StatefulWidget {
-  @override
-  _InputLoginState createState() => _InputLoginState();
-}
+  validateLogin(Student student) async {
+    bool loginCorrect = await this
+        .accountBloc
+        .validateLogin(this.appBloc.teacher.username, passController.text);
+    if (loginCorrect) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => StudentHomeModule(student)));
+    }
+  }
 
-class _InputLoginState extends State<InputLogin> {
-  var _isObscureText = true;
-  @override
-  Widget build(BuildContext context) {
+  Widget _inputLogin(TextEditingController passController) {
     return Container(
         child: TextFormField(
+      controller: passController,
       decoration: InputDecoration(
         suffixIcon: IconButton(
             onPressed: () => this.setState(() {

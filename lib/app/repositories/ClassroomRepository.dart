@@ -15,7 +15,6 @@ class ClassroomRepository {
     List<Classroom> classes = [];
     var reusltQuery = await this._adapter.connection.rawQuery(
         "SELECT * FROM ${this._classroomBean.tableName} where ${this._classroomBean.teacherId.name} = '${teacherId}' ");
-    ;
 
     classes = reusltQuery
         .toList()
@@ -23,5 +22,12 @@ class ClassroomRepository {
         .toList();
 
     return classes;
+  }
+
+  Future<dynamic> insert(Classroom classToInsert) async {
+    if (this._adapter.connection == null || !this._adapter.connection.isOpen) {
+      await this._adapter.connect();
+    }
+    return await this._classroomBean.insert(classToInsert);
   }
 }
